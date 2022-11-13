@@ -40,12 +40,15 @@ def what_lexeme(string_input):
 
 def lex_analyze():
     the_long_string = my_text.get("1.0", 'end-1c')
-    x = the_long_string.split(" ")
-    x = ender(x)
-    
+    x = the_long_string.split("\n")
     print(x)
+    # x = ender(x)
+    
+    # print(x)
 
 
+
+# GUI part
 root = Tk()
 root.geometry("1200x660")
 
