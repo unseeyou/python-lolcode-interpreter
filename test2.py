@@ -1,3 +1,4 @@
+#Lexical Analyzer
 import re
 from tkinter import *
 from tkinter import filedialog
