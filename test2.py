@@ -139,27 +139,28 @@ def lex_analyze():
 
 lexemeArr = []
 
+
+
 # GUI part
 root = Tk()                                                 #
 root.title("LOLCode Interpreter (Lexical Analyzer)")
-root.geometry("1000x660")
+root.geometry("1920x960")
 
-my_frame = Frame(root)
-my_frame.pack(pady=5, side=LEFT)
+# my_frame = Frame(root)
+# my_frame.pack(pady=5, side=LEFT)
 
-my_text = Text(my_frame, width=40, height=30, font=("Helvetica", 16), selectbackground = "gray", selectforeground="black", undo=True)
-my_text.pack(side=LEFT)
+my_text = Text(root, width=60, height=20, font=("Helvetica", 16), selectbackground = "gray", selectforeground="black", undo=True)
+my_text.grid(row=0, column=0, padx=10, pady=10)
 
-tv = ttk.Treeview(root, columns=("Lexemes","Classification"), show="headings", height="20")
+# tv = ttk.Treeview(root, columns=("Lexemes","Classification"), show="headings", height="20")
 
-tv.column("# 1", anchor=CENTER)
-tv.heading("# 1", text="Lexemes")
-tv.column("# 2", anchor=CENTER)
-tv.heading("# 2", text="Classification")
+# tv.column("# 1", anchor=CENTER)
+# tv.heading("# 1", text="Lexemes")
+# tv.column("# 2", anchor=CENTER)
+# tv.heading("# 2", text="Classification")
 
-tv.pack()
+# tv.pack()
 
-submit_button = Button(root,text="validate",command=lex_analyze)
-submit_button.pack(side=RIGHT)
-
+# submit_button = Button(root,text="validate",command=lex_analyze)
+# submit_button.pack(side=RIGHT)
 root.mainloop()
