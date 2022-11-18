@@ -151,7 +151,8 @@ def browseFiles():
     # Change label contents
     label_fileExplorer.configure(text="File Opened: "+filename)
 
-    #add reading here
+    #add reading here   
+    # text_editor.insert(INSERT,"Bruh")
 
 
 # GUI part
@@ -166,14 +167,13 @@ root.state("zoomed")
 
 
 label_fileExplorer = Label(root, text="None", font=("Cascade Mono", 12), width=70, bg="white")
-label_fileExplorer.grid(row=0,column=0)
-
-label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=70, command=browseFiles)
-label_fileExplorer_icon.grid(row=1, column=0)
+label_fileExplorer.grid(row=0,column=0, pady=5)
 
 text_editor = Text(root, width="70", height="27", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
 text_editor.grid(row=2, column=0, padx=10, pady=10)
 
+label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=90, command=browseFiles)
+label_fileExplorer_icon.grid(row=1, column=0)
 
 #Lexeme Table
 lexeme_table_name = Label(root, text="Lexemes", font=("Cascade Mono", 12), pady=10)
@@ -199,8 +199,11 @@ tv2.heading("# 1", text="Identifier")
 tv2.column("# 2", anchor=CENTER)
 tv2.heading("# 2", text="Value")
 
+execute_button = Button(root,text="execute",command=lex_analyze)
+execute_button.grid(row=3, column=0, columnspan=3)
+
+output = Text(root, width="208", height="20", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True, state=DISABLED)
+output.grid(row=4, column=0, columnspan=3, padx=10, pady=5)
 
 
-# submit_button = Button(root,text="validate",command=lex_analyze)
-# submit_button.pack(side=RIGHT)
 root.mainloop()
