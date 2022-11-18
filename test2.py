@@ -142,22 +142,24 @@ lexemeArr = []
 
 
 # GUI part
+
+# Root Widget
 root = Tk()                                                 #
 root.title("LOLCode Interpreter (Lexical Analyzer)")
-root.geometry("1920x960")
+root.state("zoomed")
+# root.geometry("1920x960")
 
-# my_frame = Frame(root)
-# my_frame.pack(pady=5, side=LEFT)
+text_editor = Text(root, width=60, height=27, font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
+text_editor.grid(row=0, column=0, padx=10, pady=10)
 
-my_text = Text(root, width=60, height=20, font=("Helvetica", 16), selectbackground = "gray", selectforeground="black", undo=True)
-my_text.grid(row=0, column=0, padx=10, pady=10)
-
-# tv = ttk.Treeview(root, columns=("Lexemes","Classification"), show="headings", height="20")
-
-# tv.column("# 1", anchor=CENTER)
-# tv.heading("# 1", text="Lexemes")
-# tv.column("# 2", anchor=CENTER)
-# tv.heading("# 2", text="Classification")
+tv = ttk.Treeview(root, columns=("Lexemes","Classification", "Value"), show="headings", height="23")
+tv.grid(row=0, column=1)
+tv.column("# 1", anchor=CENTER)
+tv.heading("# 1", text="Lexemes")
+tv.column("# 2", anchor=CENTER)
+tv.heading("# 2", text="Classification")
+tv.column("# 3", anchor=CENTER)
+tv.heading("# 3", text="Value")
 
 # tv.pack()
 
