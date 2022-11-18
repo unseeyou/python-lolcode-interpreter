@@ -140,6 +140,19 @@ def lex_analyze():
 lexemeArr = []
 
 
+def browseFiles():
+    filename = filedialog.askopenfilename(initialdir = "/",
+                                          title = "Select a File",
+                                          filetypes = (("Text files",
+                                                        "*.txt*"),
+                                                       ("all files",
+                                                        "*.*")))
+      
+    # Change label contents
+    label_fileExplorer.configure(text="File Opened: "+filename)
+
+    #add reading here
+
 
 # GUI part
 
@@ -148,12 +161,26 @@ root = Tk()                                                 #
 root.title("LOLCode Interpreter (Lexical Analyzer)")
 root.state("zoomed")
 # root.geometry("1920x960")
+# file_icon = PhotoImage(file="icon.png")
 
-text_editor = Text(root, width=60, height=27, font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
-text_editor.grid(row=0, column=0, padx=10, pady=10)
+
+
+label_fileExplorer = Label(root, text="None", font=("Cascade Mono", 12), width=70, bg="white")
+label_fileExplorer.grid(row=0,column=0)
+
+label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=70, command=browseFiles)
+label_fileExplorer_icon.grid(row=1, column=0)
+
+text_editor = Text(root, width="70", height="27", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
+text_editor.grid(row=2, column=0, padx=10, pady=10)
+
+
+#Lexeme Table
+lexeme_table_name = Label(root, text="Lexemes", font=("Cascade Mono", 12), pady=10)
+lexeme_table_name.grid(row=1, column=1)
 
 tv = ttk.Treeview(root, columns=("Lexemes","Classification", "Value"), show="headings", height="23")
-tv.grid(row=0, column=1)
+tv.grid(row=2, column=1)
 tv.column("# 1", anchor=CENTER)
 tv.heading("# 1", text="Lexemes")
 tv.column("# 2", anchor=CENTER)
@@ -161,7 +188,18 @@ tv.heading("# 2", text="Classification")
 tv.column("# 3", anchor=CENTER)
 tv.heading("# 3", text="Value")
 
-# tv.pack()
+#Symbol Table
+symbol_table_name = Label(root, text="Symbol Table", font=("Cascade Mono", 12), pady=10, anchor=CENTER)
+symbol_table_name.grid(row=1, column=2)
+
+tv2 = ttk.Treeview(root, columns=("1","2", "3"), show="headings", height="23")
+tv2.grid(row=2, column=2, padx="10")
+tv2.column("# 1", anchor=CENTER)
+tv2.heading("# 1", text="Identifier")
+tv2.column("# 2", anchor=CENTER)
+tv2.heading("# 2", text="Value")
+
+
 
 # submit_button = Button(root,text="validate",command=lex_analyze)
 # submit_button.pack(side=RIGHT)
