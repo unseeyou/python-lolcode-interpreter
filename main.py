@@ -10,54 +10,9 @@ from tkinter import filedialog
 from tkinter import font
 from tkinter import ttk
 
-def validRE(pattern, string_input):
-    x = re.match(pattern, string_input)
-    if(x):
-        return True
-    else:
-        return False
+def lex_analyze(lexemeArr):
+    lexemeArr.clear()
 
-
-def what_lexeme(string_input):
-    #keywords
-    if (validRE("(^HAI$)|(^KTHXBYE$)", string_input)):
-        return "Code Delimiter"
-    elif (validRE("(^\"$)", string_input)):
-        return "String Delimiter"
-    elif (validRE("(^GIMMEH$)", string_input)):
-        return "Input Keyword"
-    elif (validRE("(^VISIBLE$)", string_input)):
-        return "Output Keyword"
-
-    #variables
-    elif (validRE("(^I HAS A$)", string_input)):
-        return "Variable Declaration"
-    elif (validRE("(^ITZ$)", string_input)):
-        return "Variable Assignment"
-
-    #if-else
-    elif (validRE("(^YA RLY$)|(^NO WAI$)", string_input)):
-        return "Conditional Keyword"
-
-    #operations
-
-    #check literals
-    elif(validRE("^-?\d+$", string_input)):
-        return "NUMBR Literal"
-    elif(validRE("(^-?\d+\.(\d)*$)|(^-?\d*\.(\d)+$)", string_input)):
-        return "NUMBAR Literal"
-    elif(validRE("^\"[^\"]*\"$", string_input)):
-         return "YARN Literal"
-    elif(validRE("(^WIN$)|(^FAIL$)", string_input)):
-         return "TROOF Literal"
-    elif(validRE("(^NUMBR$)|^NUMBAR$ |(^YARN$) |(^TROOF$)", string_input)):
-         return "TYPE Literal"
-    else:
-        return "Keyword"
-    
-
-def lex_analyze():
-    lexemeArr = [] #empty
     the_long_string = text_editor.get("1.0", 'end-1c')
     lines = the_long_string.split("\n")
 
@@ -70,8 +25,11 @@ def lex_analyze():
         while(lines2[i] != ''):
             grab_lexeme.get_lexemes(lexemeArr, lines2, lines2[i], i)
 
-    for i in lexemeArr:
-        print(i)
+    # for i in lexemeArr:
+    #     print(i)
+
+    for item in tv.get_children():
+        tv.delete(item)
 
     for i in lexemeArr:
         tv.insert("", 'end', text="1", values=i)
@@ -81,7 +39,7 @@ def lex_analyze():
 
 
 
-lexemeArr = []
+
 
 
 def browseFiles():
@@ -100,7 +58,7 @@ def browseFiles():
 
 
 # GUI part
-
+lexemeArr = []
 # Root Widget
 root = Tk()                                                 #
 root.title("LOLCode Interpreter (Lexical Analyzer)")
@@ -140,7 +98,7 @@ tv2.heading("# 1", text="Identifier")
 tv2.column("# 2", anchor=CENTER)
 tv2.heading("# 2", text="Value")
 
-execute_button = Button(root,text="execute",command=lex_analyze)
+execute_button = Button(root,text="execute",command=lambda:lex_analyze(lexemeArr))
 execute_button.grid(row=3, column=0, columnspan=3)
 
 output = Text(root, width="208", height="20", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True, state=DISABLED)
