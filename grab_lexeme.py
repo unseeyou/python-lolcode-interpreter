@@ -1,16 +1,5 @@
 import re
 
-# x = [1,2,3,4,5]
-
-# print(x)
-
-# del x[3]
-
-# print(x)
-
-# x.insert(1, 1)
-
-# print(x)
 
 def get_lexemes(lexemeArr, lines, line, index):
     
@@ -612,8 +601,8 @@ def lex_analyze(the_long_string):
             get_lexemes(lexemeArr, lines2, lines2[i], i)
         
     
-    for i in lexemeArr:
-        print(i)
+    # for i in lexemeArr:
+    #     print(i)
     # print(lines2)
 
     

@@ -61,16 +61,20 @@ def lex_analyze():
     the_long_string = text_editor.get("1.0", 'end-1c')
     lines = the_long_string.split("\n")
 
-    # twoWord = ["SUM", "DIFF", "PRODUKT", "QUOSHUNT", "MOD", "BIGGR", "SMALLR", "BOTH", "EITHER", "WON", "ANY", "ALL", "O", "YA", "NO"]
-    # twoWordLexemes = ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH OF", "EITHER OF", "WON OF", "ANY OF", "ALL OF", "BOTH SAEM", "O RLY?", "YA RLY", "NO WAI"]
+    lines2 = []
+    for line in lines:
+        if(line != ""):
+            lines2.append(line.strip())    
 
-    # threeWord = ["I", "IS", "IM"]
-    # threeWordLexemes = ["I HAS A", "IS NOW A", "IM IN YR", "IM OUTTA YR"]
-    # skipTwice = False
-    # skippedCount = 0
-    # skipOnce = False
-    # skipCount = 0
-    # tempString = ""
+    for i in range(0, len(lines2)):
+        while(lines2[i] != ''):
+            grab_lexeme.get_lexemes(lexemeArr, lines2, lines2[i], i)
+
+    for i in lexemeArr:
+        print(i)
+
+    for i in lexemeArr:
+        tv.insert("", 'end', text="1", values=i)
 
 
 
