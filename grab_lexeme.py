@@ -3,7 +3,7 @@ import re
 
 def get_lexemes(lexemeArr, lines, line, index):
     
-    if(len(re.findall("\"[^\"]*\"", line)) != 0):
+    if(len(re.findall("^\"[^\"]*\"", line)) != 0):
         exact = re.findall("\"[^\"]*\"", line)[0]
         exact2 = re.sub("\"", "", exact)
         # print(exact2)
@@ -20,7 +20,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
         
-    elif(len(re.findall("WIN", line)) != 0):
+    elif(len(re.findall("^WIN", line)) != 0):
         lexeme_info = []
         lexeme_info.append("WIN")
         lexeme_info.append("TROOF Literal")
@@ -30,7 +30,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("FAIL", line)) != 0):
+    elif(len(re.findall("^FAIL", line)) != 0):
         lexeme_info = []
         lexeme_info.append("FAIL")
         lexeme_info.append("TROOF Literal")
@@ -40,7 +40,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("NUMBR", line)) != 0):
+    elif(len(re.findall("^NUMBR", line)) != 0):
         lexeme_info = []
         lexeme_info.append("NUMBR")
         lexeme_info.append("TYPE Literal")
@@ -50,7 +50,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("NUMBAR", line)) != 0):
+    elif(len(re.findall("^NUMBAR", line)) != 0):
         lexeme_info = []
         lexeme_info.append("NUMBAR")
         lexeme_info.append("TYPE Literal")
@@ -60,7 +60,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("YARN", line)) != 0):
+    elif(len(re.findall("^YARN", line)) != 0):
         lexeme_info = []
         lexeme_info.append("YARN")
         lexeme_info.append("TYPE Literal")
@@ -70,7 +70,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("TROOF", line)) != 0):
+    elif(len(re.findall("^TROOF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("TROOF")
         lexeme_info.append("TYPE Literal")
@@ -80,7 +80,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("HAI", line)) != 0):
+    elif(len(re.findall("^HAI", line)) != 0):
         lexeme_info = []
         lexeme_info.append("HAI")
         lexeme_info.append("keyword")
@@ -90,7 +90,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("KTHXBYE", line)) != 0):
+    elif(len(re.findall("^KTHXBYE", line)) != 0):
         lexeme_info = []
         lexeme_info.append("KTHXBYE")
         lexeme_info.append("keyword")
@@ -100,7 +100,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("OBTW", line)) != 0):
+    elif(len(re.findall("^OBTW", line)) != 0):
         lexeme_info = []
         lexeme_info.append("OBTW")
         lexeme_info.append("keyword")
@@ -110,7 +110,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("TLDR", line)) != 0):
+    elif(len(re.findall("^TLDR", line)) != 0):
         lexeme_info = []
         lexeme_info.append("TLDR")
         lexeme_info.append("keyword")
@@ -120,7 +120,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("I HAS A", line)) != 0):
+    elif(len(re.findall("^I HAS A", line)) != 0):
         lexeme_info = []
         lexeme_info.append("I HAS A")
         lexeme_info.append("keyword")
@@ -142,7 +142,7 @@ def get_lexemes(lexemeArr, lines, line, index):
 
 
     
-    elif(len(re.findall("SUM OF", line)) != 0):
+    elif(len(re.findall("^SUM OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("SUM OF")
         lexeme_info.append("keyword")
@@ -152,7 +152,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("DIFF OF", line)) != 0):
+    elif(len(re.findall("^DIFF OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("DIFF OF")
         lexeme_info.append("keyword")
@@ -162,7 +162,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("PRODUKT OF", line)) != 0):
+    elif(len(re.findall("^PRODUKT OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("PRODUKT OF")
         lexeme_info.append("keyword")
@@ -172,7 +172,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("QUOSHUNT OF", line)) != 0):
+    elif(len(re.findall("^QUOSHUNT OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("QUOSHUNT OF")
         lexeme_info.append("keyword")
@@ -182,7 +182,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("MOD OF", line)) != 0):
+    elif(len(re.findall("^MOD OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("MOD OF")
         lexeme_info.append("keyword")
@@ -192,7 +192,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("BIGGR OF", line)) != 0):
+    elif(len(re.findall("^BIGGR OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("BIGGR OF")
         lexeme_info.append("keyword")
@@ -202,7 +202,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("SMALLR OF", line)) != 0):
+    elif(len(re.findall("^SMALLR OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("SMALLR OF")
         lexeme_info.append("keyword")
@@ -212,7 +212,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("BOTH OF", line)) != 0):
+    elif(len(re.findall("^BOTH OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("BOTH OF")
         lexeme_info.append("keyword")
@@ -222,7 +222,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("EITHER OF", line)) != 0):
+    elif(len(re.findall("^EITHER OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("EITHER OF")
         lexeme_info.append("keyword")
@@ -232,7 +232,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("WON OF", line)) != 0):
+    elif(len(re.findall("^WON OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("WON OF")
         lexeme_info.append("keyword")
@@ -242,7 +242,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("NOT", line)) != 0):
+    elif(len(re.findall("^NOT", line)) != 0):
         lexeme_info = []
         lexeme_info.append("NOT")
         lexeme_info.append("keyword")
@@ -252,7 +252,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("ANY OF", line)) != 0):
+    elif(len(re.findall("^ANY OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("ANY OF")
         lexeme_info.append("keyword")
@@ -262,7 +262,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("ALL OF", line)) != 0):
+    elif(len(re.findall("^ALL OF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("ALL OF")
         lexeme_info.append("keyword")
@@ -272,7 +272,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("BOTH SAEM", line)) != 0):
+    elif(len(re.findall("^BOTH SAEM", line)) != 0):
         lexeme_info = []
         lexeme_info.append("BOTH SAEM")
         lexeme_info.append("keyword")
@@ -282,7 +282,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("DIFFRINT", line)) != 0):
+    elif(len(re.findall("^DIFFRINT", line)) != 0):
         lexeme_info = []
         lexeme_info.append("DIFFRINT")
         lexeme_info.append("keyword")
@@ -292,7 +292,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("SMOOSH", line)) != 0):
+    elif(len(re.findall("^SMOOSH", line)) != 0):
         lexeme_info = []
         lexeme_info.append("SMOOSH")
         lexeme_info.append("keyword")
@@ -302,7 +302,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("MAEK", line)) != 0):
+    elif(len(re.findall("^MAEK", line)) != 0):
         lexeme_info = []
         lexeme_info.append("MAEK")
         lexeme_info.append("keyword")
@@ -314,7 +314,7 @@ def get_lexemes(lexemeArr, lines, line, index):
     
     
     
-    elif(len(re.findall("IS NOW A", line)) != 0):
+    elif(len(re.findall("^IS NOW A", line)) != 0):
         lexeme_info = []
         lexeme_info.append("IS NOW A")
         lexeme_info.append("keyword")
@@ -324,7 +324,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("VISIBLE", line)) != 0):
+    elif(len(re.findall("^VISIBLE", line)) != 0):
         lexeme_info = []
         lexeme_info.append("VISIBLE")
         lexeme_info.append("keyword")
@@ -334,7 +334,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("GIMMEH", line)) != 0):
+    elif(len(re.findall("^GIMMEH", line)) != 0):
         lexeme_info = []
         lexeme_info.append("GIMMEH")
         lexeme_info.append("keyword")
@@ -344,7 +344,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("O RLY\?", line)) != 0):
+    elif(len(re.findall("^O RLY\?", line)) != 0):
         lexeme_info = []
         lexeme_info.append("O RLY?")
         lexeme_info.append("keyword")
@@ -354,7 +354,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("MEBBE", line)) != 0):
+    elif(len(re.findall("^MEBBE", line)) != 0):
         lexeme_info = []
         lexeme_info.append("MEBBE")
         lexeme_info.append("keyword")
@@ -364,7 +364,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("NO WAI", line)) != 0):
+    elif(len(re.findall("^NO WAI", line)) != 0):
         lexeme_info = []
         lexeme_info.append("NO WAI")
         lexeme_info.append("keyword")
@@ -374,7 +374,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("OIC", line)) != 0):
+    elif(len(re.findall("^OIC", line)) != 0):
         lexeme_info = []
         lexeme_info.append("OIC")
         lexeme_info.append("keyword")
@@ -384,7 +384,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("WTF\?", line)) != 0):
+    elif(len(re.findall("^WTF\?", line)) != 0):
         lexeme_info = []
         lexeme_info.append("WTF?")
         lexeme_info.append("keyword")
@@ -394,7 +394,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("OMG", line)) != 0):
+    elif(len(re.findall("^OMG", line)) != 0):
         lexeme_info = []
         lexeme_info.append("OMG")
         lexeme_info.append("keyword")
@@ -404,7 +404,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("OMGWTF", line)) != 0):
+    elif(len(re.findall("^OMGWTF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("OMGWTF")
         lexeme_info.append("keyword")
@@ -414,7 +414,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("IM IN YR", line)) != 0):
+    elif(len(re.findall("^IM IN YR", line)) != 0):
         lexeme_info = []
         lexeme_info.append("IM IN YR")
         lexeme_info.append("keyword")
@@ -424,7 +424,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("UPPIN", line)) != 0):
+    elif(len(re.findall("^UPPIN", line)) != 0):
         lexeme_info = []
         lexeme_info.append("UPPIN")
         lexeme_info.append("keyword")
@@ -434,7 +434,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("NERFIN", line)) != 0):
+    elif(len(re.findall("^NERFIN", line)) != 0):
         lexeme_info = []
         lexeme_info.append("NERFIN")
         lexeme_info.append("keyword")
@@ -444,7 +444,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("YR", line)) != 0):
+    elif(len(re.findall("^YR", line)) != 0):
         lexeme_info = []
         lexeme_info.append("YR")
         lexeme_info.append("keyword")
@@ -454,7 +454,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("TIL", line)) != 0):
+    elif(len(re.findall("^TIL", line)) != 0):
         lexeme_info = []
         lexeme_info.append("TIL")
         lexeme_info.append("keyword")
@@ -464,7 +464,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("WILE", line)) != 0):
+    elif(len(re.findall("^WILE", line)) != 0):
         lexeme_info = []
         lexeme_info.append("WILE")
         lexeme_info.append("keyword")
@@ -474,7 +474,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("IM OUTTA YR", line)) != 0):
+    elif(len(re.findall("^IM OUTTA YR", line)) != 0):
         lexeme_info = []
         lexeme_info.append("IM OUTTA YR")
         lexeme_info.append("keyword")
@@ -484,7 +484,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("AN", line)) != 0):
+    elif(len(re.findall("^AN", line)) != 0):
         lexeme_info = []
         lexeme_info.append("AN")
         lexeme_info.append("keyword")
@@ -494,7 +494,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("BTW", line)) != 0):
+    elif(len(re.findall("^BTW", line)) != 0):
         lexeme_info = []
         lexeme_info.append("BTW")
         lexeme_info.append("keyword")
@@ -509,7 +509,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("A", line)) != 0):
+    elif(len(re.findall("^A", line)) != 0):
         lexeme_info = []
         lexeme_info.append("A")
         lexeme_info.append("keyword")
@@ -519,7 +519,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("R", line)) != 0):
+    elif(len(re.findall("^R", line)) != 0):
         lexeme_info = []
         lexeme_info.append("R")
         lexeme_info.append("keyword")
@@ -530,7 +530,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.insert(index, new.strip())
 
 
-    elif(len(re.findall("[A-Za-z]+[\w]*", line)) != 0):
+    elif(len(re.findall("^[A-Za-z]+[\w]*", line)) != 0):
         exact = re.findall("[A-Za-z]+[\w]*", line)[0]
         lexeme_info = []
         lexeme_info.append(exact)
@@ -541,7 +541,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
 
-    elif(len(re.findall("-?[\d]+\.[\d]+", line)) != 0):
+    elif(len(re.findall("^-?[\d]+\.[\d]+", line)) != 0):
         exact = re.findall("-?[\d]+\.[\d]+", line)[0]
         lexeme_info = []
         lexeme_info.append(exact)
@@ -554,7 +554,7 @@ def get_lexemes(lexemeArr, lines, line, index):
 
 
 
-    elif(len(re.findall("-?\d+", line)) != 0):
+    elif(len(re.findall("^-?\d+", line)) != 0):
         exact = re.findall("-?\d+", line)[0]
         lexeme_info = []
         lexeme_info.append(exact)
