@@ -1,6 +1,5 @@
 import re
 
-
 def get_lexemes(lexemeArr, lines, line, index):
     
     if(len(re.findall("^\"[^\"]*\"", line)) != 0):
