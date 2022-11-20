@@ -11,7 +11,9 @@ def check_syntax(lexemeArr):
     for i in testing_list:
         print(i)
 
-    while(len(testing_list) != 1)
+    # while(len(testing_list) != 1)
+
+
 
 
 
@@ -60,4 +62,7 @@ HAI
     VISIBLE prod
     VISIBLE quo
 KTHXBYE"""
-lex_analyze(lexemeArr, x)
+
+
+y = "I HAS A sum ITZ SUM OF 5 AN 5"
+lex_analyze(lexemeArr, y)

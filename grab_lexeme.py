@@ -547,7 +547,9 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("NUMBAR Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub(exact, "", line)
+
+        num_exact = len(exact)
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -560,7 +562,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("NUMBR Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub(exact, "", line)
+        num_exact = len(exact)
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -642,4 +645,4 @@ HAI
 5.5
 3.4
 KTHXBYE"""
-lex_analyze(x)
+# lex_analyze(x)
