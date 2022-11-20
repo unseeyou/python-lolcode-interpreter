@@ -101,10 +101,11 @@ def check_syntax(lexemeArr):
 
         if(len(testing_list)==1):
             print(True) # to be changed to return later
-            # return True
+            return True
             break
         if(change == False):
             print(False) 
+            return(False)
             break
 
                 
