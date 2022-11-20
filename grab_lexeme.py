@@ -25,7 +25,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("TROOF Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("WIN", "", line)
+        num_exact = len("WIN")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -35,7 +36,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("TROOF Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("FAIL", "", line)
+        num_exact = len("FAIL")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -45,7 +47,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("TYPE Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("NUMBR", "", line)
+        num_exact = len("NUMBR")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -55,7 +58,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("TYPE Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("NUMBAR", "", line)
+        num_exact = len("NUMBAR")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -65,7 +69,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("TYPE Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("YARN", "", line)
+        num_exact = len("YARN")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -75,7 +80,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("TYPE Literal")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("TROOF", "", line)
+        num_exact = len("TROOF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -85,7 +91,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("HAI", "", line)
+        num_exact = len("HAI")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -95,7 +102,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("KTHXBYE", "", line)
+        num_exact = len("KTHXBYE")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -105,7 +113,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("OBTW", "", line)
+        num_exact = len("OBTW")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -115,7 +124,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("TLDR", "", line)
+        num_exact = len("TLDR")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -125,7 +135,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("I HAS A", "", line)
+        num_exact = len("I HAS A")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -135,7 +146,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("ITZ", "", line)
+        num_exact = len("ITZ")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -147,7 +159,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("SUM OF", "", line)
+        num_exact = len("SUM OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -157,7 +170,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("DIFF OF", "", line)
+        num_exact = len("DIFF OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -167,7 +181,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("PRODUKT OF", "", line)
+        num_exact = len("PRODUKT OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -177,7 +192,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("QUOSHUNT OF", "", line)
+        num_exact = len("QUOSHUNT OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -187,7 +203,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("MOD OF", "", line)
+        num_exact = len("MOD OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -197,7 +214,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("BIGGR OF", "", line)
+        num_exact = len("BIGGR OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -207,7 +225,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("SMALLR OF", "", line)
+        num_exact = len("SMALLR OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -217,7 +236,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("BOTH OF", "", line)
+        num_exact = len("BOTH OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -227,7 +247,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("EITHER OF", "", line)
+        num_exact = len("EITHER OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -237,7 +258,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("WON OF", "", line)
+        num_exact = len("WON OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -247,7 +269,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("NOT", "", line)
+        num_exact = len("NOT")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -257,7 +280,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("ANY OF", "", line)
+        num_exact = len("ANY OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -267,7 +291,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("ALL OF", "", line)
+        num_exact = len("ALL OF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -277,7 +302,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("BOTH SAEM", "", line)
+        num_exact = len("BOTH SAEM")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -287,7 +313,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("DIFFRINT", "", line)
+        num_exact = len("DIFFRINT")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -297,7 +324,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("SMOOSH", "", line)
+        num_exact = len("SMOOSH")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -307,7 +335,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("MAEK", "", line)
+        num_exact = len("MAEK")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -319,7 +348,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("IS NOW A", "", line)
+        num_exact = len("IS NOW A")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -329,7 +359,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("VISIBLE", "", line)
+        num_exact = len("VISIBLE")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -339,7 +370,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("GIMMEH", "", line)
+        num_exact = len("GIMMEH")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -349,7 +381,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("O RLY\?", "", line)
+        num_exact = len("O RLY?")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -359,7 +392,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("MEBBE", "", line)
+        num_exact = len("MEBBE")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -369,7 +403,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("NO WAI", "", line)
+        num_exact = len("NO WAI")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -379,7 +414,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("OIC", "", line)
+        num_exact = len("OIC")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -389,7 +425,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("WTF\?", "", line)
+        num_exact = len("WTF?")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
     
@@ -399,7 +436,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("OMG", "", line)
+        num_exact = len("OMG")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -409,7 +447,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("OMGWTF", "", line)
+        num_exact = len("OMGWTF")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -419,7 +458,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("IM IN YR", "", line)
+        num_exact = len("IM IN YR")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -429,7 +469,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("UPPIN", "", line)
+        num_exact = len("UPPIN")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -439,7 +480,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("NERFIN", "", line)
+        num_exact = len("NERFIN")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -449,7 +491,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("YR", "", line)
+        num_exact = len("YR")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -459,7 +502,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("TIL", "", line)
+        num_exact = len("TIL")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -469,7 +513,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("WILE", "", line)
+        num_exact = len("WILE")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -479,7 +524,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("IM OUTTA YR", "", line)
+        num_exact = len("IM OUTTA YR")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -515,7 +561,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("A", "", line)
+        num_exact = len("A")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
@@ -525,7 +572,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("R", "", line)
+        num_exact = len("R")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 
