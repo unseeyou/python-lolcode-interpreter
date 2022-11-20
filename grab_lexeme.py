@@ -489,7 +489,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexeme_info.append("keyword")
         lexemeArr.append(lexeme_info)
         
-        new = re.sub("AN", "", line)
+        num_exact = len("AN")
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
 

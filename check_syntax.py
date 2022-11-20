@@ -16,6 +16,11 @@ def check_syntax(lexemeArr):
     while(True):
         change = False
         index = 0
+        
+        # print("-----------------------------------------")
+        # for i in testing_list:
+        #     print(i)
+
 
         # ---------------------------------------
         for i in testing_list:
@@ -31,7 +36,7 @@ def check_syntax(lexemeArr):
                 del testing_list[index]
                 testing_list.insert(index, "varident")
                 change = True
-            elif(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and testing_list[index+1] in ["literal", "varident"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident"]):
+            elif(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
                 del testing_list[index:(index+4)]
                 testing_list.insert(index, "expr")
                 change = True
@@ -55,9 +60,28 @@ def check_syntax(lexemeArr):
                 del testing_list[index:(index+4)]
                 testing_list.insert(index, "varinit")
                 change = True
-            
+            elif(i[0] == "BTW" and testing_list[index+1][1] == "comment"):
+                del testing_list[index:(index+2)]
+                change = True
+            index += 1
+        if(change == False):
+            print("Phase 1 Complete (No Statement Introduction)") 
+            break
+
+    # for i in testing_list:
+    #     print(i)
+
+    # ---------------------------------------            
+    while(True):
+        change = False
+        index = 0
+
+        
+        
+
+        for i in testing_list:
             #Chunky parts
-            elif(i == "statement" and testing_list[index+1] == "statement"):
+            if(i == "statement" and testing_list[index+1] == "statement"):
                 del testing_list[index:(index+2)]
                 testing_list.insert(index, "statement")
                 change=True
@@ -73,28 +97,20 @@ def check_syntax(lexemeArr):
                 del testing_list[index:(index+3)]
                 testing_list.insert(index, "program")
                 change = True
-            #comments are ignored
-            elif(i[0] == "BTW" and testing_list[index+1][1] == "comment"):
-                del testing_list[index:(index+2)]
-                change = True
-            
             index += 1
-
-        # ---------------------------------------
 
         if(len(testing_list)==1):
             print(True) # to be changed to return later
             # return True
             break
-
         if(change == False):
-            print(False) # to be changed to return later
-            # return False
+            print(False) 
             break
+
                 
 
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
 
 
 
@@ -136,6 +152,8 @@ HAI
     VISIBLE flag
     GIMMEH bruh
 
+
+    SUM OF QUOSHUNT OF PRODUKT OF 3 AN 4 AN 2 AN 1
     I HAS A sum ITZ SUM OF num AN 13
     I HAS A diff ITZ DIFF OF sum AN 17
     I HAS A prod ITZ PRODUKT OF 3 AN 4
@@ -162,5 +180,5 @@ HAI
 KTHXBYE"""
 
 
-y = "I HAS A sum ITZ SUM OF num AN 13"
-lex_analyze(lexemeArr, x)
+y = "SUM OF QUOSHUNT OF PRODUKT OF 3 AN 4 AN 2 AN 1"
+lex_analyze(lexemeArr, y)
