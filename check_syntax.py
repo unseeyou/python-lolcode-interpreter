@@ -8,25 +8,44 @@ def check_syntax(lexemeArr):
     for i in lexemeArr:
         testing_list.append(i)
 
-    
-
     while(True):
         change = False
         index = 0
 
         # ---------------------------------------
         for i in testing_list:
-            if(i[1] in ["NUMBR Literal", "NUMBAR Literal", "YARN Literal"]):
+            if(i[1] in ["NUMBR Literal", "NUMBAR Literal", "YARN Literal", "TROOF Literal"]):
                 del testing_list[index]
+                testing_list.insert(index, "literal")
+                change = True
+            elif(i[0] == "\"" and testing_list[index+1] == "literal" and testing_list[index+2][0] == "\""):
+                del testing_list[index:(index+3)]
                 testing_list.insert(index, "literal")
                 change = True
             elif(i[1] == "Variable Identifier"):    
                 del testing_list[index]
                 testing_list.insert(index, "varident")
                 change = True
-            elif(i[0] in ["SUM OF"] and testing_list[index+1] == "literal" and testing_list[index+2][0] == "AN" and testing_list[index+3] == "literal"):
+            elif(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF"] and testing_list[index+1] in ["literal", "varident"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident"]):
                 del testing_list[index:(index+4)]
                 testing_list.insert(index, "expr")
+                change = True
+            elif(i[0] == "VISIBLE" and testing_list[index+1] in ["expr", "literal", "varident"]):
+                del testing_list[index:(index+2)]
+                testing_list.insert(index, "print")
+                change = True
+            elif(i[0] == "I HAS A" and testing_list[index+1] == "varident" and testing_list[index+2][0] != "ITZ"):
+                del testing_list[index:(index+2)]
+                testing_list.insert(index, "varinit")
+                change = True
+            elif(i[0] == "I HAS A" and testing_list[index+1] == "varident" and testing_list[index+2][0] == "ITZ" and testing_list[index+3] in ["literal", "expr"]):
+                del testing_list[index:(index+4)]
+                testing_list.insert(index, "varinit")
+                change = True
+            
+            #comments are ignored
+            elif(i[0] == "BTW" and testing_list[index+1][1] == "comment"):
+                del testing_list[index:(index+2)]
                 change = True
             index += 1
 
@@ -96,4 +115,4 @@ KTHXBYE"""
 
 
 y = "I HAS A sum ITZ SUM OF num AN 13"
-lex_analyze(lexemeArr, y)
+lex_analyze(lexemeArr, x)
