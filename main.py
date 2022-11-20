@@ -5,6 +5,7 @@
 
 import re
 import grab_lexeme
+import check_syntax
 from tkinter import *
 from tkinter import filedialog
 from tkinter import font
@@ -33,6 +34,11 @@ def lex_analyze(lexemeArr):
 
     for i in lexemeArr:
         tv.insert("", 'end', text="1", values=i)
+
+    if(check_syntax.check_syntax(lexemeArr)):
+        output.insert("end", "WIN\n")
+    else:
+        output.insert("end", "FAIL\n")
 
 
 
@@ -101,7 +107,7 @@ tv2.heading("# 2", text="Value")
 execute_button = Button(root,text="execute",command=lambda:lex_analyze(lexemeArr))
 execute_button.grid(row=3, column=0, columnspan=3)
 
-output = Text(root, width="208", height="20", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True, state=DISABLED)
+output = Text(root, width="208", height="20", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
 output.grid(row=4, column=0, columnspan=3, padx=10, pady=5)
 
 
