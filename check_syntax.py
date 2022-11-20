@@ -8,10 +8,41 @@ def check_syntax(lexemeArr):
     for i in lexemeArr:
         testing_list.append(i)
 
+    
+
+    while(True):
+        change = False
+        index = 0
+
+        # ---------------------------------------
+        for i in testing_list:
+            if(i[1] in ["NUMBR Literal", "NUMBAR Literal", "YARN Literal"]):
+                del testing_list[index]
+                testing_list.insert(index, "literal")
+                change = True
+            elif(i[1] == "Variable Identifier"):    
+                del testing_list[index]
+                testing_list.insert(index, "varident")
+                change = True
+            elif(i[0] in ["SUM OF"] and testing_list[index+1] == "literal" and testing_list[index+2][0] == "AN" and testing_list[index+3] == "literal"):
+                del testing_list[index:(index+4)]
+                testing_list.insert(index, "expr")
+                change = True
+            index += 1
+
+        # ---------------------------------------
+
+        if(len(testing_list)==1):
+            print(True) # to be changed to return later
+            break
+
+        if(change == False):
+            print(False) # to be changed to return later
+            break
+                
+
     for i in testing_list:
         print(i)
-
-    # while(len(testing_list) != 1)
 
 
 
@@ -64,5 +95,5 @@ HAI
 KTHXBYE"""
 
 
-y = "I HAS A sum ITZ SUM OF 5 AN 5"
+y = "I HAS A sum ITZ SUM OF num AN 13"
 lex_analyze(lexemeArr, y)
