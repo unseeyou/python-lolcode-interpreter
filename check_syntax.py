@@ -72,13 +72,19 @@ def check_syntax(lexemeArr):
     #     print(i)
 
     # ---------------------------------------            
+    
+    
+    
+    
     while(True):
         change = False
         index = 0
 
+        # print("-----------------------------------------")
+        # for i in testing_list:
+        #     print(i)
         
         
-
         for i in testing_list:
             #Chunky parts
             if(i == "statement" and testing_list[index+1] == "statement"):
@@ -108,10 +114,8 @@ def check_syntax(lexemeArr):
             return(False)
             break
 
-                
-
-    # for i in testing_list:
-    #     print(i)
+    for i in testing_list:
+        print(i)
 
 
 
@@ -182,4 +186,4 @@ KTHXBYE"""
 
 
 y = "SUM OF QUOSHUNT OF PRODUKT OF 3 AN 4 AN 2 AN 1"
-lex_analyze(lexemeArr, y)
+lex_analyze(lexemeArr, x)
