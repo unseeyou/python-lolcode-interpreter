@@ -31,16 +31,16 @@ def lex_analyze(lexemeArr):
     # for i in lexemeArr:
     #     print(i)
 
-    for item in tv.get_children():
-        tv.delete(item)
+    for item in lexeme_table.get_children():
+        lexeme_table.delete(item)
 
     for i in lexemeArr:
-        tv.insert("", 'end', text="1", values=i)
+        lexeme_table.insert("", 'end', text="1", values=i)
 
-    if(check_syntax.check_syntax(lexemeArr)):
-        output.insert("end", "WIN\n")
-    else:
-        output.insert("end", "FAIL\n")
+    # if(check_syntax.check_syntax(lexemeArr)):
+    #     output.insert("end", "WIN\n")
+    # else:
+    #     output.insert("end", "FAIL\n")
 
 
 
@@ -76,11 +76,11 @@ def browseFiles():
 lexemeArr = []
 # Root Widget
 
-root = Tk()                                                 #
+root = Tk()                                                 
 root.title("LOLCode Interpreter (Lexical Analyzer)")
 root.state("zoomed")
 
-
+# file explorer
 label_fileExplorer = Label(root, text="None", font=("Cascade Mono", 12), width=119, bg="white")
 label_fileExplorer.grid(row=0,column=0, pady=5)
 
@@ -91,28 +91,28 @@ label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=152, 
 label_fileExplorer_icon.grid(row=1, column=0)
 
 #Lexeme Table
+# lexeme_table_frame = frame(root)
 lexeme_table_name = Label(root, text="Lexemes", font=("Cascade Mono", 12), pady=10)
 lexeme_table_name.grid(row=1, column=1)
 
-table_width = "25"
-tv = ttk.Treeview(root, columns=("Lexemes","Classification"), show="headings", height="23")
-tv.grid(row=2, column=1)
-tv.column("# 1", anchor=CENTER)
-tv.heading("# 1", text="Lexemes")
-tv.column("# 2", anchor=CENTER)
-tv.heading("# 2", text="Classification")
+lexeme_table = ttk.Treeview(root, columns=("Lexemes","Classification"), show="headings", height="23")
+lexeme_table.grid(row=2, column=1)
+lexeme_table.column("# 1", anchor=CENTER)
+lexeme_table.heading("# 1", text="Lexemes")
+lexeme_table.column("# 2", anchor=CENTER)
+lexeme_table.heading("# 2", text="Classification")
 
 
 #Symbol Table
 symbol_table_name = Label(root, text="Symbol Table", font=("Cascade Mono", 12), pady=10, anchor=CENTER)
 symbol_table_name.grid(row=1, column=2)
 
-tv2 = ttk.Treeview(root, columns=("1","2"), show="headings", height="23")
-tv2.grid(row=2, column=2, padx="10")
-tv2.column("# 1", anchor=CENTER)
-tv2.heading("# 1", text="Identifier")
-tv2.column("# 2", anchor=CENTER)
-tv2.heading("# 2", text="Value")
+symbol_table = ttk.Treeview(root, columns=("1","2"), show="headings", height="23")
+symbol_table.grid(row=2, column=2, padx="10")
+symbol_table.column("# 1", anchor=CENTER)
+symbol_table.heading("# 1", text="Identifier")
+symbol_table.column("# 2", anchor=CENTER)
+symbol_table.heading("# 2", text="Value")
 
 execute_button = Button(root,text="execute",command=lambda:lex_analyze(lexemeArr))
 execute_button.grid(row=3, column=0, columnspan=3)

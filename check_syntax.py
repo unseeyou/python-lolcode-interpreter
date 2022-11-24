@@ -123,8 +123,8 @@ def check_syntax(lexemeArr):
     #         return(False)
     #         break
 
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
 
 
 
