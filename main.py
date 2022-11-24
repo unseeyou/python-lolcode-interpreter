@@ -84,20 +84,19 @@ label_fileExplorer_icon.grid(row=1, column=0)
 lexeme_table_name = Label(root, text="Lexemes", font=("Cascade Mono", 12), pady=10)
 lexeme_table_name.grid(row=1, column=1)
 
-tv = ttk.Treeview(root, columns=("Lexemes","Classification", "Value"), show="headings", height="23")
+table_width = "25"
+tv = ttk.Treeview(root, columns=("Lexemes","Classification"), show="headings", height="23")
 tv.grid(row=2, column=1)
 tv.column("# 1", anchor=CENTER)
 tv.heading("# 1", text="Lexemes")
 tv.column("# 2", anchor=CENTER)
 tv.heading("# 2", text="Classification")
-tv.column("# 3", anchor=CENTER)
-tv.heading("# 3", text="Value")
 
 #Symbol Table
 symbol_table_name = Label(root, text="Symbol Table", font=("Cascade Mono", 12), pady=10, anchor=CENTER)
 symbol_table_name.grid(row=1, column=2)
 
-tv2 = ttk.Treeview(root, columns=("1","2", "3"), show="headings", height="23")
+tv2 = ttk.Treeview(root, columns=("1","2"), show="headings", height="23")
 tv2.grid(row=2, column=2, padx="10")
 tv2.column("# 1", anchor=CENTER)
 tv2.heading("# 1", text="Identifier")

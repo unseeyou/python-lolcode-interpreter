@@ -154,7 +154,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         
         num_exact = len("OBTW")
         new = line[num_exact:len(line)].strip()
-        lexemeArr.append([new, "comment"])
+        if(new != ""):
+            lexemeArr.append([new, "comment"])
         
         
         index2 = index+1
