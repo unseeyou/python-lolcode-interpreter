@@ -9,7 +9,6 @@ def get_lexemes(lexemeArr, lines, line, index):
         return
     elif(len(re.findall(".+ TLDR.*", line)) != 0):
         comment = re.sub(" TLDR.*", "", line)
-        print("Comment:", comment)
         lexemeArr.append([comment, "comment"])
         lexemeArr.append(["TLDR", "keyword"])
         
@@ -160,7 +159,6 @@ def get_lexemes(lexemeArr, lines, line, index):
         
         index2 = index+1
         while(len(re.findall("(^TLDR )|( TLDR )|(^TLDR$)|(TLDR$)", lines[index2])) == 0):
-            print(lines[index2])
             lexemeArr.append([lines[index2], "comment"])
             lines.remove(lines[index2])
             lines.insert(index2, "")
@@ -785,4 +783,4 @@ y = """HAI
 
     VISIBLE SUM OF x AN SUM OF QUOSHUNT OF "17" AN x AN FAIL
 KTHXBYE"""
-lex_analyze(y)
+# lex_analyze(y)
