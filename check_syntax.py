@@ -81,7 +81,23 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+4)]
                     testing_list.insert(index, "varinit")
                     change = True
+
+            # Boolean operations
+            elif(i[0] in ["BOTH OF", "EITHER OF", "WON OF"] and (index+3)<len(testing_list)):
+                if(testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
+                    del testing_list[index:(index+4)]
+                    testing_list.insert(index, "boolop")
+                    change = True
             
+            elif(i[0] == "NOT" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] in ["literal", "varident", "expr"]):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "boolop")
+                    change = True
+
+            
+
+
             #Comment
             elif(i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW"):
                 del testing_list[index]
@@ -100,6 +116,27 @@ def check_syntax(lexemeArr):
     for i in testing_list:
         print(i)
 
+
+    # ---------------------------------------            
+    # loop statements and inf boolean operations
+    # while(True):
+    #     change = False
+    #     index = 0
+
+
+    #     for i in testing_list:
+    #         if(i == "boolop" and (index+3)<len(testing_list)):
+    #             if(testing_list[index+1][0] == "AN" and testing_list[index+2] == "boolop" and testing_list[index+3][0] == "MKAY"):
+    #                 del testing_list[index:(index+3)]
+    #                 testing_list.insert(index, "")
+    #         index += 1
+
+    #     if(change == False):
+    #         print("Phase 1 Complete (No Statement Introduction)") 
+    #         break
+    
+    
+            
     # ---------------------------------------            
     
     while(True):
@@ -222,5 +259,5 @@ TLDR
 KTHXBYE"""
 
 
-y = "BTW"
+y = "NOT bruh"
 lex_analyze(lexemeArr, y)
