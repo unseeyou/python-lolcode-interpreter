@@ -20,7 +20,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, "")
         return
-    elif(len(re.findall("^TLDR .*", line))):
+    elif(len(re.findall("^TLDR .*", line)) != 0):
         lexemeArr.append(["TLDR", "keyword"])
         remain = re.sub("TLDR", "", line)
         if(remain != ""):
@@ -33,7 +33,6 @@ def get_lexemes(lexemeArr, lines, line, index):
     if(len(re.findall("^\"[^\"]*\"", line)) != 0):
         exact = re.findall("\"[^\"]*\"", line)[0]
         exact2 = re.sub("\"", "", exact)
-        # print(exact2)
 
         lexeme_info2 = ["\"", "String Delimiter"]
         lexeme_info = []
@@ -43,7 +42,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexemeArr.append(lexeme_info)
         lexemeArr.append(lexeme_info2)
         
-        new = re.sub(exact, "", line)
+        num_exact = len(exact)
+        new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
         
@@ -765,7 +765,13 @@ y = """HAI
     GIMMEH y
 
     VISIBLE x "+" y " = " SUM OF x AN y
-    
+    VISIBLE x "-" y " = " DIFF OF x AN y
+    VISIBLE x "*" y " = " PRODUKT OF x AN y
+    VISIBLE x "/" y " = " QUOSHUNT OF x AN y
+    VISIBLE x "%" y " = " MOD OF x AN y
+
+    VISIBLE "max(" x "," y ") = " BIGGR OF x AN y
+    VISIBLE "min(" x "," y ") = " SMALLR OF x AN y
     
     BTW x^2 + y^2
     VISIBLE SUM OF PRODUKT OF x AN x AN PRODUKT OF y AN y
@@ -779,4 +785,4 @@ y = """HAI
 
     VISIBLE SUM OF x AN SUM OF QUOSHUNT OF "17" AN x AN FAIL
 KTHXBYE"""
-# lex_analyze(y)
+lex_analyze(y)

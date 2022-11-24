@@ -1,4 +1,4 @@
-# import re
+import re
 
 # w = "    .    "
 # literal = "5.5"
@@ -8,11 +8,17 @@
 # print(x)
 
 
-x = [1,2,3,4,5]
+# x = [1,2,3,4,5]
 
-for i in x:
-    print(i)
-    x.remove(2)
-    x.remove(3)
-    x.remove(4)
-    x.remove(5)
+# for i in x:
+#     print(i)
+#     x.remove(2)
+#     x.remove(3)
+#     x.remove(4)
+#     x.remove(5)
+
+x = "\"1\""
+
+y = re.findall("\"[^\"]*\"", "\"*\"")
+
+print(y)
