@@ -6,12 +6,13 @@ def check_syntax(lexemeArr):
     testing_list = []
 
     for i in lexemeArr:
+        # print(i)
         testing_list.append(i)
 
     # for i in testing_list:
     #     print(i)
 
-
+    
     
     while(True):
         change = False
@@ -29,10 +30,11 @@ def check_syntax(lexemeArr):
                 del testing_list[index]
                 testing_list.insert(index, "literal")
                 change = True
-            elif(i[1] == "String Delimiter" and testing_list[index+1] == "literal" and testing_list[index+2][1] == "String Delimiter"):
-                del testing_list[index:(index+3)]
-                testing_list.insert(index, "literal")
-                change = True
+            elif(i[1] == "String Delimiter" and (index+2) < len(testing_list)):
+                if(testing_list[index+1] == "literal" and testing_list[index+2][1] == "String Delimiter"):
+                    del testing_list[index:(index+3)]
+                    testing_list.insert(index, "literal")
+                    change = True
 
             #Variable Identifier
             elif(i[1] == "Variable Identifier"):    
@@ -41,47 +43,62 @@ def check_syntax(lexemeArr):
                 change = True
 
             #Operations
-            elif(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
-                del testing_list[index:(index+4)]
-                testing_list.insert(index, "expr")
-                change = True
+            elif(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and (index+3)<len(testing_list)):
+                if(testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
+                    del testing_list[index:(index+4)]
+                    testing_list.insert(index, "expr")
+                    change = True
 
             #Print statement
-            elif(i[0] == "VISIBLE" and testing_list[index+1] in ["expr", "literal", "varident"]):
-                del testing_list[index:(index+2)]
-                testing_list.insert(index, "print")
-                change = True
+            elif(i[0] == "VISIBLE" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] in ["expr", "literal", "varident"]):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "print")
+                    change = True
                 
             #Input statement
-            elif(i[0] == "GIMMEH" and testing_list[index+1] == "varident"):
-                del testing_list[index:(index+2)]
-                testing_list.insert(index, "input")
-                change = True
+            elif(i[0] == "GIMMEH" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] == "varident"):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "input")
+                    change = True
+
             #Variable assignment
-            elif(i == "varident" and testing_list[index+1][0] == "R" and testing_list[index+2] in ["literal", "varident", "expr"]):
-                del testing_list[index:(index+3)]
-                testing_list.insert(index, "varassign")
-                change = True
-            #Variable initialization
-            elif(i[0] == "I HAS A" and testing_list[index+1] == "varident" and testing_list[index+2][0] != "ITZ"):
-                del testing_list[index:(index+2)]
-                testing_list.insert(index, "varinit")
-                change = True
-            elif(i[0] == "I HAS A" and testing_list[index+1] == "varident" and testing_list[index+2][0] == "ITZ" and testing_list[index+3] in ["literal", "expr"]):
-                del testing_list[index:(index+4)]
-                testing_list.insert(index, "varinit")
-                change = True
+            elif(i == "varident" and (index+2)<len(testing_list)):
+                if(testing_list[index+1][0] == "R" and testing_list[index+2] in ["literal", "varident", "expr"]):
+                    del testing_list[index:(index+3)]
+                    testing_list.insert(index, "varassign")
+                    change = True
+
+            #Variable initialization 
+            elif(i[0] == "I HAS A" and (index+2)<len(testing_list)): # ***
+                if(testing_list[index+1] == "varident" and testing_list[index+2][0] != "ITZ"):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "varinit")
+                    change = True
+            elif(i[0] == "I HAS A" and (index+4)<len(testing_list)):
+                if(testing_list[index+1] == "varident" and testing_list[index+2][0] == "ITZ" and testing_list[index+3] in ["literal", "expr"]):
+                    del testing_list[index:(index+4)]
+                    testing_list.insert(index, "varinit")
+                    change = True
+            
             #Comment
-            elif(i[0] == "BTW" and testing_list[index+1][1] == "comment"):
-                del testing_list[index:(index+2)]
+            elif(i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW"):
+                del testing_list[index]
                 change = True
+
+            #Invalid
+            elif(i[1] == "Invalid"):
+                print("Invalid Syntax")
+                return(False)
             index += 1
+
         if(change == False):
             print("Phase 1 Complete (No Statement Introduction)") 
             break
 
-    # for i in testing_list:
-    #     print(i)
+    for i in testing_list:
+        print(i)
 
     # ---------------------------------------            
     
@@ -116,8 +133,8 @@ def check_syntax(lexemeArr):
                     change = True
                     print(True)
 
-                    for i in testing_list:
-                        print(i)
+                    # for i in testing_list:
+                    #     print(i)
                     return(True)
             index += 1
 
@@ -126,8 +143,8 @@ def check_syntax(lexemeArr):
         #     return True
         #     break
         if(change == False):
-            for i in testing_list:
-                print(i)
+            # for i in testing_list:
+            #     print(i)
             
             print(False) 
             return(False)
@@ -157,49 +174,53 @@ def lex_analyze(lexemeArr, the_long_string):
 
     check_syntax(lexemeArr)
 
-x = """BTW start of the program
-HAI
-    BTW variable dec
-    I HAS A monde
-    I HAS A num ITZ 17
-    I HAS A name ITZ "seventeen"
-    I HAS A fnum ITZ 17.0
-    I HAS A flag ITZ WIN
+x = """HAI
 
-    VISIBLE "declarations"
-    VISIBLE MONDE BTW should be NOOB
-    VISIBLE num
-    VISIBLE name
-    VISIBLE fnum
-    VISIBLE flag
-    GIMMEH bruh
+	I HAS A choice
+	I HAS A input
 
+	BTW if w/o MEBBE, 1 only, everything else is invalid
+	VISIBLE "1. Compute age"
+	VISIBLE "2. Compute tip"
+	VISIBLE "3. Compute square area"
+	VISIBLE "0. Exit"
 
-    SUM OF QUOSHUNT OF PRODUKT OF 3 AN 4 AN 2 AN 1
-    I HAS A sum ITZ SUM OF num AN 13
-    I HAS A diff ITZ DIFF OF sum AN 17
-    I HAS A prod ITZ PRODUKT OF 3 AN 4
-    I HAS A quo ITZ QUOSHUNT OF 4 AN 5
+	VISIBLE "Choice: "
+	GIMMEH choice
 
-    X R X
-    X R QUOSHUNT OF 4 AN 5
-    X R "BRUH"
-    X R 5.9
-    X R 5
-    
-    MOD OF 5 AN 4
-    BIGGR OF 5 AN 4
-    SMALLR OF 5 AN 4
-    BOTH SAEM 5 AN 4
-    DIFFRINT 5 AN 4
+	BOTH SAEM choice AN 1
+	O RLY?
+		YA RLY
+			VISIBLE "Enter birth year: "
+			GIMMEH input
+			VISIBLE DIFF OF 2022 AN input
+OBTW
+	BTW uncomment this portion if you have MEBBE
+	BTW else, this portion should be ignored
 
-    VISIBLE sum
-    VISIBLE diff
-    VISIBLE prod
-    VISIBLE quo
-    
+		MEBBE BOTH SAEM choice AN 2
+			VISIBLE "Enter bill cost: "
+			GIMMEH input
+			VISIBLE "Tip: " PRODUCKT OF input AN 0.1
+		MEBBE BOTH SAEM choice AN 3
+			VISIBLE "Enter width: "
+			GIMMEH input
+			VISIBLE "Square Area: " PRODUCKT OF input AN input
+		MEBBE BOTH SAEM choice AN 0
+			VISIBLE "Goodbye"
+TLDR
+		NO WAI
+			VISIBLE "Invalid Input!"
+	OIC
+
+	DIFFRINT BIGGR OF 3 AN choice AN 3
+	O RLY?
+		YA RLY
+			VISIBLE "Invalid input is > 3."
+	OIC
+
 KTHXBYE"""
 
 
-y = "SUM OF QUOSHUNT OF PRODUKT OF 3 AN 4 AN 2 AN 1"
-lex_analyze(lexemeArr, x)
+y = "BTW"
+lex_analyze(lexemeArr, y)
