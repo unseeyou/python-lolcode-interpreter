@@ -81,42 +81,57 @@ root.title("LOLCode Interpreter (Lexical Analyzer)")
 root.state("zoomed")
 
 # file explorer
-label_fileExplorer = Label(root, text="None", font=("Cascade Mono", 12), width=119, bg="white")
+label_fileExplorer = Label(root, text="None", font=("Cascade Mono", 12), width=100, bg="white")
 label_fileExplorer.grid(row=0,column=0, pady=5)
 
-text_editor = Text(root, width="119", height="27", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
-text_editor.grid(row=2, column=0, padx=10, pady=10)
+text_editor = Text(root, width=100, height="27", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
+text_editor.grid(row=2, column=0, pady=10)
 
-label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=152, command=browseFiles)
+label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=128, command=browseFiles)
 label_fileExplorer_icon.grid(row=1, column=0)
 
 #Lexeme Table
-# lexeme_table_frame = frame(root)
 lexeme_table_name = Label(root, text="Lexemes", font=("Cascade Mono", 12), pady=10)
 lexeme_table_name.grid(row=1, column=1)
 
-lexeme_table = ttk.Treeview(root, columns=("Lexemes","Classification"), show="headings", height="23")
-lexeme_table.grid(row=2, column=1)
+lexeme_table_frame = Frame(root)
+lexeme_table_frame.grid(row=2, column=1)
+
+lexeme_table = ttk.Treeview(lexeme_table_frame, columns=("Lexemes","Classification"), show="headings", height="23")
+lexeme_table.grid(row=1, column=1)
 lexeme_table.column("# 1", anchor=CENTER)
 lexeme_table.heading("# 1", text="Lexemes")
 lexeme_table.column("# 2", anchor=CENTER)
 lexeme_table.heading("# 2", text="Classification")
+
+lexeme_table_scrollbar = ttk.Scrollbar(lexeme_table_frame, orient="vertical", command=lexeme_table.yview)
+lexeme_table.configure(yscroll=lexeme_table_scrollbar.set)
+lexeme_table_scrollbar.grid(row=1, column=2, sticky="ns")
 
 
 #Symbol Table
 symbol_table_name = Label(root, text="Symbol Table", font=("Cascade Mono", 12), pady=10, anchor=CENTER)
 symbol_table_name.grid(row=1, column=2)
 
-symbol_table = ttk.Treeview(root, columns=("1","2"), show="headings", height="23")
-symbol_table.grid(row=2, column=2, padx="10")
+symbol_table_frame = Frame(root)
+symbol_table_frame.grid(row=2, column=2)
+
+symbol_table = ttk.Treeview(symbol_table_frame, columns=("1","2"), show="headings", height="23")
+symbol_table.grid(row=1, column=1)
 symbol_table.column("# 1", anchor=CENTER)
 symbol_table.heading("# 1", text="Identifier")
 symbol_table.column("# 2", anchor=CENTER)
 symbol_table.heading("# 2", text="Value")
 
+symbol_table_scrollbar = ttk.Scrollbar(symbol_table_frame, orient="vertical", command=symbol_table.yview)
+symbol_table.configure(yscroll=symbol_table_scrollbar.set)
+symbol_table_scrollbar.grid(row=1, column=2, sticky="ns")
+
+# Execute Button
 execute_button = Button(root,text="execute",command=lambda:lex_analyze(lexemeArr))
 execute_button.grid(row=3, column=0, columnspan=3)
 
+# Output Box
 output = Text(root, width="210", height="20", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
 output.grid(row=4, column=0, columnspan=3, padx=10, pady=5)
 
