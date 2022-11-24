@@ -8,11 +8,11 @@ def check_syntax(lexemeArr):
     for i in lexemeArr:
         testing_list.append(i)
 
-    # for i in testing_list:
-    #     print(i)
+    for i in testing_list:
+        print(i)
 
 
-
+    
     while(True):
         change = False
         index = 0
@@ -24,6 +24,7 @@ def check_syntax(lexemeArr):
 
         # ---------------------------------------
         for i in testing_list:
+            #Literals
             if(i[1] in ["NUMBR Literal", "NUMBAR Literal", "YARN Literal", "TROOF Literal"]):
                 del testing_list[index]
                 testing_list.insert(index, "literal")
@@ -32,26 +33,32 @@ def check_syntax(lexemeArr):
                 del testing_list[index:(index+3)]
                 testing_list.insert(index, "literal")
                 change = True
+            #Variable Identifier
             elif(i[1] == "Variable Identifier"):    
                 del testing_list[index]
                 testing_list.insert(index, "varident")
                 change = True
+            #Operations
             elif(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
                 del testing_list[index:(index+4)]
                 testing_list.insert(index, "expr")
                 change = True
+            #Print statement
             elif(i[0] == "VISIBLE" and testing_list[index+1] in ["expr", "literal", "varident"]):
                 del testing_list[index:(index+2)]
                 testing_list.insert(index, "print")
                 change = True
+            #Input statement
             elif(i[0] == "GIMMEH" and testing_list[index+1] == "varident"):
                 del testing_list[index:(index+2)]
                 testing_list.insert(index, "input")
                 change = True
+            #Variable assignment
             elif(i == "varident" and testing_list[index+1][0] == "R" and testing_list[index+2] in ["literal", "varident", "expr"]):
                 del testing_list[index:(index+3)]
                 testing_list.insert(index, "varassign")
                 change = True
+            #Variable initialization
             elif(i[0] == "I HAS A" and testing_list[index+1] == "varident" and testing_list[index+2][0] != "ITZ"):
                 del testing_list[index:(index+2)]
                 testing_list.insert(index, "varinit")
@@ -60,6 +67,7 @@ def check_syntax(lexemeArr):
                 del testing_list[index:(index+4)]
                 testing_list.insert(index, "varinit")
                 change = True
+            #Comment
             elif(i[0] == "BTW" and testing_list[index+1][1] == "comment"):
                 del testing_list[index:(index+2)]
                 change = True
@@ -76,43 +84,43 @@ def check_syntax(lexemeArr):
     
     
     
-    while(True):
-        change = False
-        index = 0
+    # while(True):
+    #     change = False
+    #     index = 0
 
-        # print("-----------------------------------------")
-        # for i in testing_list:
-        #     print(i)
+    #     # print("-----------------------------------------")
+    #     # for i in testing_list:
+    #     #     print(i)
         
         
-        for i in testing_list:
-            #Chunky parts
-            if(i == "statement" and testing_list[index+1] == "statement"):
-                del testing_list[index:(index+2)]
-                testing_list.insert(index, "statement")
-                change=True
-            elif(i in ["varinit", "statement2"]):
-                del testing_list[index]
-                testing_list.insert(index, "statement")
-                change = True
-            elif(i in ["print", "input", "varassign", "ifelse", "expr", "case", "loop", "typecasting"]):
-                del testing_list[index]
-                testing_list.insert(index, "statement2")
-                change = True
-            elif(i[0] == "HAI" and testing_list[index+1] == "statement" and testing_list[index+2][0] == "KTHXBYE"):
-                del testing_list[index:(index+3)]
-                testing_list.insert(index, "program")
-                change = True
-            index += 1
+    #     for i in testing_list:
+    #         #Chunky parts
+    #         if(i == "statement" and testing_list[index+1] == "statement"):
+    #             del testing_list[index:(index+2)]
+    #             testing_list.insert(index, "statement")
+    #             change=True
+    #         elif(i in ["varinit", "statement2"]):
+    #             del testing_list[index]
+    #             testing_list.insert(index, "statement")
+    #             change = True
+    #         elif(i in ["print", "input", "varassign", "ifelse", "expr", "case", "loop", "typecasting"]):
+    #             del testing_list[index]
+    #             testing_list.insert(index, "statement2")
+    #             change = True
+    #         elif(i[0] == "HAI" and testing_list[index+1] == "statement" and testing_list[index+2][0] == "KTHXBYE"):
+    #             del testing_list[index:(index+3)]
+    #             testing_list.insert(index, "program")
+    #             change = True
+    #         index += 1
 
-        if(len(testing_list)==1):
-            print(True) # to be changed to return later
-            return True
-            break
-        if(change == False):
-            print(False) 
-            return(False)
-            break
+    #     if(len(testing_list)==1):
+    #         print(True) # to be changed to return later
+    #         return True
+    #         break
+    #     if(change == False):
+    #         print(False) 
+    #         return(False)
+    #         break
 
     for i in testing_list:
         print(i)

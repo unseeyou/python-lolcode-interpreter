@@ -1,7 +1,35 @@
 import re
 
 def get_lexemes(lexemeArr, lines, line, index):
-    
+    if(len(re.findall(".+OBTW", line)) != 0):
+        lexeme_info = [line, "Invalid"]
+        lexemeArr.append(lexeme_info)
+        lines.remove(line)
+        lines.insert(index, "")
+        return
+    elif(len(re.findall(".+ TLDR.*", line)) != 0):
+        comment = re.sub(" TLDR.*", "", line)
+        print("Comment:", comment)
+        lexemeArr.append([comment, "comment"])
+        lexemeArr.append(["TLDR", "keyword"])
+        
+        remain = re.sub(".*TLDR", "", line).strip()
+        if(remain != ""):
+            lexemeArr.append([remain, "Invalid"])
+        
+        lines.remove(line)
+        lines.insert(index, "")
+        return
+    elif(len(re.findall("^TLDR .*", line))):
+        lexemeArr.append(["TLDR", "keyword"])
+        remain = re.sub("TLDR", "", line)
+        if(remain != ""):
+            lexemeArr.append([remain, "Invalid"])
+        lines.remove(line)
+        lines.insert(index, "")
+        return
+
+
     if(len(re.findall("^\"[^\"]*\"", line)) != 0):
         exact = re.findall("\"[^\"]*\"", line)[0]
         exact2 = re.sub("\"", "", exact)
@@ -106,19 +134,8 @@ def get_lexemes(lexemeArr, lines, line, index):
         new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
-    
-    elif(len(re.findall("^OBTW", line)) != 0):
-        lexeme_info = []
-        lexeme_info.append("OBTW")
-        lexeme_info.append("keyword")
-        lexemeArr.append(lexeme_info)
-        
-        num_exact = len("OBTW")
-        new = line[num_exact:len(line)]
-        lines.remove(line)
-        lines.insert(index, new.strip())
 
-    elif(len(re.findall("^TLDR", line)) != 0):
+    elif(len(re.findall("^TLDR$", line)) != 0):
         lexeme_info = []
         lexeme_info.append("TLDR")
         lexeme_info.append("keyword")
@@ -127,7 +144,32 @@ def get_lexemes(lexemeArr, lines, line, index):
         num_exact = len("TLDR")
         new = line[num_exact:len(line)]
         lines.remove(line)
-        lines.insert(index, new.strip())
+        lines.insert(index, "")
+
+    elif(len(re.findall("^OBTW", line)) != 0):
+        lexeme_info = []
+        lexeme_info.append("OBTW")
+        lexeme_info.append("keyword")
+        lexemeArr.append(lexeme_info)
+        
+        num_exact = len("OBTW")
+        new = line[num_exact:len(line)].strip()
+        lexemeArr.append([new, "comment"])
+        
+        
+        index2 = index+1
+        while(len(re.findall("(^TLDR )|( TLDR )|(^TLDR$)|(TLDR$)", lines[index2])) == 0):
+            print(lines[index2])
+            lexemeArr.append([lines[index2], "comment"])
+            lines.remove(lines[index2])
+            lines.insert(index2, "")
+            index2 += 1
+        
+        # comment = new.strip() + "\n"
+
+        # print(comment)
+        lines.remove(line)
+        lines.insert(index, "")
 
     elif(len(re.findall("^I HAS A", line)) != 0):
         lexeme_info = []
@@ -652,9 +694,14 @@ def lex_analyze(the_long_string):
         while(lines2[i] != ''):
             get_lexemes(lexemeArr, lines2, lines2[i], i)
         
+    # index = 0
+    # for i in lines2:
+    #     while(i != ''):
+    #         get_lexemes(lexemeArr, lines2, i, index)
+    #     index += 1
     
-    # for i in lexemeArr:
-    #     print(i)
+    for i in lexemeArr:
+        print(i)
     # print(lines2)
 
     
@@ -695,4 +742,17 @@ HAI
 5.5
 3.4
 KTHXBYE"""
-# lex_analyze(x)
+
+y = """I HAS OBTW
+OBTW this
+OBTW
+OBTW
+ok 
+nani
+watashi wa
+bruhTLDR
+aTLDR
+TLDRA
+I HAS A TLDR
+TLDR"""
+lex_analyze(y)
