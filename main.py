@@ -10,6 +10,8 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import font
 from tkinter import ttk
+import os
+desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop') 
 
 def lex_analyze(lexemeArr):
     lexemeArr.clear()
@@ -49,35 +51,43 @@ def lex_analyze(lexemeArr):
 
 
 def browseFiles():
-    filename = filedialog.askopenfilename(initialdir = "/",
+    filename = filedialog.askopenfilename(initialdir = desktop,
                                           title = "Select a File",
-                                          filetypes = (("Text files",
-                                                        "*.txt*"),
+                                          filetypes = (("LOL files",
+                                                        "*.lol*"),
                                                        ("all files",
                                                         "*.*")))
       
     # Change label contents
-    label_fileExplorer.configure(text="File Opened: "+filename)
+    label_fileExplorer.configure(text="File Opened: "+ filename)
+    
+    # Delete contents of the text_editor
+    text_editor.delete(1.0, END)
 
     #add reading here   
-    # text_editor.insert(INSERT,"Bruh")
+    r_file = open(filename, "r")
+    content = r_file.read()
+    text_editor.insert(END, content)
+    r_file.close()
+    
 
 
 # GUI part
 lexemeArr = []
 # Root Widget
+
 root = Tk()                                                 #
 root.title("LOLCode Interpreter (Lexical Analyzer)")
 root.state("zoomed")
 
 
-label_fileExplorer = Label(root, text="None", font=("Cascade Mono", 12), width=70, bg="white")
+label_fileExplorer = Label(root, text="None", font=("Cascade Mono", 12), width=119, bg="white")
 label_fileExplorer.grid(row=0,column=0, pady=5)
 
-text_editor = Text(root, width="70", height="27", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
+text_editor = Text(root, width="119", height="27", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
 text_editor.grid(row=2, column=0, padx=10, pady=10)
 
-label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=90, command=browseFiles)
+label_fileExplorer_icon = Button(root, text="Open File", bg="white", width=152, command=browseFiles)
 label_fileExplorer_icon.grid(row=1, column=0)
 
 #Lexeme Table
@@ -91,6 +101,7 @@ tv.column("# 1", anchor=CENTER)
 tv.heading("# 1", text="Lexemes")
 tv.column("# 2", anchor=CENTER)
 tv.heading("# 2", text="Classification")
+
 
 #Symbol Table
 symbol_table_name = Label(root, text="Symbol Table", font=("Cascade Mono", 12), pady=10, anchor=CENTER)
@@ -106,7 +117,7 @@ tv2.heading("# 2", text="Value")
 execute_button = Button(root,text="execute",command=lambda:lex_analyze(lexemeArr))
 execute_button.grid(row=3, column=0, columnspan=3)
 
-output = Text(root, width="208", height="20", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
+output = Text(root, width="210", height="20", font=("Cascade Mono", 12), selectbackground = "gray", selectforeground="black", undo=True)
 output.grid(row=4, column=0, columnspan=3, padx=10, pady=5)
 
 

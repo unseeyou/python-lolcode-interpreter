@@ -33,21 +33,25 @@ def check_syntax(lexemeArr):
                 del testing_list[index:(index+3)]
                 testing_list.insert(index, "literal")
                 change = True
+
             #Variable Identifier
             elif(i[1] == "Variable Identifier"):    
                 del testing_list[index]
                 testing_list.insert(index, "varident")
                 change = True
+
             #Operations
             elif(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
                 del testing_list[index:(index+4)]
                 testing_list.insert(index, "expr")
                 change = True
+
             #Print statement
             elif(i[0] == "VISIBLE" and testing_list[index+1] in ["expr", "literal", "varident"]):
                 del testing_list[index:(index+2)]
                 testing_list.insert(index, "print")
                 change = True
+                
             #Input statement
             elif(i[0] == "GIMMEH" and testing_list[index+1] == "varident"):
                 del testing_list[index:(index+2)]
@@ -80,9 +84,6 @@ def check_syntax(lexemeArr):
     #     print(i)
 
     # ---------------------------------------            
-    
-    
-    
     
     # while(True):
     #     change = False
@@ -188,7 +189,6 @@ HAI
     VISIBLE diff
     VISIBLE prod
     VISIBLE quo
-
     
 KTHXBYE"""
 
