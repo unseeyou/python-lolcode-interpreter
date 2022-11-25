@@ -139,17 +139,20 @@ def check_syntax(lexemeArr):
                     del testing_list[index+1]
                     testing_list.insert((index+1), "ifelseStatement")
                     change = True
-            elif(i[0] == "O RLY?" and (index+5)<len(testing_list)):
-                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "NO WAI" and testing_list[index+4] == "ifelseStatement" and testing_list[index+5][0] == "OIC"):
-                    del testing_list[index:(index+6)]
-                    testing_list.insert(index, "ifelse")
-                    change = True
             
             elif(i[0] == "O RLY?" and (index+3)<len(testing_list)):
                 if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "OIC"):
                     del testing_list[index:(index+4)]
                     testing_list.insert(index, "ifelse")
                     change = True
+            
+            elif(i[0] == "O RLY?" and (index+5)<len(testing_list)):
+                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "NO WAI" and testing_list[index+4] == "ifelseStatement" and testing_list[index+5][0] == "OIC"):
+                    del testing_list[index:(index+6)]
+                    testing_list.insert(index, "ifelse")
+                    change = True
+            
+            
             
             
 
@@ -338,6 +341,22 @@ d = """O RLY?
 			GIMMEH input
             VISIBLE DIFF OF 2022 AN input
         NO WAI
-			VISIBLE "Invalid Input!"
-	OIC"""
-lex_analyze(lexemeArr, d)
+            VISIBLE bruh
+	OIC
+    I HAS A MONDE
+    I HAS A MONDE
+    I HAS A MONDE
+    I HAS A MONDE
+    I HAS A MONDE"""
+e = """GIMMEH bruh
+GIMMEH bruh
+GIMMEH bruh
+GIMMEH bruh
+GIMMEH bruh
+SUM OF x AN Y
+SUM OF x AN Y
+SUM OF x AN Y
+SUM OF x AN Y
+I HAS A MONDE
+"""
+lex_analyze(lexemeArr, e)
