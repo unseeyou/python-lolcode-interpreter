@@ -123,10 +123,6 @@ def check_syntax(lexemeArr):
                     testing_list.insert(index, "expr")
                     change = True
 
-
-            
-
-
             #Comment
             elif(i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW"):
                 del testing_list[index]
@@ -192,7 +188,7 @@ def check_syntax(lexemeArr):
                 del testing_list[index]
                 testing_list.insert(index, "statement")
                 change = True
-            elif(i in ["print", "input", "varassign", "ifelse", "expr", "case", "loop", "typecasting", ]):
+            elif(i in ["print", "input", "varassign", "ifelse", "expr", "case", "loop"]):
                 del testing_list[index]
                 testing_list.insert(index, "statement2")
                 change = True
@@ -306,4 +302,12 @@ z = "SMOOSH monde AN \"bruh\" AN 123"
 a = "ANY OF NOT x AN BOTH OF y AN z AN EITHER OF x AN y MKAY"
 b = "BOTH SAEM x AN BIGGR OF x AN y"
 c = "MAEK var1 YARN"
-lex_analyze(lexemeArr, a)
+d = """O RLY?
+		YA RLY
+			VISIBLE "Enter birth year: "
+			GIMMEH input
+			VISIBLE DIFF OF 2022 AN input
+        NO WAI
+			VISIBLE "Invalid Input!"
+	OIC"""
+lex_analyze(lexemeArr, d)
