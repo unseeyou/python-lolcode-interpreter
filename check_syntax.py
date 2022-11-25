@@ -123,32 +123,32 @@ def check_syntax(lexemeArr):
                     testing_list.insert(index, "expr")
                     change = True
 
-            #Loops
+            #if-else
             elif(i[0] == "YA RLY" and (index+2)<len(testing_list)):
-                if(testing_list[index+1] in ["expr", "loopStatement"] and testing_list[index+2] == "expr"):
+                if(testing_list[index+1] in ["expr", "ifelseStatement"] and testing_list[index+2] == "expr"):
                     del testing_list[(index+1):(index+3)]
-                    testing_list.insert((index+1), "loopStatement")
+                    testing_list.insert((index+1), "ifelseStatement")
                     change = True
             elif(i[0] == "YA RLY" and (index+2)<len(testing_list)):
                 if(testing_list[index+1] == "expr" and testing_list[index+2][0] in ["OIC", "NO WAI"]):
                     del testing_list[index+1]
-                    testing_list.insert((index+1), "loopStatement")
+                    testing_list.insert((index+1), "ifelseStatement")
                     change = True
             elif(i[0] == "NO WAI" and (index+2)<len(testing_list)):
                 if(testing_list[index+1] == "expr" and testing_list[index+2][0] == "OIC"):
                     del testing_list[index+1]
-                    testing_list.insert((index+1), "loopStatement")
+                    testing_list.insert((index+1), "ifelseStatement")
                     change = True
             elif(i[0] == "O RLY?" and (index+5)<len(testing_list)):
-                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "loopStatement" and testing_list[index+3][0] == "NO WAI" and testing_list[index+4] == "loopStatement" and testing_list[index+5][0] == "OIC"):
+                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "NO WAI" and testing_list[index+4] == "ifelseStatement" and testing_list[index+5][0] == "OIC"):
                     del testing_list[index:(index+6)]
-                    testing_list.insert(index, "loop")
+                    testing_list.insert(index, "ifelse")
                     change = True
             
             elif(i[0] == "O RLY?" and (index+3)<len(testing_list)):
-                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "loopStatement" and testing_list[index+3][0] == "OIC"):
+                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "OIC"):
                     del testing_list[index:(index+4)]
-                    testing_list.insert(index, "loop")
+                    testing_list.insert(index, "ifelse")
                     change = True
             
             
