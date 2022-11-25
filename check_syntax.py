@@ -6,7 +6,7 @@ def check_syntax(lexemeArr):
     testing_list = []
 
     for i in lexemeArr:
-        # print(i)
+        print(i)
         testing_list.append(i)
 
     # for i in testing_list:
@@ -76,11 +76,10 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+2)]
                     testing_list.insert(index, "varinit")
                     change = True
-            if(i[0] == "I HAS A" and (index+1)==(len(testing_list)-1)): # ***
-                if(testing_list[index+1] == "varident"):
-                    del testing_list[index:(index+2)]
-                    testing_list.insert(index, "varinit")
-                    change = True
+            # if(i[0] == "I HAS A" and (index+1)==(len(testing_list)-1)): # pede to mabura since dapat may KTHXBYE ANYWAY
+            #         del testing_list[index:(index+2)]
+            #         testing_list.insert(index, "varinit")
+            #         change = True
             if(i[0] == "I HAS A" and (index+4)<len(testing_list)):
                 if(testing_list[index+1] == "varident" and testing_list[index+2][0] == "ITZ" and testing_list[index+3] in ["literal", "expr"]):
                     del testing_list[index:(index+4)]
@@ -115,6 +114,7 @@ def check_syntax(lexemeArr):
                     del testing_list[(index+1):(index+4)]
                     testing_list.insert((index+1), "concats")
                     change = True
+            
 
             #Typecasting
             if(i[0] == "MAEK" and (index+3)<len(testing_list)):
@@ -127,6 +127,11 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+3)]
                     testing_list.insert(index, "expr")
                     change = True
+
+            if(i[0] == "GTFO"):
+                del testing_list[index]
+                testing_list.insert(index, "break")
+                change = True
 
             #if-else
             if(i[0] == "YA RLY" and (index+2)<len(testing_list)):
@@ -150,15 +155,31 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+4)]
                     testing_list.insert(index, "ifelse")
                     change = True
-            
             if(i[0] == "O RLY?" and (index+5)<len(testing_list)):
                 if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "NO WAI" and testing_list[index+4] == "ifelseStatement" and testing_list[index+5][0] == "OIC"):
                     del testing_list[index:(index+6)]
                     testing_list.insert(index, "ifelse")
                     change = True
-            
-            
-            
+
+            #Switch-case statements
+            if(i[0] == "OMG" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] == "literal"):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "case")
+                    change = True
+            if(i[0] == "OMGWTF"):
+                del testing_list[index]
+                testing_list.insert(index, "case")
+                change = True
+            if(i == "case" and (index+2)<len(testing_list)):
+                if(testing_list[index+1] in ["expr", "caseblock"] and testing_list[index+2] in ["expr", "break"]):
+                    del testing_list[(index+1):(index+3)]
+                    testing_list.insert((index+1), "caseblock")
+                    change = True
+                if(testing_list[index+1] == "expr" and (testing_list[index+2][0] == "OIC" or testing_list[index+2] == "case")):
+                    del testing_list[index+1]
+                    testing_list.insert((index+1), "caseblock")
+                    change = True
             
 
             #Comment
@@ -187,11 +208,26 @@ def check_syntax(lexemeArr):
         index = 0
 
         for i in testing_list:
+            # More String concatenation
             
             if(i[0] == "SMOOSH" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] == "concats"):
                     del testing_list[index:(index+2)]
                     testing_list.insert(index, "expr")
+                    change = True
+            if(i == "case" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] == "caseblock"):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "casestatement")
+                    change = True
+            if(i[0] == "WTF?" and (index+2)<len(testing_list)):
+                if(testing_list[index+1] == "casestatement" and testing_list[index+2] == "casestatement"):      
+                    del testing_list[(index+1):(index+3)]
+                    testing_list.insert((index+1), "casestatement")
+                    change = True
+                if(testing_list[index+1] == "casestatement" and testing_list[index+2][0] == "OIC"):      
+                    del testing_list[index:(index+3)]
+                    testing_list.insert((index+1), "switchcase")
                     change = True
             
             index += 1
@@ -200,8 +236,8 @@ def check_syntax(lexemeArr):
             print("Phase 2 Complete (Loops and other big structs)") 
             break
     
-    # for i in testing_list:
-    #     print(i)
+    for i in testing_list:
+        print(i)
     
             
     # ---------------------------------------            
@@ -249,7 +285,7 @@ def check_syntax(lexemeArr):
         #     break
         if(change == False):
             
-            print("Phase 3 Complete (finishing touches)")
+            # print("Phase 3 Complete (finishing touches)")
             # for i in testing_list:
             #     print(i)
             
@@ -362,5 +398,28 @@ SUM OF x AN Y
 SUM OF x AN Y
 SUM OF x AN Y
 SUM OF x AN Y
-I HAS A MONDE"""
-lex_analyze(lexemeArr, d)
+I HAS A MONDE
+KTHXBYE"""
+
+f = """WTF?
+		OMG 1
+			VISIBLE "Enter birth year: "
+			GIMMEH input
+			VISIBLE DIFF OF 2022 AN input
+			GTFO
+		OMG 2
+			VISIBLE "Enter bill cost: "
+			GIMMEH input
+			VISIBLE "Tip: " PRODUKT OF input AN 0.1
+			GTFO
+		OMG 3
+			VISIBLE "Enter width: "
+			GIMMEH input
+			VISIBLE "Square Area: " PRODUKT OF input AN input
+			GTFO
+		OMG 0
+			VISIBLE "Goodbye"
+		OMGWTF
+			VISIBLE "Invalid Input!"
+	OIC"""
+lex_analyze(lexemeArr, f)

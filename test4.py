@@ -17,8 +17,9 @@ import re
 #     x.remove(4)
 #     x.remove(5)
 
-x = "\"1\""
+x = "1"
 
-y = re.findall("\"[^\"]*\"", "\"*\"")
+if(x[0] == 2):
+    print("bruh")
 
-print(y)
+# print(x[0])

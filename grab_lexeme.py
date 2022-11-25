@@ -483,17 +483,6 @@ def get_lexemes(lexemeArr, lines, line, index):
         lines.remove(line)
         lines.insert(index, new.strip())
     
-    elif(len(re.findall("^OMG", line)) != 0):
-        lexeme_info = []
-        lexeme_info.append("OMG")
-        lexeme_info.append("keyword")
-        lexemeArr.append(lexeme_info)
-        
-        num_exact = len("OMG")
-        new = line[num_exact:len(line)]
-        lines.remove(line)
-        lines.insert(index, new.strip())
-
     elif(len(re.findall("^OMGWTF", line)) != 0):
         lexeme_info = []
         lexeme_info.append("OMGWTF")
@@ -501,6 +490,17 @@ def get_lexemes(lexemeArr, lines, line, index):
         lexemeArr.append(lexeme_info)
         
         num_exact = len("OMGWTF")
+        new = line[num_exact:len(line)]
+        lines.remove(line)
+        lines.insert(index, new.strip())
+    
+    elif(len(re.findall("^OMG", line)) != 0):
+        lexeme_info = []
+        lexeme_info.append("OMG")
+        lexeme_info.append("keyword")
+        lexemeArr.append(lexeme_info)
+        
+        num_exact = len("OMG")
         new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
