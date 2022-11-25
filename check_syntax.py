@@ -113,29 +113,33 @@ def check_syntax(lexemeArr):
             print("Phase 1 Complete (No Statement Introduction)") 
             break
 
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
 
 
     # ---------------------------------------            
     # loop statements and inf boolean operations
-    # while(True):
-    #     change = False
-    #     index = 0
+    while(True):
+        change = False
+        index = 0
 
+        for i in testing_list:
+            if(i == "boolop" and (index+3)<len(testing_list)):
+                if(testing_list[index+1][0] == "AN" and testing_list[index+2] in ["boolop", "infstatement"] and testing_list[index+3][0] == "MKAY"):
+                    del testing_list[index:(index+3)]
+                    testing_list.insert(index, "infstatement")
+                    change = True
+    
+            
+            index += 1
 
-    #     for i in testing_list:
-    #         if(i == "boolop" and (index+3)<len(testing_list)):
-    #             if(testing_list[index+1][0] == "AN" and testing_list[index+2] == "boolop" and testing_list[index+3][0] == "MKAY"):
-    #                 del testing_list[index:(index+3)]
-    #                 testing_list.insert(index, "")
-    #         index += 1
-
-    #     if(change == False):
-    #         print("Phase 1 Complete (No Statement Introduction)") 
-    #         break
+        if(change == False):
+            print("Phase 2 Complete (Loops and other big structs)") 
+            break
     
     
+    for i in testing_list:
+        print(i)
             
     # ---------------------------------------            
     
@@ -259,5 +263,10 @@ TLDR
 KTHXBYE"""
 
 
-y = "NOT bruh"
+y = """BOTH SAEM choice AN 1
+	O RLY?
+		YA RLY
+			VISIBLE "Enter birth year: "
+			GIMMEH input
+			VISIBLE DIFF OF 2022 AN input"""
 lex_analyze(lexemeArr, y)

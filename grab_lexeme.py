@@ -537,6 +537,17 @@ def get_lexemes(lexemeArr, lines, line, index):
         new = line[num_exact:len(line)]
         lines.remove(line)
         lines.insert(index, new.strip())
+    
+    elif(len(re.findall("^MKAY", line)) != 0):
+        lexeme_info = []
+        lexeme_info.append("MKAY")
+        lexeme_info.append("keyword")
+        lexemeArr.append(lexeme_info)
+        
+        num_exact = len("MKAY")
+        new = line[num_exact:len(line)]
+        lines.remove(line)
+        lines.insert(index, new.strip())
 
     elif(len(re.findall("^YR", line)) != 0):
         lexeme_info = []
