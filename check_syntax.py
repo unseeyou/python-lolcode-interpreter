@@ -53,21 +53,21 @@ def check_syntax(lexemeArr):
             elif(i[0] == "VISIBLE" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] in ["expr", "literal", "varident"]):
                     del testing_list[index:(index+2)]
-                    testing_list.insert(index, "print")
+                    testing_list.insert(index, "expr")
                     change = True
                 
             #Input statement
             elif(i[0] == "GIMMEH" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] == "varident"):
                     del testing_list[index:(index+2)]
-                    testing_list.insert(index, "input")
+                    testing_list.insert(index, "expr")
                     change = True
 
             #Variable assignment
             elif(i == "varident" and (index+2)<len(testing_list)):
                 if(testing_list[index+1][0] == "R" and testing_list[index+2] in ["literal", "varident", "expr"]):
                     del testing_list[index:(index+3)]
-                    testing_list.insert(index, "varassign")
+                    testing_list.insert(index, "expr")
                     change = True
 
             #Variable initialization 
@@ -123,6 +123,36 @@ def check_syntax(lexemeArr):
                     testing_list.insert(index, "expr")
                     change = True
 
+            #Loops
+            elif(i[0] == "YA RLY" and (index+2)<len(testing_list)):
+                if(testing_list[index+1] in ["expr", "loopStatement"] and testing_list[index+2] == "expr"):
+                    del testing_list[(index+1):(index+3)]
+                    testing_list.insert((index+1), "loopStatement")
+                    change = True
+            elif(i[0] == "YA RLY" and (index+2)<len(testing_list)):
+                if(testing_list[index+1] == "expr" and testing_list[index+2][0] in ["OIC", "NO WAI"]):
+                    del testing_list[index+1]
+                    testing_list.insert((index+1), "loopStatement")
+                    change = True
+            elif(i[0] == "NO WAI" and (index+2)<len(testing_list)):
+                if(testing_list[index+1] == "expr" and testing_list[index+2][0] == "OIC"):
+                    del testing_list[index+1]
+                    testing_list.insert((index+1), "loopStatement")
+                    change = True
+            elif(i[0] == "O RLY?" and (index+5)<len(testing_list)):
+                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "loopStatement" and testing_list[index+3][0] == "NO WAI" and testing_list[index+4] == "loopStatement" and testing_list[index+5][0] == "OIC"):
+                    del testing_list[index:(index+6)]
+                    testing_list.insert(index, "loop")
+                    change = True
+            
+            elif(i[0] == "O RLY?" and (index+3)<len(testing_list)):
+                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "loopStatement" and testing_list[index+3][0] == "OIC"):
+                    del testing_list[index:(index+4)]
+                    testing_list.insert(index, "loop")
+                    change = True
+            
+            
+
             #Comment
             elif(i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW"):
                 del testing_list[index]
@@ -162,8 +192,8 @@ def check_syntax(lexemeArr):
             print("Phase 2 Complete (Loops and other big structs)") 
             break
     
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
     
             
     # ---------------------------------------            
@@ -212,8 +242,8 @@ def check_syntax(lexemeArr):
         if(change == False):
             
             print("Phase 3 Complete (finishing touches)")
-            for i in testing_list:
-                print(i)
+            # for i in testing_list:
+            #     print(i)
             
             print(False) 
             return(False)
@@ -306,7 +336,7 @@ d = """O RLY?
 		YA RLY
 			VISIBLE "Enter birth year: "
 			GIMMEH input
-			VISIBLE DIFF OF 2022 AN input
+            VISIBLE DIFF OF 2022 AN input
         NO WAI
 			VISIBLE "Invalid Input!"
 	OIC"""
