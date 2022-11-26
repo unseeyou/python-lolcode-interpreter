@@ -237,29 +237,30 @@ def check_syntax(lexemeArr):
                     testing_list.insert((index+1), "printblock")
                     change = True
             #if-else
-            if(i[0] in ["YA RLY", "NO WAI"] and (index+2)<len(testing_list)):
-                if(testing_list[index+1] in ["expr", "ifelseStatement", "print", "input", "typecast", "varassign"] and testing_list[index+2] in ["expr", "print", "input", "typecast", "varassign"]):
-                    del testing_list[(index+1):(index+3)]
-                    testing_list.insert((index+1), "ifelseStatement")
+            if(i[0] in ["YA RLY", "NO WAI"] and (index+4)<len(testing_list)):
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] in ["expr", "ifelseStatement", "print", "input", "typecast", "varassign"] and testing_list[index+3] == "linebreak" and testing_list[index+4] in ["expr", "print", "input", "typecast", "varassign"]):
+                    del testing_list[(index+1):(index+5)]
+                    testing_list.insert((index+1), "linebreak")
+                    testing_list.insert((index+2), "ifelseStatement")
                     change = True
-            if(i[0] == "YA RLY" and (index+2)<len(testing_list)):
-                if(testing_list[index+1] in ["expr", "print", "input", "typecast", "varassign"] and testing_list[index+2][0] in ["OIC", "NO WAI"]):
-                    del testing_list[index+1]
-                    testing_list.insert((index+1), "ifelseStatement")
+            if(i[0] == "YA RLY" and (index+4)<len(testing_list)):
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] in ["expr", "print", "input", "typecast", "varassign"] and testing_list[index+3] == "linebreak" and testing_list[index+4][0] in ["OIC", "NO WAI"]):
+                    del testing_list[index+2]
+                    testing_list.insert((index+2), "ifelseStatement")
                     change = True
-            if(i[0] == "NO WAI" and (index+2)<len(testing_list)):
-                if(testing_list[index+1] in ["expr", "print", "input", "typecast", "varassign"] and testing_list[index+2][0] == "OIC"):
-                    del testing_list[index+1]
-                    testing_list.insert((index+1), "ifelseStatement")
+            if(i[0] == "NO WAI" and (index+4)<len(testing_list)):
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] in ["expr", "print", "input", "typecast", "varassign"] and testing_list[index+3] == "linebreak" and testing_list[index+4][0] in ["OIC", "NO WAI"]):
+                    del testing_list[index+2]
+                    testing_list.insert((index+2), "ifelseStatement")
                     change = True
-            if(i[0] == "O RLY?" and (index+3)<len(testing_list)):
-                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "OIC"):
-                    del testing_list[index:(index+4)]
+            if(i[0] == "O RLY?" and (index+6)<len(testing_list)):
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2][0] == "YA RLY" and testing_list[index+3] == "linebreak" and testing_list[index+4] == "ifelseStatement" and testing_list[index+5] == "linebreak" and testing_list[index+6][0] == "OIC"):
+                    del testing_list[index:(index+7)]
                     testing_list.insert(index, "ifelse")
                     change = True
             if(i[0] == "O RLY?" and (index+5)<len(testing_list)):
-                if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "NO WAI" and testing_list[index+4] == "ifelseStatement" and testing_list[index+5][0] == "OIC"):
-                    del testing_list[index:(index+6)]
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2][0] == "YA RLY" and testing_list[index+3] == "linebreak" and testing_list[index+4] == "ifelseStatement" and testing_list[index+5] == "linebreak" and testing_list[index+6][0] == "NO WAI" and testing_list[index+7] == "linebreak" and testing_list[index+8] == "ifelseStatement" and testing_list[index+9] == "linebreak" and testing_list[index+10][0] == "OIC"):
+                    del testing_list[index:(index+11)]
                     testing_list.insert(index, "ifelse")
                     change = True
             
@@ -298,26 +299,26 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+2)]
                     testing_list.insert(index, "loopend")
                     change = True
-            if(i == "loopstart" and (index+2)<len(testing_list)):
-                if(testing_list[index+1] in ["loopblock", "expr", "print", "input", "typecast", "varassign"] and testing_list[index+2] in ["loopblock", "expr", "print", "input", "typecast", "varassign"]):
-                    del testing_list[(index+1):(index+3)]
-                    testing_list.insert((index+1),"loopblock")
+            
+            if(i == "loopstart" and (index+4)<len(testing_list)):
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] in ["loopblock", "expr", "print", "input", "typecast", "varassign"] and testing_list[index+3] == "linebreak" and testing_list[index+4] in ["loopblock", "expr", "print", "input", "typecast", "varassign"]):
+                    del testing_list[(index+2):(index+5)]
+                    testing_list.insert((index+2),"loopblock")
                     change = True
-                if(testing_list[index+1] in ["expr", "print", "input", "typecast", "varassign"] and testing_list[index+2] == "loopend"):
-                    del testing_list[(index+1)]
-                    testing_list.insert((index+1),"loopblock")
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] in ["expr", "print", "input", "typecast", "varassign"] and testing_list[index+3] == "linebreak" and testing_list[index+4] == "loopend"):
+                    del testing_list[(index+2)]
+                    testing_list.insert((index+2),"loopblock")
                     change = True
-
-                if(testing_list[index+1] == "loopblock" and testing_list[index+2] == "loopend"):
-                    del testing_list[index:(index+3)]
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] == "loopblock" and testing_list[index+3] == "linebreak" and testing_list[index+4] == "loopend"):
+                    del testing_list[index:(index+5)]
                     testing_list.insert(index,"loop")
                     change = True
             index += 1
 
         if(change == False):
             print("Phase 3 WAHHHHHHHHHHHHHHHHH") 
-            # for i in testing_list:
-            #     print(i)
+            for i in testing_list:
+                print(i)
             break
     
     
@@ -398,8 +399,8 @@ def check_syntax(lexemeArr):
         if(change == False):
             
             print("Phase 5 Complete (finishing touches)")
-            for i in testing_list:
-                print(i)
+            # for i in testing_list:
+            #     print(i)
             
             print(False) 
             return(False)
@@ -449,15 +450,12 @@ def lex_analyze(lexemeArr, the_long_string):
 
     check_syntax(lexemeArr)
 
-g = """O RLY?
-		YA RLY
-			VISIBLE "Enter birth year: "
-			GIMMEH input
-			VISIBLE DIFF OF 2022 AN input
-
-		NO WAI
-			VISIBLE "Invalid Input!"
-	OIC"""
+g = """IM IN YR asc UPPIN YR num2 WILE BOTH SAEM num2 AN SMALLR OF num2 AN num1
+		VISIBLE num2
+        VISIBLE num2
+	IM OUTTA YR asc"""
 
 
 lex_analyze(lexemeArr, g)
+
+
