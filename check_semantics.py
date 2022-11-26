@@ -25,12 +25,27 @@ def insertToTable(testing_list, symbolTable, index, data_type, new_identifier, n
         symbolTable.insert(
             dupIndex, [testing_list[index+1][0], new_value, data_type])
 
+# function that
+
+
+def findValue(symbolTable, identifier):
+    identifiers = grab_identifiers(symbolTable)
+    if identifier in identifiers:
+        index = identifiers.index(identifier)
+
+    for i, content in enumerate(symbolTable):
+        if symbolTable[i][0] == identifier:
+            # return value and identifier
+            return [symbolTable[i][1], symbolTable[i][2]]
+
+    return False
+
 
 def grab_symbol_table(lexemeArr):
     testing_list = []
+    hasError = False
 
     for i in lexemeArr:
-        # print(i)
         testing_list.append(i)
 
     for index, i in enumerate(testing_list):
@@ -45,24 +60,34 @@ def grab_symbol_table(lexemeArr):
                     insertToTable(testing_list, symbolTable,
                                   index, "NOOB", testing_list[index+1][0], "")
 
-        # Variable initialization (Case 1.1: Literal is NUMBR, NUMBAR, TROOF)
+        # Variable assignment (Case 1.1: Literal is NUMBR, NUMBAR, TROOF)
         if (i[0] == "I HAS A" and (index+3) < len(testing_list)):
             if (testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] == "ITZ"):
                 if testing_list[index+3][1] in ["NUMBR Literal", "NUMBAR Literal", "TROOF Literal"]:
-                    #del testing_list[index:(index+2)]
                     insertToTable(testing_list, symbolTable,
                                   index, testing_list[index+3][1], testing_list[index+1][0], testing_list[index+3][0])
-        # Variable initialization (Case 1.2: YARN Literal)
+        # Variable assignment (Case 1.2: YARN Literal)
         if (i[0] == "I HAS A" and (index+5) < len(testing_list)):
             if (testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] == "ITZ"):
                 if testing_list[index+3][1] == "String Delimiter" and testing_list[index+4][1] == "YARN Literal" and testing_list[index+5][1] == "String Delimiter":
                     insertToTable(testing_list, symbolTable, index, testing_list[index+1][1],
                                   testing_list[index+1][0], testing_list[index+4][0])
+    # Variable assignment (Case 1.3: Var Identifier)
+        if (i[0] == "I HAS A" and (index+3) < len(testing_list)):
+            if (testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] == "ITZ") and testing_list[index+3][1] == "Variable Identifier":
+                new_value = findValue(symbolTable, testing_list[index+3][0])
 
+                if new_value != False:  # if variable is not initialized
+                    insertToTable(testing_list, symbolTable, index, new_value[1],
+                                  testing_list[index+1][0], new_value[0])
+                else:
+                    return [False, symbolTable]
+
+    #CONTINUE: Visible
     for i in symbolTable:
         print(i)
 
-    return symbolTable
+    return [True, symbolTable]
 
 
 def lex_analyze(lexemeArr, the_long_string):
@@ -91,6 +116,9 @@ g = """HAI
     I HAS A name ITZ "seventeen"
     I HAS A fnum ITZ 17.0
     I HAS A flag ITZ WIN
+    I HAS A dup ITZ num
+
+    
 
 KTHXBYE"""
 h = """HAI
@@ -104,4 +132,4 @@ h = """HAI
 KTHXBYE
 """
 
-lex_analyze(lexemeArr, g)
+#lex_analyze(lexemeArr, g)

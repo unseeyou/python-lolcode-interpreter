@@ -68,13 +68,24 @@ def lex_analyze(lexemeArr):
     else:
         output.insert("end", "FAIL\n")
 
-    symbolTable = check_semantics.grab_symbol_table(lexemeArr)
+    # grab_symbol_table returns [True, symbolTable] if no semantic errors
+    # returns [False, symbolTable] if a semantic error is encountered. The symbol table generated before the semantic error is encountered will be displayed.
+
+    symbolTableResults = check_semantics.grab_symbol_table(lexemeArr)
+    isSemanticallyCorrect = symbolTableResults[0]
+    symbolTable = []
+    symbolTable = symbolTableResults[1]
 
     for item in symbol_table.get_children():
         symbol_table.delete(item)
 
     for i in symbolTable:
         symbol_table.insert("", 'end', text="1", values=i)
+
+    if isSemanticallyCorrect:
+        output.insert("end", "No semantic errors encountered\n")
+    else:
+        output.insert("end", "A semantic error is encountered.\n")
 
 
 def browseFiles():
