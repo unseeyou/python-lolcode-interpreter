@@ -346,7 +346,7 @@ def check_syntax(lexemeArr):
                     change = True
                 if(testing_list[index+1] == "casestatement" and testing_list[index+2][0] == "OIC"):      
                     del testing_list[index:(index+3)]
-                    testing_list.insert((index+1), "switchcase")
+                    testing_list.insert(index, "switchcase")
                     change = True
             index += 1
 
@@ -354,8 +354,8 @@ def check_syntax(lexemeArr):
             print("Phase 2.6 WAHHHHHHHHHHHHHHHHH") 
             break
     
-    # for i in testing_list:
-    #     print(i)
+    for i in testing_list:
+        print(i)
 
 
     # ---------------------------------------            
@@ -380,7 +380,7 @@ def check_syntax(lexemeArr):
                 del testing_list[index]
                 testing_list.insert(index, "statement")
                 change = True
-            if(i in ["print", "input", "varassign", "ifelse", "expr", "switchcase", "loop", "typecast"]):
+            if(i in ["print", "input", "varassign", "ifelse", "expr", "switchcase", "loop", "typecast", "varident"]):
                 del testing_list[index]
                 testing_list.insert(index, "statement2")
                 change = True
@@ -400,8 +400,8 @@ def check_syntax(lexemeArr):
         if(change == False):
             
             print("Phase 3 Complete (finishing touches)")
-            # for i in testing_list:
-            #     print(i)
+            for i in testing_list:
+                print(i)
             
             print(False) 
             return(False)
@@ -571,46 +571,42 @@ KTHXBYE
 """
 
 g = """HAI
-    BTW variable dec
-    I HAS A x
-    I HAS A y
-    
-    VISIBLE "x:" WIN ", y:" WIN
-    x R WIN
-    y R WIN
 
-    VISIBLE BOTH OF x AN y
-    VISIBLE EITHER OF x AN y
-    VISIBLE WON OF x AN y
-    VISIBLE NOT x
-    VISIBLE ALL OF x AN x AN x AN y MKAY
-    VISIBLE ANY OF y AN y AN y AN 0 MKAY
-    VISIBLE ANY OF BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y MKAY
-    VISIBLE BOTH OF x AN EITHER OF NOT x AN y
+	I HAS A choice
+	I HAS A input
 
-    VISIBLE "x:" FAIL ", y:" WIN
-    x R FAIL
+	BTW if w/o MEBBE, 1 only, everything else is invalid
+	VISIBLE "1. Compute age"
+	VISIBLE "2. Compute tip"
+	VISIBLE "3. Compute square area"
+	VISIBLE "0. Exit"
 
-    VISIBLE BOTH OF x AN y
-    VISIBLE EITHER OF x AN y
-    VISIBLE WON OF x AN y
-    VISIBLE NOT x
-    VISIBLE ALL OF x AN x AN x AN y MKAY
-    VISIBLE ANY OF y AN y AN y AN 0 MKAY
-    
-    VISIBLE BOTH OF x AN EITHER OF NOT x AN y
+	VISIBLE "Choice: "
+	GIMMEH choice
 
-    VISIBLE "x:" FAIL ", y:" FAIL
-    y R FAIL
+	choice
+	WTF?
+		OMG 1
+			VISIBLE "Enter birth year: "
+			GIMMEH input
+			VISIBLE DIFF OF 2022 AN input
+			GTFO
+		OMG 2
+			VISIBLE "Enter bill cost: "
+			GIMMEH input
+			VISIBLE "Tip: " PRODUCKT OF input AN 0.1
+			GTFO
+		OMG 3
+			VISIBLE "Enter width: "
+			GIMMEH input
+			VISIBLE "Square Area: " PRODUCKT OF input AN input
+			GTFO
+		OMG 0
+			VISIBLE "Goodbye"
+		OMGWTF
+			VISIBLE "Invalid Input!"
+	OIC
 
-    VISIBLE BOTH OF x AN y
-    VISIBLE EITHER OF x AN y
-    VISIBLE WON OF x AN y
-    VISIBLE NOT x
-    VISIBLE ALL OF x AN x AN x AN y MKAY
-    VISIBLE ANY OF y AN y AN y AN 0 MKAY
-    VISIBLE ANY OF BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y MKAY
-    VISIBLE BOTH OF x AN EITHER OF NOT x AN y
 KTHXBYE
 
 """
