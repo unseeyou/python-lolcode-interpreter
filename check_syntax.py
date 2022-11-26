@@ -42,26 +42,11 @@ def check_syntax(lexemeArr):
                 testing_list.insert(index, "varident")
                 change = True
 
-            #Operations (Expression)
-            if(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and (index+3)<len(testing_list)):
-                if(testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
-                    del testing_list[index:(index+4)]
-                    testing_list.insert(index, "expr")
-                    change = True
-
-            
             #Input statement
             if(i[0] == "GIMMEH" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] == "varident"):
                     del testing_list[index:(index+2)]
                     testing_list.insert(index, "input")
-                    change = True
-
-            #Variable assignment
-            if(i == "varident" and (index+2)<len(testing_list)):
-                if(testing_list[index+1][0] == "R" and testing_list[index+2] in ["literal", "varident", "expr", "typecast"]):
-                    del testing_list[index:(index+3)]
-                    testing_list.insert(index, "varassign")
                     change = True
 
             #Variable initialization 
@@ -70,36 +55,12 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+2)]
                     testing_list.insert(index, "varinit")
                     change = True
-            # if(i[0] == "I HAS A" and (index+1)==(len(testing_list)-1)): # pede to mabura since dapat may KTHXBYE ANYWAY
-            #         del testing_list[index:(index+2)]
-            #         testing_list.insert(index, "varinit")
-            #         change = True
-            if(i[0] == "I HAS A" and (index+4)<len(testing_list)):
-                if(testing_list[index+1] == "varident" and testing_list[index+2][0] == "ITZ" and testing_list[index+3] in ["literal", "expr"]):
-                    del testing_list[index:(index+4)]
-                    testing_list.insert(index, "varinit")
-                    change = True
 
-            # Boolean operations (expression)
-            if(i[0] in ["BOTH OF", "EITHER OF", "WON OF"] and (index+3)<len(testing_list)):
-                if(testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
-                    del testing_list[index:(index+4)]
-                    testing_list.insert(index, "boolop")
-                    change = True
-            if(i[0] == "NOT" and (index+1)<len(testing_list)):
-                if(testing_list[index+1] in ["literal", "varident", "expr"]):
+            #Variable assignment
+            if(i == "varident" and (index+1)<len(testing_list)):
+                if(testing_list[(index+1)][0] == "R"):
                     del testing_list[index:(index+2)]
-                    testing_list.insert(index, "boolop")
-                    change = True
-            if(i == "boolop" and (index+3)<len(testing_list)):
-                if(testing_list[index+1][0] == "AN" and testing_list[index+2] in ["boolop", "infstatement"] and testing_list[index+3][0] == "MKAY"):
-                    del testing_list[index:(index+3)]
-                    testing_list.insert(index, "infstatement")
-                    change = True
-            if(i[0] in ["ANY OF", "ALL OF"] and (index+2)<len(testing_list)):
-                if(testing_list[index+1] == "infstatement" and testing_list[index+2][0] == "MKAY"):
-                    del testing_list[index:(index+3)]
-                    testing_list.insert(index, "expr")
+                    testing_list.insert(index, "varassignstart")
                     change = True
 
             #String concatenation (Expression)
@@ -108,7 +69,6 @@ def check_syntax(lexemeArr):
                     del testing_list[(index+1):(index+4)]
                     testing_list.insert((index+1), "concats")
                     change = True
-
 
             #Typecasting
             if(i[0] == "MAEK" and (index+3)<len(testing_list)):
@@ -132,7 +92,157 @@ def check_syntax(lexemeArr):
                 del testing_list[index]
                 testing_list.insert(index, "break")
                 change = True
+            
+            #Comment
+            if(i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW"):
+                del testing_list[index]
+                change = True
 
+            #Invalid
+            if(i[1] == "Invalid"):
+                print("Invalid Syntax")
+                return(False)
+            index += 1
+
+        if(change == False):
+            print("Phase 1 Complete (No Statement Introduction)") 
+            break
+
+    for i in testing_list:
+        print(i)
+
+
+    # ---------------------------------------            
+    while(True):
+        change = False
+        index = 0
+
+        for i in testing_list:
+            # More String concatenation
+            if(i[0] == "SMOOSH" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] == "concats"):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "expr")
+                    change = True
+            #Print statement 
+            if(i[0] == "VISIBLE" and (index+2)<len(testing_list)):
+                if(testing_list[index+1] in ["printblock", "expr", "literal", "varident"] and testing_list[index+2] in ["expr", "literal", "varident"]):
+                    del testing_list[(index+1):(index+3)]
+                    testing_list.insert((index+1), "printblock")
+                    change = True
+                if(testing_list[index+1] in ["expr", "literal", "varident"] and testing_list[index+2][0] not in ["expr", "literal", "varident"]):
+                    del testing_list[(index+1)]
+                    testing_list.insert((index+1), "printblock")
+                    change = True
+
+            if(i[0] == "VISIBLE" and (index+3)<len(testing_list)):
+                if(testing_list[index+1] in ["printblock", "expr", "literal", "varident"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["expr", "literal", "varident"]):
+                    del testing_list[(index+1):(index+4)]
+                    testing_list.insert((index+1), "printblock")
+                    change = True
+
+            #Variable assignment
+            if(i == "varassignstart" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] in ["literal", "varident", "expr", "typecast"]):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "varassign")
+                    change = True
+            
+            # Variable initialization 2
+            if(i[0] == "I HAS A" and (index+3)<len(testing_list)):
+                if(testing_list[index+1] == "varident" and testing_list[index+2][0] == "ITZ" and testing_list[index+3] in ["literal", "expr"]):
+                    del testing_list[index:(index+4)]
+                    testing_list.insert(index, "varinit")
+                    change = True
+            
+
+            #Operations (Expression)
+            if(i[0] in ["SUM OF", "DIFF OF", "PRODUKT OF", "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT"] and (index+3)<len(testing_list)):
+                if(testing_list[index+1] in ["literal", "varident", "expr"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr"]):
+                    del testing_list[index:(index+4)]
+                    testing_list.insert(index, "expr")
+                    change = True
+
+            # Boolean operations (expression)
+            if(i[0] == "NOT" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] in ["literal", "varident", "expr", "boolop"]):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "boolop")
+                    change = True
+            if(i[0] in ["BOTH OF", "EITHER OF", "WON OF"] and (index+3)<len(testing_list)):
+                if(testing_list[index+1] in ["literal", "varident", "expr", "boolop"] and testing_list[index+2][0] == "AN" and testing_list[index+3] in ["literal", "varident", "expr", "boolop"]):
+                    del testing_list[index:(index+4)]
+                    testing_list.insert(index, "boolop")
+                    change = True
+            if(i in ["boolop", "varident", "literal"] and (index+3)<len(testing_list)):
+                if(testing_list[index+1][0] == "AN" and testing_list[index+2] in ["boolop", "infstatement", "varident", "literal"] and testing_list[index+3][0] == "MKAY"):
+                    del testing_list[index:(index+3)]
+                    testing_list.insert(index, "infstatement")
+                    change = True
+            if(i[0] in ["ANY OF", "ALL OF"] and (index+2)<len(testing_list)):
+                if(testing_list[index+1] == "infstatement" and testing_list[index+2][0] == "MKAY"):
+                    del testing_list[index:(index+3)]
+                    testing_list.insert(index, "expr")
+                    change = True
+            # print("------------------------------------")
+            # for i in testing_list:
+            #     print(i)
+            
+            
+            
+
+            index += 1
+
+        if(change == False):
+            print("Phase 2 Complete (Loops and other big structs)") 
+            break
+    
+    # for i in testing_list:
+    #     print(i)
+    
+    # while(True):
+    #     change = False
+    #     index = 0
+
+    #     for i in testing_list:
+    #         if(i == "boolop"):
+    #             del testing_list[index]
+    #             testing_list.insert(index, "expr")
+    #             change = True
+    #         index += 1
+
+    #     if(change == False):
+    #         print("Phase 2.4 WAHHHHHHHHHHHHHHHHH") 
+    #         break
+    
+    # for i in testing_list:
+    #     print(i)
+    
+    # ---------------------------------------            
+    while(True):
+        change = False
+        index = 0
+
+        for i in testing_list:
+            if(i == "boolop"):
+                del testing_list[index]
+                testing_list.insert(index, "expr")
+                change = True
+            if(i[0] == "VISIBLE" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] == "printblock"):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "print")
+                    change = True
+
+            if(i[0] == "VISIBLE" and (index+2)<len(testing_list)):
+                if(testing_list[index+1] in ["printblock", "expr", "literal", "varident"] and testing_list[index+2] in ["expr", "literal", "varident"]):
+                    del testing_list[(index+1):(index+3)]
+                    testing_list.insert((index+1), "printblock")
+                    change = True
+                if(testing_list[index+1] in ["expr", "literal", "varident"] and testing_list[index+2][0] not in ["expr", "literal", "varident"]):
+                    del testing_list[(index+1)]
+                    testing_list.insert((index+1), "printblock")
+                    change = True
             #if-else
             if(i[0] in ["YA RLY", "NO WAI"] and (index+2)<len(testing_list)):
                 if(testing_list[index+1] in ["expr", "ifelseStatement", "print", "input", "typecast", "varassign"] and testing_list[index+2] in ["expr", "print", "input", "typecast", "varassign"]):
@@ -149,7 +259,6 @@ def check_syntax(lexemeArr):
                     del testing_list[index+1]
                     testing_list.insert((index+1), "ifelseStatement")
                     change = True
-            
             if(i[0] == "O RLY?" and (index+3)<len(testing_list)):
                 if(testing_list[index+1][0] == "YA RLY" and testing_list[index+2] == "ifelseStatement" and testing_list[index+3][0] == "OIC"):
                     del testing_list[index:(index+4)]
@@ -160,7 +269,6 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+6)]
                     testing_list.insert(index, "ifelse")
                     change = True
-
             #Switch-case statements
             if(i[0] == "OMG" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] == "literal"):
@@ -172,7 +280,7 @@ def check_syntax(lexemeArr):
                 testing_list.insert(index, "case")
                 change = True
             if(i == "case" and (index+2)<len(testing_list)):
-                if(testing_list[index+1] in ["expr", "caseblock", "input", "print", "typecast", "print", "break"] and testing_list[index+2] in ["expr", "input", "print", "typecast", "print", "break"]):
+                if(testing_list[index+1] in ["expr", "caseblock", "input", "print", "typecast", "print", "break", "varassign"] and testing_list[index+2] in ["expr", "input", "print", "typecast", "print", "break", "varassign"]):
                     del testing_list[(index+1):(index+3)]
                     testing_list.insert((index+1), "caseblock")
                     change = True
@@ -191,11 +299,6 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+6)]
                     testing_list.insert(index, "loopstart")
                     change = True
-            # if(i[0] == "IM IN YR" and (index+4)):
-            #     if(testing_list[index+1] == "varident" and testing_list[index+2][0] in ["UPPIN", "NERFIN"] and testing_list[index+3][0] == "YR" and testing_list[index+4] == "varident"):
-            #         del testing_list[index:(index+5)]
-            #         testing_list.insert(index, "loopstart")
-            #         change = True
             if(i[0] == "IM OUTTA YR" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] == "varident"):
                     del testing_list[index:(index+2)]
@@ -215,25 +318,14 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+3)]
                     testing_list.insert(index,"loop")
                     change = True
-            
-            #Comment
-            if(i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW"):
-                del testing_list[index]
-                change = True
-
-            #Invalid
-            if(i[1] == "Invalid"):
-                print("Invalid Syntax")
-                return(False)
             index += 1
 
         if(change == False):
-            print("Phase 1 Complete (No Statement Introduction)") 
+            print("Phase 2.5 WAHHHHHHHHHHHHHHHHH") 
             break
-
-    # for i in testing_list:
-    #     print(i)
-
+    
+    for i in testing_list:
+        print(i)
 
     # ---------------------------------------            
     while(True):
@@ -241,13 +333,7 @@ def check_syntax(lexemeArr):
         index = 0
 
         for i in testing_list:
-            # More String concatenation
-            
-            if(i[0] == "SMOOSH" and (index+1)<len(testing_list)):
-                if(testing_list[index+1] == "concats"):
-                    del testing_list[index:(index+2)]
-                    testing_list.insert(index, "expr")
-                    change = True
+            # Switch case 2
             if(i == "case" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] == "caseblock"):
                     del testing_list[index:(index+2)]
@@ -262,48 +348,14 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+3)]
                     testing_list.insert((index+1), "switchcase")
                     change = True
-            
-            #Print statement 
-            if(i[0] == "VISIBLE" and (index+2)<len(testing_list)):
-                if(testing_list[index+1] in ["printblock", "expr", "literal", "varident"] and testing_list[index+2] in ["expr", "literal", "varident"]):
-                    del testing_list[(index+1):(index+3)]
-                    testing_list.insert((index+1), "printblock")
-                    change = True
-                if(testing_list[index+1] in ["expr", "literal", "varident"] and testing_list[index+2][0] not in ["expr", "literal", "varident"]):
-                    del testing_list[(index+1)]
-                    testing_list.insert((index+1), "printblock")
-                    change = True
-                
-            if(i[0] == "VISIBLE" and (index+1)<len(testing_list)):
-                if(testing_list[index+1] == "printblock"):
-                    del testing_list[index:(index+2)]
-                    testing_list.insert(index, "print")
-                    change = True
-
-            
-            
             index += 1
 
         if(change == False):
-            print("Phase 2 Complete (Loops and other big structs)") 
+            print("Phase 2.6 WAHHHHHHHHHHHHHHHHH") 
             break
     
-    for i in testing_list:
-        print(i)
-    # ---------------------------------------            
-    while(True):
-        change = False
-        index = 0
-
-        for i in testing_list:
-            index += 1
-
-        if(change == False):
-            print("Phase 3 ") 
-            break
-    
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
 
 
     # ---------------------------------------            
@@ -328,7 +380,7 @@ def check_syntax(lexemeArr):
                 del testing_list[index]
                 testing_list.insert(index, "statement")
                 change = True
-            if(i in ["print", "input", "varassign", "ifelse", "expr", "case", "loop"]):
+            if(i in ["print", "input", "varassign", "ifelse", "expr", "switchcase", "loop", "typecast"]):
                 del testing_list[index]
                 testing_list.insert(index, "statement2")
                 change = True
@@ -348,8 +400,8 @@ def check_syntax(lexemeArr):
         if(change == False):
             
             print("Phase 3 Complete (finishing touches)")
-            for i in testing_list:
-                print(i)
+            # for i in testing_list:
+            #     print(i)
             
             print(False) 
             return(False)
@@ -464,8 +516,9 @@ KTHXBYE"""
 
 f = """WTF?
 		OMG 1
-			VISIBLE "Enter birth year: "
-			GIMMEH input
+			VISIBLE "Enter birth year: " SMOOSH x AN x AN x AN y AN y
+			bruh R SMOOSH x AN x AN x AN y AN y
+            GIMMEH input
 			VISIBLE DIFF OF 2022 AN input
 			GTFO
 		OMG 2
@@ -479,11 +532,14 @@ f = """WTF?
 			VISIBLE "Square Area: " PRODUKT OF input AN input
             bruh IS NOW A NUMBR
 			GTFO
+            SMOOSH x AN x AN x AN y AN y
 		OMG 0
 			VISIBLE "Goodbye"
 		OMGWTF
 			VISIBLE "Invalid Input!"
 	OIC"""
+
+
 
 h = """HAI
     BTW variable dec
@@ -514,5 +570,58 @@ h = """HAI
 KTHXBYE
 """
 
-g = """SMOOSH x AN x AN x AN y AN y"""
-lex_analyze(lexemeArr, h)
+g = """HAI
+    BTW variable dec
+    I HAS A x
+    I HAS A y
+    
+    VISIBLE "x:" WIN ", y:" WIN
+    x R WIN
+    y R WIN
+
+    VISIBLE BOTH OF x AN y
+    VISIBLE EITHER OF x AN y
+    VISIBLE WON OF x AN y
+    VISIBLE NOT x
+    VISIBLE ALL OF x AN x AN x AN y MKAY
+    VISIBLE ANY OF y AN y AN y AN 0 MKAY
+    VISIBLE ANY OF BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y MKAY
+    VISIBLE BOTH OF x AN EITHER OF NOT x AN y
+
+    VISIBLE "x:" FAIL ", y:" WIN
+    x R FAIL
+
+    VISIBLE BOTH OF x AN y
+    VISIBLE EITHER OF x AN y
+    VISIBLE WON OF x AN y
+    VISIBLE NOT x
+    VISIBLE ALL OF x AN x AN x AN y MKAY
+    VISIBLE ANY OF y AN y AN y AN 0 MKAY
+    
+    VISIBLE BOTH OF x AN EITHER OF NOT x AN y
+
+    VISIBLE "x:" FAIL ", y:" FAIL
+    y R FAIL
+
+    VISIBLE BOTH OF x AN y
+    VISIBLE EITHER OF x AN y
+    VISIBLE WON OF x AN y
+    VISIBLE NOT x
+    VISIBLE ALL OF x AN x AN x AN y MKAY
+    VISIBLE ANY OF y AN y AN y AN 0 MKAY
+    VISIBLE ANY OF BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y MKAY
+    VISIBLE BOTH OF x AN EITHER OF NOT x AN y
+KTHXBYE
+
+"""
+
+x = """ANY OF BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y MKAY"""
+# BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y
+# BOTH OF x AN EITHER OF x AN y AN y AN NOT y
+# BOTH OF x AN EITHER OF x AN y AN y AN y
+lex_analyze(lexemeArr, g)
+
+# VISIBLE x "-" y " = " DIFF OF x AN y
+#     VISIBLE x "*" y " = " PRODUKT OF x AN y
+#     VISIBLE x "/" y " = " QUOSHUNT OF x AN y
+#     VISIBLE x "%" y " = " MOD OF x AN y
