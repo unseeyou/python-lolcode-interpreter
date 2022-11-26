@@ -15,14 +15,15 @@ def grab_identifiers(symbolTable):
 
 
 # function that checks if identifier already exists. If not, append. If existing, update the symbol table
-def insertToTable(testing_list, symbolTable, index, new_identifier, new_value):
+def insertToTable(testing_list, symbolTable, index, data_type, new_identifier, new_value):
     if new_identifier not in grab_identifiers(symbolTable):
-        symbolTable.append([testing_list[index+1][0], new_value])
+        symbolTable.append([testing_list[index+1][0], new_value, data_type])
     else:
         dupIndex = grab_identifiers(symbolTable).index(
             testing_list[index+1][0])
         del symbolTable[dupIndex]
-        symbolTable.insert(dupIndex, [testing_list[index+1][0], new_value])
+        symbolTable.insert(
+            dupIndex, [testing_list[index+1][0], new_value, data_type])
 
 
 def grab_symbol_table(lexemeArr):
@@ -39,10 +40,10 @@ def grab_symbol_table(lexemeArr):
                 if (index + 2) < len(testing_list):
                     if testing_list[index+2][0] != "ITZ":
                         insertToTable(testing_list, symbolTable,
-                                      index, testing_list[index+1][0], "")
+                                      index, "NOOB", testing_list[index+1][0], "")
                 elif (index + 2) == len(testing_list):
                     insertToTable(testing_list, symbolTable,
-                                  index, testing_list[index+1][0], "")
+                                  index, "NOOB", testing_list[index+1][0], "")
 
         # Variable initialization (Case 1.1: Literal is NUMBR, NUMBAR, TROOF)
         if (i[0] == "I HAS A" and (index+3) < len(testing_list)):
@@ -50,13 +51,12 @@ def grab_symbol_table(lexemeArr):
                 if testing_list[index+3][1] in ["NUMBR Literal", "NUMBAR Literal", "TROOF Literal"]:
                     #del testing_list[index:(index+2)]
                     insertToTable(testing_list, symbolTable,
-                                  index, testing_list[index+1][0], testing_list[index+3][0])
+                                  index, testing_list[index+3][1], testing_list[index+1][0], testing_list[index+3][0])
         # Variable initialization (Case 1.2: YARN Literal)
         if (i[0] == "I HAS A" and (index+5) < len(testing_list)):
             if (testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] == "ITZ"):
-                # Case 1.2: Literal is YARN
                 if testing_list[index+3][1] == "String Delimiter" and testing_list[index+4][1] == "YARN Literal" and testing_list[index+5][1] == "String Delimiter":
-                    insertToTable(testing_list, symbolTable, index,
+                    insertToTable(testing_list, symbolTable, index, testing_list[index+1][1],
                                   testing_list[index+1][0], testing_list[index+4][0])
 
     for i in symbolTable:
