@@ -13,6 +13,21 @@ from tkinter import ttk
 import os
 desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop') 
 
+def fix_obtw(lexemeArr):
+    while(True):
+        change = False
+        index = 0
+        
+        for i in lexemeArr:
+            #Chunky parts
+            if(i[1] == "comment" and (index+2)<len(lexemeArr)):
+                if(lexemeArr[index+1][1] == "linebreak" and lexemeArr[index+2][1] == "linebreak"):
+                    del lexemeArr[(index+1):(index+3)]
+                    lexemeArr.insert((index+1), ["<linebreak>", "linebreak"])
+            index += 1
+
+        break
+
 def lex_analyze(lexemeArr):
     lexemeArr.clear()
 
@@ -25,9 +40,17 @@ def lex_analyze(lexemeArr):
             lines2.append(line.strip())    
 
     for i in range(0, len(lines2)):
+        alreadyBlank = False
+        if(lines2[i] == ""):
+            alreadyBlank = True
+        
         while(lines2[i] != ''):
             grab_lexeme.get_lexemes(lexemeArr, lines2, lines2[i], i)
-
+        
+        if(alreadyBlank == False):
+            lexemeArr.append(["<linebreak>", "linebreak"])
+        
+    fix_obtw(lexemeArr)
     # for i in lexemeArr:
     #     print(i)
 

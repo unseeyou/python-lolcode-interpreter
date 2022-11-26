@@ -1,6 +1,8 @@
 import re
 
 def get_lexemes(lexemeArr, lines, line, index):
+    
+    
     if(len(re.findall(".+OBTW", line)) != 0):
         lexeme_info = [line, "Invalid"]
         lexemeArr.append(lexeme_info)
@@ -155,6 +157,7 @@ def get_lexemes(lexemeArr, lines, line, index):
         new = line[num_exact:len(line)].strip()
         if(new != ""):
             lexemeArr.append([new, "comment"])
+        lexemeArr.append(["<linebreak>", "linebreak"])
         
         
         index2 = index+1
@@ -162,6 +165,7 @@ def get_lexemes(lexemeArr, lines, line, index):
             lexemeArr.append([lines[index2], "comment"])
             lines.remove(lines[index2])
             lines.insert(index2, "")
+            lexemeArr.append(["<linebreak>", "linebreak"])
             index2 += 1
         
         # comment = new.strip() + "\n"

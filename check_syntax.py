@@ -6,7 +6,7 @@ def check_syntax(lexemeArr):
     testing_list = []
 
     for i in lexemeArr:
-        # print(i)
+        print(i)
         testing_list.append(i)
 
     # for i in testing_list:
@@ -108,8 +108,8 @@ def check_syntax(lexemeArr):
             print("Phase 1 Complete (No Statement Introduction)") 
             break
 
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
 
 
     # ---------------------------------------            
@@ -324,8 +324,8 @@ def check_syntax(lexemeArr):
             print("Phase 2.5 WAHHHHHHHHHHHHHHHHH") 
             break
     
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
 
     # ---------------------------------------            
     while(True):
@@ -354,8 +354,8 @@ def check_syntax(lexemeArr):
             print("Phase 2.6 WAHHHHHHHHHHHHHHHHH") 
             break
     
-    for i in testing_list:
-        print(i)
+    # for i in testing_list:
+    #     print(i)
 
 
     # ---------------------------------------            
@@ -392,22 +392,35 @@ def check_syntax(lexemeArr):
                     change = True
                     print(True)
 
-                    for i in testing_list:
-                        print(i)
+                    # for i in testing_list:
+                    #     print(i)
                     return(True)
             index += 1
 
         if(change == False):
             
             print("Phase 3 Complete (finishing touches)")
-            for i in testing_list:
-                print(i)
+            # for i in testing_list:
+            #     print(i)
             
             print(False) 
             return(False)
             break
 
+def fix_obtw(lexemeArr):
+    while(True):
+        change = False
+        index = 0
+        
+        for i in lexemeArr:
+            #Chunky parts
+            if(i[1] == "comment" and (index+2)<len(lexemeArr)):
+                if(lexemeArr[index+1][1] == "linebreak" and lexemeArr[index+2][1] == "linebreak"):
+                    del lexemeArr[(index+1):(index+3)]
+                    lexemeArr.insert((index+1), ["<linebreak>", "linebreak"])
+            index += 1
 
+        break
 
 
 
@@ -423,201 +436,30 @@ def lex_analyze(lexemeArr, the_long_string):
             lines2.append(line.strip())    
 
     for i in range(0, len(lines2)):
+        alreadyBlank = False
+        if(lines2[i] == ""):
+            alreadyBlank = True
+        
         while(lines2[i] != ''):
             grab_lexeme.get_lexemes(lexemeArr, lines2, lines2[i], i)
-    
+        if(alreadyBlank == False):
+            lexemeArr.append(["<linebreak>", "linebreak"])
+
+    fix_obtw(lexemeArr)
     # for i in lexemeArr:
     #     print(i)
 
     check_syntax(lexemeArr)
 
-x = """HAI
-
-	I HAS A choice
-	I HAS A input
-
-	BTW if w/o MEBBE, 1 only, everything else is invalid
-	VISIBLE "1. Compute age"
-	VISIBLE "2. Compute tip"
-	VISIBLE "3. Compute square area"
-	VISIBLE "0. Exit"
-
-	VISIBLE "Choice: "
-	GIMMEH choice
-
-	BOTH SAEM choice AN 1
-	O RLY?
-		YA RLY
-			VISIBLE "Enter birth year: "
-			GIMMEH input
-			VISIBLE DIFF OF 2022 AN input
+g = """
 OBTW
-	BTW uncomment this portion if you have MEBBE
-	BTW else, this portion should be ignored
-
-		MEBBE BOTH SAEM choice AN 2
-			VISIBLE "Enter bill cost: "
-			GIMMEH input
-			VISIBLE "Tip: " PRODUCKT OF input AN 0.1
-		MEBBE BOTH SAEM choice AN 3
-			VISIBLE "Enter width: "
-			GIMMEH input
-			VISIBLE "Square Area: " PRODUCKT OF input AN input
-		MEBBE BOTH SAEM choice AN 0
-			VISIBLE "Goodbye"
-TLDR
-		NO WAI
-			VISIBLE "Invalid Input!"
-	OIC
-
-	DIFFRINT BIGGR OF 3 AN choice AN 3
-	O RLY?
-		YA RLY
-			VISIBLE "Invalid input is > 3."
-	OIC
-
-KTHXBYE"""
+a
+b
+c
+d
+e
+f
+x TLDR"""
 
 
-y = """BOTH SAEM choice AN 1
-	O RLY?
-		YA RLY
-			I HAS A monde
-			GIMMEH input
-			VISIBLE DIFF OF 2022 AN input"""
-
-z = "SMOOSH monde AN \"bruh\" AN 123"
-a = "ANY OF NOT x AN BOTH OF y AN z AN EITHER OF x AN y MKAY"
-b = "BOTH SAEM x AN BIGGR OF x AN y"
-c = "MAEK var1 YARN"
-d = """O RLY?
-		YA RLY
-			VISIBLE "Enter birth year: "
-            bruh R bruh
-        NO WAI
-            VISIBLE bruh
-	OIC
-    I HAS A MONDE
-    I HAS A MONDE
-    I HAS A MONDE
-    I HAS A MONDE
-    I HAS A MONDE"""
-e = """GIMMEH bruh
-GIMMEH bruh
-GIMMEH bruh
-GIMMEH bruh
-GIMMEH bruh
-SUM OF x AN Y
-SUM OF x AN Y
-SUM OF x AN Y
-SUM OF x AN Y
-I HAS A MONDE
-KTHXBYE"""
-
-f = """WTF?
-		OMG 1
-			VISIBLE "Enter birth year: " SMOOSH x AN x AN x AN y AN y
-			bruh R SMOOSH x AN x AN x AN y AN y
-            GIMMEH input
-			VISIBLE DIFF OF 2022 AN input
-			GTFO
-		OMG 2
-			VISIBLE "Enter bill cost: "
-			GIMMEH input
-			VISIBLE "Tip: " PRODUKT OF input AN 0.1
-			GTFO
-		OMG 3
-			VISIBLE "Enter width: "
-			GIMMEH input
-			VISIBLE "Square Area: " PRODUKT OF input AN input
-            bruh IS NOW A NUMBR
-			GTFO
-            SMOOSH x AN x AN x AN y AN y
-		OMG 0
-			VISIBLE "Goodbye"
-		OMGWTF
-			VISIBLE "Invalid Input!"
-	OIC"""
-
-
-
-h = """HAI
-    BTW variable dec
-    I HAS A x
-    I HAS A y
-    
-    VISIBLE "Hello! Please enter two strings:"
-    VISIBLE "String 1: "
-    GIMMEH x
-    VISIBLE "String 2: "
-    GIMMEH y
-
-    VISIBLE SMOOSH x AN y
-
-    VISIBLE SMOOSH x AN x AN x AN y AN y
-
-    x R SMOOSH x AN y
-    y R 100
-    VISIBLE x AN 52615 AN y AN MOD OF 10 AN 6 AN "End!"
-
-    VISIBLE 10 AN y
-    y IS NOW A NUMBAR
-    VISIBLE 10 AN y
-
-    y R 0
-    y R MAEK y TROOF
-    VISIBLE y
-KTHXBYE
-"""
-
-g = """HAI
-
-	I HAS A choice
-	I HAS A input
-
-	BTW if w/o MEBBE, 1 only, everything else is invalid
-	VISIBLE "1. Compute age"
-	VISIBLE "2. Compute tip"
-	VISIBLE "3. Compute square area"
-	VISIBLE "0. Exit"
-
-	VISIBLE "Choice: "
-	GIMMEH choice
-
-	choice
-	WTF?
-		OMG 1
-			VISIBLE "Enter birth year: "
-			GIMMEH input
-			VISIBLE DIFF OF 2022 AN input
-			GTFO
-		OMG 2
-			VISIBLE "Enter bill cost: "
-			GIMMEH input
-			VISIBLE "Tip: " PRODUCKT OF input AN 0.1
-			GTFO
-		OMG 3
-			VISIBLE "Enter width: "
-			GIMMEH input
-			VISIBLE "Square Area: " PRODUCKT OF input AN input
-			GTFO
-		OMG 0
-			VISIBLE "Goodbye"
-		OMGWTF
-			VISIBLE "Invalid Input!"
-	OIC
-
-KTHXBYE
-
-"""
-
-x = """ANY OF BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y MKAY"""
-# BOTH OF x AN EITHER OF NOT x AN y AN y AN NOT y
-# BOTH OF x AN EITHER OF x AN y AN y AN NOT y
-# BOTH OF x AN EITHER OF x AN y AN y AN y
 lex_analyze(lexemeArr, g)
-
-# VISIBLE x "-" y " = " DIFF OF x AN y
-#     VISIBLE x "*" y " = " PRODUKT OF x AN y
-#     VISIBLE x "/" y " = " QUOSHUNT OF x AN y
-#     VISIBLE x "%" y " = " MOD OF x AN y
