@@ -6,7 +6,7 @@ def check_syntax(lexemeArr):
     testing_list = []
 
     for i in lexemeArr:
-        print(i)
+        # print(i)
         testing_list.append(i)
 
     # for i in testing_list:
@@ -98,6 +98,17 @@ def check_syntax(lexemeArr):
                 del testing_list[index]
                 change = True
 
+            #Linebreak
+            if(i[1] == "linebreak"):
+                del testing_list[index]
+                testing_list.insert(index, "linebreak")
+                change = True
+            if(i == "linebreak" and (index+1)<len(testing_list)):
+                if(testing_list[index+1] == "linebreak"):
+                    del testing_list[index:(index+2)]
+                    testing_list.insert(index, "linebreak")
+                    change = True
+
             #Invalid
             if(i[1] == "Invalid"):
                 print("Invalid Syntax")
@@ -185,8 +196,7 @@ def check_syntax(lexemeArr):
                     testing_list.insert(index, "expr")
                     change = True
             # print("------------------------------------")
-            # for i in testing_list:
-            #     print(i)
+            
             
             
             
@@ -195,28 +205,11 @@ def check_syntax(lexemeArr):
 
         if(change == False):
             print("Phase 2 Complete (Loops and other big structs)") 
+            # for i in testing_list:
+            #     print(i)
             break
+        
     
-    # for i in testing_list:
-    #     print(i)
-    
-    # while(True):
-    #     change = False
-    #     index = 0
-
-    #     for i in testing_list:
-    #         if(i == "boolop"):
-    #             del testing_list[index]
-    #             testing_list.insert(index, "expr")
-    #             change = True
-    #         index += 1
-
-    #     if(change == False):
-    #         print("Phase 2.4 WAHHHHHHHHHHHHHHHHH") 
-    #         break
-    
-    # for i in testing_list:
-    #     print(i)
     
     # ---------------------------------------            
     while(True):
@@ -269,6 +262,7 @@ def check_syntax(lexemeArr):
                     del testing_list[index:(index+6)]
                     testing_list.insert(index, "ifelse")
                     change = True
+            
             #Switch-case statements
             if(i[0] == "OMG" and (index+1)<len(testing_list)):
                 if(testing_list[index+1] == "literal"):
@@ -321,11 +315,12 @@ def check_syntax(lexemeArr):
             index += 1
 
         if(change == False):
-            print("Phase 2.5 WAHHHHHHHHHHHHHHHHH") 
+            print("Phase 3 WAHHHHHHHHHHHHHHHHH") 
+            # for i in testing_list:
+            #     print(i)
             break
     
-    # for i in testing_list:
-    #     print(i)
+    
 
     # ---------------------------------------            
     while(True):
@@ -351,12 +346,11 @@ def check_syntax(lexemeArr):
             index += 1
 
         if(change == False):
-            print("Phase 2.6 WAHHHHHHHHHHHHHHHHH") 
+            print("Phase 4 WAHHHHHHHHHHHHHHHHH") 
+            # for i in testing_list:
+            #     print(i)
             break
     
-    # for i in testing_list:
-    #     print(i)
-
 
     # ---------------------------------------            
     
@@ -371,9 +365,13 @@ def check_syntax(lexemeArr):
         
         for i in testing_list:
             #Chunky parts
-            if(i == "statement" and (index+1) < len(testing_list)):
-                if(testing_list[index+1] == "statement"):
-                    del testing_list[index:(index+2)]
+            if(i=="linebreak" and (index+1)<len(testing_list)):
+                if(testing_list[index+1][0] == "HAI"):
+                    del testing_list[index]
+                    change = True
+            if(i == "statement" and (index+2) < len(testing_list)):
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] == "statement"):
+                    del testing_list[index:(index+3)]
                     testing_list.insert(index, "statement")
                     change=True
             if(i in ["varinit", "statement2"]):
@@ -385,9 +383,9 @@ def check_syntax(lexemeArr):
                 testing_list.insert(index, "statement2")
                 change = True
             
-            if(i[0] == "HAI" and len(testing_list) == 3):
-                if(testing_list[index+1] == "statement" and testing_list[index+2][0] == "KTHXBYE"):
-                    del testing_list[index:(index+3)]
+            if(i[0] == "HAI" and len(testing_list) == 6):
+                if(testing_list[index+1] == "linebreak" and testing_list[index+2] == "statement" and testing_list[index+3] == "linebreak" and testing_list[index+4][0] == "KTHXBYE" and testing_list[index+5] == "linebreak"):
+                    del testing_list[index:(index+7)]
                     testing_list.insert(index, "program")
                     change = True
                     print(True)
@@ -399,9 +397,9 @@ def check_syntax(lexemeArr):
 
         if(change == False):
             
-            print("Phase 3 Complete (finishing touches)")
-            # for i in testing_list:
-            #     print(i)
+            print("Phase 5 Complete (finishing touches)")
+            for i in testing_list:
+                print(i)
             
             print(False) 
             return(False)
@@ -451,15 +449,15 @@ def lex_analyze(lexemeArr, the_long_string):
 
     check_syntax(lexemeArr)
 
-g = """
-OBTW
-a
-b
-c
-d
-e
-f
-x TLDR"""
+g = """O RLY?
+		YA RLY
+			VISIBLE "Enter birth year: "
+			GIMMEH input
+			VISIBLE DIFF OF 2022 AN input
+
+		NO WAI
+			VISIBLE "Invalid Input!"
+	OIC"""
 
 
 lex_analyze(lexemeArr, g)
