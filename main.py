@@ -37,10 +37,10 @@ def lex_analyze(lexemeArr):
     for i in lexemeArr:
         lexeme_table.insert("", 'end', text="1", values=i)
 
-    # if(check_syntax.check_syntax(lexemeArr)):
-    #     output.insert("end", "WIN\n")
-    # else:
-    #     output.insert("end", "FAIL\n")
+    if(check_syntax.check_syntax(lexemeArr)):
+        output.insert("end", "WIN\n")
+    else:
+        output.insert("end", "FAIL\n")
 
 
 
