@@ -58,6 +58,7 @@ def lex_analyze(lexemeArr):
             lexemeArr.append(["<linebreak>", "linebreak"])
 
     fix_obtw(lexemeArr)
+
     # for i in lexemeArr:
     #     print(i)
 
@@ -86,7 +87,7 @@ def lex_analyze(lexemeArr):
     # display print outs
     if len(outputArr) != 0:
         for i in outputArr:
-            output.insert("end", i + "\n")
+            output.insert("end", str(i) + "\n")
 
     # display prompt if there are syntax errors
     if (check_syntax.check_syntax(lexemeArr)):
