@@ -2,7 +2,6 @@ import re
 
 def get_lexemes(lexemeArr, lines, line, index):
     
-    
     if(len(re.findall(".+OBTW", line)) != 0):
         lexeme_info = [line, "Invalid"]
         lexemeArr.append(lexeme_info)

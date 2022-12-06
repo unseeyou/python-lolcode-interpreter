@@ -13,17 +13,18 @@ def grab_identifiers(symbolTable):
 
     return identifiers
 
-
 # function that checks if identifier already exists. If not, append. If existing, update the symbol table
+
+
 def insertToTable(testing_list, symbolTable, index, data_type, new_identifier, new_value):
     if new_identifier not in grab_identifiers(symbolTable):
-        symbolTable.append([testing_list[index+1][0], new_value, data_type])
+        symbolTable.append([new_identifier, new_value, data_type])
     else:
         dupIndex = grab_identifiers(symbolTable).index(
-            testing_list[index+1][0])
+            new_identifier)
         del symbolTable[dupIndex]
         symbolTable.insert(
-            dupIndex, [testing_list[index+1][0], new_value, data_type])
+            dupIndex, [new_identifier, new_value, data_type])
 
 # function that
 
@@ -43,7 +44,8 @@ def findValue(symbolTable, identifier):
 
 def grab_symbol_table(lexemeArr):
     testing_list = []
-    hasError = False
+    error_prompt = ""  # variale to be replaced with the error encountered
+    output_arr = []  # arr to hold all the strings to be output in terminal
 
     for i in lexemeArr:
         testing_list.append(i)
@@ -55,10 +57,10 @@ def grab_symbol_table(lexemeArr):
                 if (index + 2) < len(testing_list):
                     if testing_list[index+2][0] != "ITZ":
                         insertToTable(testing_list, symbolTable,
-                                      index, "NOOB", testing_list[index+1][0], "")
+                                      index, "NOOB", testing_list[index+1][0], "NOOB")
                 elif (index + 2) == len(testing_list):
                     insertToTable(testing_list, symbolTable,
-                                  index, "NOOB", testing_list[index+1][0], "")
+                                  index, "NOOB", testing_list[index+1][0], "NOOB")
 
         # Variable assignment (Case 1.1: Literal is NUMBR, NUMBAR, TROOF)
         if (i[0] == "I HAS A" and (index+3) < len(testing_list)):
@@ -72,7 +74,7 @@ def grab_symbol_table(lexemeArr):
                 if testing_list[index+3][1] == "String Delimiter" and testing_list[index+4][1] == "YARN Literal" and testing_list[index+5][1] == "String Delimiter":
                     insertToTable(testing_list, symbolTable, index, testing_list[index+1][1],
                                   testing_list[index+1][0], testing_list[index+4][0])
-    # Variable assignment (Case 1.3: Var Identifier)
+        # Variable assignment (Case 1.3: Var Identifier)
         if (i[0] == "I HAS A" and (index+3) < len(testing_list)):
             if (testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] == "ITZ") and testing_list[index+3][1] == "Variable Identifier":
                 new_value = findValue(symbolTable, testing_list[index+3][0])
@@ -81,13 +83,38 @@ def grab_symbol_table(lexemeArr):
                     insertToTable(testing_list, symbolTable, index, new_value[1],
                                   testing_list[index+1][0], new_value[0])
                 else:
-                    return [False, symbolTable]
+                    error_prompt = "SemanticsError: variable identifier \'" + \
+                        testing_list[index+3][0] + "\' is not defined"
+                    return [False, error_prompt, symbolTable, output_arr]
 
-    #CONTINUE: Visible
+        # Visible for YARN Literal
+        if i[0] == "VISIBLE" and (index+3) < len(testing_list):
+            if testing_list[index+1][1] == "String Delimiter" and testing_list[index+2][1] == "YARN Literal" and testing_list[index+3][1] == "String Delimiter":
+                insertToTable(testing_list, symbolTable, index,
+                              'temp', 'IT', testing_list[index+2][0])
+
+                # add output in terminal format
+                output_arr.append(testing_list[index+2][0])
+
+        # Variable Case 1.1: VISIBLE varident format
+        if i[0] == "VISIBLE" and (index+1) < len(testing_list):
+            if testing_list[index+1][1] == "Variable Identifier":
+                new_value = findValue(symbolTable, testing_list[index+1][0])
+
+                if new_value != False:
+                    insertToTable(testing_list, symbolTable, index, new_value[1],
+                                  "IT", new_value[0])
+
+                    output_arr.append(new_value[0])
+                else:  # if variable is not initialized
+                    error_prompt = "SemanticsError: variable identifier \'" + \
+                        testing_list[index+1][0] + "\' is not defined"
+                    return [False, error_prompt, symbolTable, output_arr]
+
     for i in symbolTable:
         print(i)
 
-    return [True, symbolTable]
+    return [True, error_prompt, symbolTable, output_arr]
 
 
 def lex_analyze(lexemeArr, the_long_string):
@@ -118,7 +145,7 @@ g = """HAI
     I HAS A flag ITZ WIN
     I HAS A dup ITZ num
 
-    
+
 
 KTHXBYE"""
 h = """HAI

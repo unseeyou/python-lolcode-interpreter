@@ -15,6 +15,10 @@ import os
 desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
 
 
+def get_output():
+    return output
+
+
 def fix_obtw(lexemeArr):
     while (True):
         change = False
@@ -63,18 +67,15 @@ def lex_analyze(lexemeArr):
     for i in lexemeArr:
         lexeme_table.insert("", 'end', text="1", values=i)
 
-    if (check_syntax.check_syntax(lexemeArr)):
-        output.insert("end", "WIN\n")
-    else:
-        output.insert("end", "FAIL\n")
-
     # grab_symbol_table returns [True, symbolTable] if no semantic errors
     # returns [False, symbolTable] if a semantic error is encountered. The symbol table generated before the semantic error is encountered will be displayed.
 
     symbolTableResults = check_semantics.grab_symbol_table(lexemeArr)
     isSemanticallyCorrect = symbolTableResults[0]
+    error = symbolTableResults[1]
     symbolTable = []
-    symbolTable = symbolTableResults[1]
+    symbolTable = symbolTableResults[2]
+    outputArr = symbolTableResults[3]
 
     for item in symbol_table.get_children():
         symbol_table.delete(item)
@@ -82,10 +83,22 @@ def lex_analyze(lexemeArr):
     for i in symbolTable:
         symbol_table.insert("", 'end', text="1", values=i)
 
-    if isSemanticallyCorrect:
-        output.insert("end", "No semantic errors encountered\n")
+    # display print outs
+    if len(outputArr) != 0:
+        for i in outputArr:
+            output.insert("end", i + "\n")
+
+    # display prompt if there are syntax errors
+    if (check_syntax.check_syntax(lexemeArr)):
+        output.insert("end", "[SYNTAX] No errors.\n")
     else:
-        output.insert("end", "A semantic error is encountered.\n")
+        output.insert("end", "[SYNTAX] An error is encountered.\n")
+
+    # display prompt if there are semantics errors
+    if isSemanticallyCorrect:
+        output.insert("end", "[SEMANTICS] No errors.\n")
+    else:
+        output.insert("end", error)
 
 
 def browseFiles():
