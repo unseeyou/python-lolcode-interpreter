@@ -94,11 +94,12 @@ def typecast_compute(value1, type1, value2, type2, op):
     elif op == "PRODUKT OF":
         return [value1 * value2, result_type]
     elif op == "QUOSHUNT OF":
-        if result_type == "NUMBR Literal":
-            final_value = value1 / value2
-            return [int(final_value), result_type]
-        else:
-            return [value1 / value2, result_type]   #NOTE: To add: Shift data type to NUMBAR if result has decimals
+        # if result_type == "NUMBR Literal":
+        #     final_value = value1 / value2
+        #     return [int(final_value), result_type]
+        # else:
+        #     # NOTE: To add: Shift data type to NUMBAR if result has decimals
+        return [value1 / value2, result_type]
     elif op == "MOD OF":
         return [value1 % value2, result_type]
     elif op == "BIGGR OF":
@@ -160,8 +161,8 @@ def grab_symbol_table(lexemeArr):
 
         # Variable assignment (Case 1.4: Simple Expression)
         if (i[0] == "I HAS A" and (index+5) < len(testing_list)):
-            # Case 1: OPERATIONN literal AN literal
             if (testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] == "ITZ" and testing_list[index+3][0] in arithmetic_op):
+                # Case 1: OPERATION literal AN literal
                 if testing_list[index+4][1] in typecast_elig and testing_list[index+5][0] == "AN" and testing_list[index+6][1] in typecast_elig:
                     result = typecast_compute(testing_list[index+4][0], testing_list[index+4][1],
                                               testing_list[index+6][0], testing_list[index+6][1], testing_list[index+3][0])
@@ -169,8 +170,23 @@ def grab_symbol_table(lexemeArr):
                     result_type = result[1]
                     insertToTable(testing_list, symbolTable, index, result_type,
                                   testing_list[index+1][0], result_value)
+                # Case 2: OPERATION varident AN literal
+                if testing_list[index+4][1] in "Variable Identifier" and testing_list[index+5][0] == "AN" and testing_list[index+6][1] in typecast_elig:
 
-                    # print_symbolTable(symbolTable)
+                    new_value = findValue(
+                        symbolTable, testing_list[index+4][0])
+
+                    if new_value != False:  # if variable is initialized
+                        result = typecast_compute(new_value[0], new_value[1],
+                                                  testing_list[index+6][0], testing_list[index+6][1], testing_list[index+3][0])
+                        result_value = result[0]
+                        result_type = result[1]
+                        insertToTable(testing_list, symbolTable, index, result_type,
+                                      testing_list[index+1][0], result_value)
+                    else:
+                        error_prompt = "SemanticsError: variable identifier \'" + \
+                            testing_list[index+4][0] + "\' is not defined"
+                        return [False, error_prompt, symbolTable, output_arr]
 
             # Case 2: OPERATION varident AN literal
             # Case 3: OPERATION literal AN varident
