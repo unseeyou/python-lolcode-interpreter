@@ -188,9 +188,45 @@ def grab_symbol_table(lexemeArr):
                             testing_list[index+4][0] + "\' is not defined"
                         return [False, error_prompt, symbolTable, output_arr]
 
-            # Case 2: OPERATION varident AN literal
-            # Case 3: OPERATION literal AN varident
-            # Case 3: OPERATION varident AN varident
+                # Case 3: OPERATION literal AN varident
+                if testing_list[index+4][1] in typecast_elig and testing_list[index+5][0] == "AN" and testing_list[index+6][1] == "Variable Identifier":
+                    new_value = findValue(
+                        symbolTable, testing_list[index+6][0])
+
+                    if new_value != False:  # if variable is initialized
+                        result = typecast_compute(
+                            testing_list[index+4][0], testing_list[index+4][1], new_value[0], new_value[1], testing_list[index+3][0])
+                        result_value = result[0]
+                        result_type = result[1]
+                        insertToTable(testing_list, symbolTable, index, result_type,
+                                      testing_list[index+1][0], result_value)
+                    else:
+                        error_prompt = "SemanticsError: variable identifier \'" + \
+                            testing_list[index+4][0] + "\' is not defined"
+                        return [False, error_prompt, symbolTable, output_arr]
+                # Case 3: OPERATION varident AN varident
+                if testing_list[index+4][1] == "Variable Identifier" and testing_list[index+5][0] == "AN" and testing_list[index+6][1] == "Variable Identifier":
+                    print("HEre")
+                    new_value1 = findValue(
+                        symbolTable, testing_list[index+4][0])
+                    new_value2 = findValue(
+                        symbolTable, testing_list[index+6][0])
+
+                    if new_value1 != False and new_value2 != False:  # if variable is initialized
+                        result = typecast_compute(
+                            new_value1[0], new_value1[1], new_value2[0], new_value2[1], testing_list[index+3][0])
+                        result_value = result[0]
+                        result_type = result[1]
+                        insertToTable(testing_list, symbolTable, index, result_type,
+                                      testing_list[index+1][0], result_value)
+                    elif new_value1 == False:
+                        error_prompt = "SemanticsError: variable identifier \'" + \
+                            testing_list[index+4][0] + "\' is not defined"
+                        return [False, error_prompt, symbolTable, output_arr]
+                    elif new_value2 == False:
+                        error_prompt = "SemanticsError: variable identifier \'" + \
+                            testing_list[index+6][0] + "\' is not defined"
+                        return [False, error_prompt, symbolTable, output_arr]
 
         # Variable assignment (Case 1.5: Compex Expression)
 
