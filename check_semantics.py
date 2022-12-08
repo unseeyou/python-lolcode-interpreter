@@ -24,6 +24,7 @@ def grab_identifiers(symbolTable):
 
 
 def insertToTable(testing_list, symbolTable, index, data_type, new_identifier, new_value):
+    print(new_identifier)
     if new_identifier not in grab_identifiers(symbolTable):
         symbolTable.append([new_identifier, new_value, data_type])
     else:
@@ -206,7 +207,6 @@ def grab_symbol_table(lexemeArr):
                         return [False, error_prompt, symbolTable, output_arr]
                 # Case 3: OPERATION varident AN varident
                 if testing_list[index+4][1] == "Variable Identifier" and testing_list[index+5][0] == "AN" and testing_list[index+6][1] == "Variable Identifier":
-                    print("HEre")
                     new_value1 = findValue(
                         symbolTable, testing_list[index+4][0])
                     new_value2 = findValue(
@@ -228,9 +228,45 @@ def grab_symbol_table(lexemeArr):
                             testing_list[index+6][0] + "\' is not defined"
                         return [False, error_prompt, symbolTable, output_arr]
 
-        # Variable assignment (Case 1.5: Compex Expression)
+        # Variable assignment (Case 1.5: Complex Expression)
 
-        # Visible for YARN Literal
+        # Assignment Statement R
+        if testing_list[index][1] == "Variable Identifier" and testing_list[index + 1][0] == "R":
+            # Case 1: Literal
+
+            if testing_list[index + 2][1] in typecast_elig:
+                new_value = findValue(symbolTable, testing_list[index][0])
+                if new_value != False:
+                    insertToTable(testing_list, symbolTable, index, testing_list[index + 2][1],
+                                  testing_list[index][0], testing_list[index + 2][0])
+
+                else:  # if variable is not initialized
+                    error_prompt = "SemanticsError: variable identifier \'" + \
+                        testing_list[index][0] + "\' is not defined"
+                    return [False, error_prompt, symbolTable, output_arr]
+            # Case 2: Variable
+            if testing_list[index + 2][1] == "Variable Identifier":
+                # check receiving variable
+                new_value1 = findValue(symbolTable, testing_list[index][0])
+                new_value2 = findValue(
+                    symbolTable, testing_list[index+2][0])  # check right side
+
+                if new_value1 != False and new_value2 != False:
+                    insertToTable(testing_list, symbolTable, index, new_value2[1],
+                                  testing_list[index][0], new_value2[0])
+                    print_symbolTable(symbolTable)
+
+                elif new_value1 != False:
+                    error_prompt = "SemanticsError: variable identifier \'" + \
+                        testing_list[index][0] + "\' is not defined"
+                    return [False, error_prompt, symbolTable, output_arr]
+                elif new_value2 != False:  # if variable is not initialized
+                    error_prompt = "SemanticsError: variable identifier \'" + \
+                        testing_list[index+2][0] + "\' is not defined"
+                    return [False, error_prompt, symbolTable, output_arr]
+            # Case 3: Expression
+
+        # Visible for YARN Literal`````````````````
         if i[0] == "VISIBLE" and (index+3) < len(testing_list):
             if testing_list[index+1][1] == "String Delimiter" and testing_list[index+2][1] == "YARN Literal" and testing_list[index+3][1] == "String Delimiter":
                 insertToTable(testing_list, symbolTable, index,
@@ -276,6 +312,13 @@ def lex_analyze(lexemeArr, the_long_string):
 
 # temp: test cases
 k = "HAI I HAS A monde KTHXBYE"
+n = '''HAI
+I HAS A var ITZ 11
+I HAS A var1 ITZ 10
+var1 R var
+
+KTHXBYE
+'''
 g = """HAI
     I HAS A monde
     I HAS A num ITZ 17
@@ -302,4 +345,4 @@ h = """HAI
 KTHXBYE
 """
 
-#lex_analyze(lexemeArr, g)
+# lex_analyze(lexemeArr, n)
