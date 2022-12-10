@@ -2,10 +2,9 @@ import grab_lexeme
 
 lexemeArr = []
 
-
 def check_syntax(lexemeArr):
     testing_list = []
-
+    
     for i in lexemeArr:
         # print(i)
         testing_list.append(i)

@@ -17,8 +17,10 @@ from check_semantics import get_input
 import os
 desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
 
+
 def get_output():
     return output
+
 
 def fix_obtw(lexemeArr):
     while (True):
