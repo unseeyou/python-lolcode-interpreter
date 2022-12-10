@@ -355,6 +355,33 @@ def typecast(prevVal, prevType, newType):
     return [True, newValue, newType]
 
 
+def smoosh(datatypes_arr, to_eval_list):
+    # convert non-yarn to yarn
+    for index, i in enumerate(to_eval_list):
+        if i[1] in datatypes_arr and i[1] != "YARN Literal":
+            i[0] = str(i[0])
+            i[1] = "YARN Literal"
+
+    # concatenate the expressions
+    while (True):
+        change = False
+        for index, i in enumerate(to_eval_list):
+            if i[1] == "YARN Literal" and (index + 2) < len(to_eval_list):
+                if to_eval_list[index+1][0] == "AN" and to_eval_list[index + 2][1] == "YARN Literal":
+                    newStr = i[0] + " " + to_eval_list[index + 2][0]
+
+                    del to_eval_list[index: index + 3]
+                    to_eval_list.insert(index, [newStr, "YARN Literal"])
+
+                    change = True
+
+        if change == False:
+            print("SMOOSH Phase 2")
+            break
+
+    return to_eval_list[0]
+
+
 def grab_symbol_table(lexemeArr):
     testing_list = []
     error_prompt = ""
@@ -653,8 +680,73 @@ def grab_symbol_table(lexemeArr):
                         print("-------------")
                         break
             # Case 4: VISIBLE Strings
+            if i[0] == "VISIBLE" and (index + 2) < len(testing_list):
+                if testing_list[index+1][0] == "SMOOSH" and testing_list[index+2][1] in datatypes_arr:
+                    start_index = index + 2  # evaluation from lexeme after visible until before line break
+                    j = start_index
+                    while testing_list[j][1] != 'linebreak':
+                        j = j + 1
 
-            # SMOOSH
+                    to_eval_list = testing_list[start_index: j]
+                    print("----Smoosh Expr Eval----")
+                    print(to_eval_list)
+                    print("-------------------------")
+
+                    # replace all variabes first
+                    for index, i in enumerate(to_eval_list):
+                        if i[1] == "Variable Identifier":
+                            value = findValue(
+                                symbolTable, to_eval_list[index][0])
+
+                            if value != False:
+                                del to_eval_list[index]
+                                to_eval_list.insert(index, value)
+                            else:
+                                error_prompt = "SemanticsError: variable identifier \'" + \
+                                    to_eval_list[index][0] + \
+                                    "\' is not defined"
+                                print(error_prompt)  # temp
+                                return [False, error_prompt, symbolTable, output_arr]
+
+                        # smoosh
+                        concatenated = smoosh(datatypes_arr, to_eval_list)
+                        insertInSymbolTable(symbolTable, "IT",
+                                            concatenated[0], concatenated[1])
+                        output_arr.append(concatenated[0])
+
+            # SMOOSH (Format: SMOOSH str1 AN str2 AN ... AN strN)
+            if i[0] == "SMOOSH":
+                if testing_list[index+1][1] in datatypes_arr:
+                    start_index = index + 1  # evaluation from lexeme after visible until before line break
+                    j = start_index
+                    while testing_list[j][1] != 'linebreak':
+                        j = j + 1
+
+                    to_eval_list = testing_list[start_index: j]
+                    print("----Smoosh Expr Eval----")
+                    print(to_eval_list)
+                    print("-------------------------")
+
+                    # replace all variabes first
+                    for index, i in enumerate(to_eval_list):
+                        if i[1] == "Variable Identifier":
+                            value = findValue(
+                                symbolTable, to_eval_list[index][0])
+
+                            if value != False:
+                                del to_eval_list[index]
+                                to_eval_list.insert(index, value)
+                            else:
+                                error_prompt = "SemanticsError: variable identifier \'" + \
+                                    to_eval_list[index][0] + \
+                                    "\' is not defined"
+                                print(error_prompt)  # temp
+                                return [False, error_prompt, symbolTable, output_arr]
+
+                    # smoosh
+                    concatenated = smoosh(datatypes_arr, to_eval_list)
+                    print(concatenated)
+
             # Typecasting: Explicit Typecasting
             if i[0] == "MAEK" and (index + 2) < len(testing_list):
                 if testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][1] == "TYPE Literal":
@@ -719,6 +811,7 @@ def grab_symbol_table(lexemeArr):
                         print(error_prompt)  # temp
                         return [False, error_prompt, symbolTable, output_arr]
 
+            # Case 3: var R expr
             if i[1] == "Variable Identifier" and (index + 2) < len(testing_list):
                 if testing_list[index+1][0] == "R" and testing_list[index+2][0] in operations_arr:
                     # find the index of the line break
@@ -809,6 +902,42 @@ def grab_symbol_table(lexemeArr):
                             print(testing_list)
                             print("-------------")
                             break
+
+            # Case 4: var R smoosh
+            if i[1] == "Variable Identifier" and (index + 3) < len(testing_list):
+                if testing_list[index+1][0] == "R" and testing_list[index+2][0] == "SMOOSH" and (testing_list[index+3][1] in datatypes_arr or testing_list[index+3][1] == "Variable Identifier"):
+
+                    start_index = index + 3  # evaluation from lexeme after visible until before line break
+                    j = start_index
+                    while testing_list[j][1] != 'linebreak':
+                        j = j + 1
+
+                    to_eval_list = testing_list[start_index: j]
+                    print("----Smoosh Expr Eval----")
+                    print(to_eval_list)
+                    print("-------------------------")
+
+                    # replace all variabes first
+                    for index, i in enumerate(to_eval_list):
+                        if i[1] == "Variable Identifier":
+                            value = findValue(
+                                symbolTable, to_eval_list[index][0])
+
+                            if value != False:
+                                del to_eval_list[index]
+                                to_eval_list.insert(index, value)
+                            else:
+                                error_prompt = "SemanticsError: variable identifier \'" + \
+                                    to_eval_list[index][0] + \
+                                    "\' is not defined"
+                                print(error_prompt)  # temp
+                                return [False, error_prompt, symbolTable, output_arr]
+
+                        # smoosh (CONTINUE: Find cause of extra AN)
+                        concatenated = smoosh(datatypes_arr, to_eval_list)
+                        print("ASSIGNMENT SMOOSH")
+                        insertInSymbolTable(symbolTable, i[0],
+                                            concatenated[0], concatenated[1])
 
         if (change == False):
             print("Phase 2")
