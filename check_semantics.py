@@ -3,8 +3,11 @@ import grab_lexeme
 import re
 from operator import xor
 from tkinter import simpledialog
+import copy
+import math
 
 lexemeArr = []
+
 
 def get_input(value):
     input_promt = "Input value of " + value + " :"
@@ -12,6 +15,7 @@ def get_input(value):
     if len(x) == 0:
         x = x.replace(x, "\"\"")
     return [x, "YARN Literal"]
+
 
 def print_symbolTable(symbolTable):
     for i in symbolTable:
@@ -25,6 +29,14 @@ def grab_identifiers(symbolTable):
         identifiers.append(i[0])
 
     return identifiers
+
+
+def truncate(number, digits):
+    nbDecimals = len(str(number).split('.')[1])
+    if nbDecimals <= digits:
+        return number
+    stepper = 10.0 ** digits
+    return math.trunc(stepper * number) / stepper
 
 
 def insertInSymbolTable(symbolTable, new_identifier, new_value, data_type):
@@ -275,6 +287,74 @@ def arithmetic_op(value1, type1, value2, type2, op):
         return [True, min(value1, value2), result_type]
 
 
+def typecast(prevVal, prevType, newType):
+    newType = newType.replace(newType, newType + " Literal")
+    newValue = copy.deepcopy(prevVal)
+
+    if prevType == "NUMBR Literal":
+        prevVal = int(prevVal)
+        if newType == "NUMBAR Literal":
+            newValue = float(prevVal)
+        elif newType == "TROOF Literal":
+            if prevVal == 0:
+                newValue = "FAIL"
+            else:
+                newValue = "WIN"
+        elif newType == "YARN Literal":
+            newValue = str(prevVal)
+    elif prevType == "NUMBAR Literal":
+        prevVal = float(prevVal)
+        if newType == "NUMBR Literal":
+            newValue = int(prevVal)
+        elif newType == "TROOF Literal":
+            if prevVal == 0.0:
+                newValue = "FAIL"
+            else:
+                newValue = "WIN"
+        elif newType == "YARN Literal":
+            # casting NUMBARs to YARN will truncate the decimal portion up to two decimal places.
+            return [True, truncate(prevVal, 2), newType]
+    elif prevType == "TROOF Literal":
+        if newType == "NUMBR Literal":
+            if prevVal == "FAIL":
+                return [True, 0, newType]
+            elif prevVal == "WIN":
+                return [True, 1, newType]
+        if newType == "NUMBAR Literal":
+            if prevVal == "FAIL":
+                return [True, 0, newType]
+            elif prevVal == "WIN":
+                return [True, 1.0, newType]
+        if newType == "YARN Literal":
+            return [True, prevVal, newType]
+    elif prevType == "YARN Literal":
+        if newType == "NUMBR Literal":
+            if (re.search('(^[0-9]+$)', prevVal)):
+                return [True, int(prevVal), newType]
+            elif (re.search('(^-?\d*\.(\d)+$)', prevVal)):
+                prevValFloat = float(prevVal)
+                #prevValInt = prevValFoat - (prevValFoat % 0.01)
+                return [True, int(prevValFloat), newType]
+            else:
+                error_prompt = "SemanticsError: cannot typecast " + \
+                    str(prevVal) + " to NUMBR Literal"
+                return [False, error_prompt]
+        if newType == "NUMBAR Literal":
+            if (re.search('(^-?\d*\.(\d)+$)', prevVal)) or (re.search('(^[0-9]+$)', prevVal)):
+                return [True, float(prevVal), newType]
+            else:
+                error_prompt = "SemanticsError: cannot typecast " + \
+                    str(prevVal) + " to NUMBAR Literal"
+                return [False, error_prompt]
+        if newType == "TROOF Literal":
+            if prevVal == "\"\"" or prevVal == "0":
+                return [True, "FAIL", newType]
+            else:
+                return [True, "WIN", newType]
+
+    return [True, newValue, newType]
+
+
 def grab_symbol_table(lexemeArr):
     testing_list = []
     error_prompt = ""
@@ -305,9 +385,21 @@ def grab_symbol_table(lexemeArr):
                     del testing_list[index: (index + 3)]
                     testing_list.insert(index, temp)
                     change = True
+            # remove optional A (return MAEK varident TYPE)
+            if i[0] == "MAEK" and (index + 2) < len(testing_list):
+                if testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] == "A" and testing_list[index+3][1] == "TYPE Literal":
+                    del testing_list[index+2]
+                    change = True
+
+            # number R MAEK number YARN
+            if i[1] == "Variable Identifier" and (index + 4) < len(testing_list):
+                if testing_list[index+1][0] == "R" and testing_list[index+2][0] == "MAEK" and testing_list[index+3][0] == i[0]:
+                    del testing_list[index+1: index+4]
+                    testing_list.insert(index+1, ["IS NOW A", 'keyword'])
 
         if (change == False):
             print("Phase 1")
+            print(testing_list)
             break
 
     while (True):
@@ -447,7 +539,7 @@ def grab_symbol_table(lexemeArr):
                     insertInSymbolTable(
                         symbolTable, testing_list[index+1][0], value[0], value[1])
 
-            # User output (VISIBLE literal)
+            # User output (VISIBLE literal and single string)
             if i[0] == "VISIBLE" and index + 2 < len(testing_list):
                 # Case 1: Visible Literal/String
                 if testing_list[index+1][1] in datatypes_arr and testing_list[index+2][0] != "AN":
@@ -469,7 +561,6 @@ def grab_symbol_table(lexemeArr):
                             to_eval_list[index][0] + "\' is not defined"
                         print(error_prompt)  # temp
                         return [False, error_prompt, symbolTable, output_arr]
-
             # Case 3: VISIBLE expression
             if i[0] == "VISIBLE" and testing_list[index+1][0] in operations_arr:
                 start_index = index + 1  # evaluation from lexeme after visible until before line break
@@ -561,6 +652,53 @@ def grab_symbol_table(lexemeArr):
                         print(testing_list)
                         print("-------------")
                         break
+            # Case 4: VISIBLE Strings
+
+            # SMOOSH
+            # Typecasting: Explicit Typecasting
+            if i[0] == "MAEK" and (index + 2) < len(testing_list):
+                if testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][1] == "TYPE Literal":
+                    prevVal = findValue(symbolTable, testing_list[index+1][0])
+
+                    if prevVal != False:
+                        newValue = typecast(
+                            prevVal[0], prevVal[1], testing_list[index+2][0])
+                        print(newValue)
+
+                        if newValue[0] != False:
+                            insertInSymbolTable(
+                                symbolTable, "IT", newValue[1], newValue[2])
+                        else:
+                            error_prompt = newValue[1]
+                            return [False, error_prompt, symbolTable, output_arr]
+                    else:
+                        error_prompt = "SemanticsError: variable identifier \'" + \
+                            testing_list[index+1][0] + "\' is not defined"
+                        print(error_prompt)  # temp
+                        return [False, error_prompt, symbolTable, output_arr]
+
+            # Typecasting: Recasting
+            if i[1] == "Variable Identifier" and (index + 2) < len(testing_list):
+                if testing_list[index+1][0] == "IS NOW A" and testing_list[index+2][1] == "TYPE Literal":
+                    value = findValue(symbolTable, i[0])
+
+                    if value != False:
+                        newValue = typecast(
+                            value[0], value[1], testing_list[index+2][0])
+                        print(newValue)
+
+                        if newValue != False:
+                            insertInSymbolTable(
+                                symbolTable, i[0], newValue[1], newValue[2])
+                        else:
+                            error_prompt = newValue[1]
+                            return [False, error_prompt, symbolTable, output_arr]
+                    else:
+                        error_prompt = "SemanticsError: variable identifier \'" + \
+                            i[0] + "\' is not defined"
+                        print(error_prompt)  # temp
+                        return [False, error_prompt, symbolTable, output_arr]
+
         if (change == False):
             print("Phase 2")
             break
@@ -606,18 +744,9 @@ KTHXBYE
 '''
 
 g = """HAI
-    I HAS A monde
-    I HAS A num ITZ 17
-    I HAS A num ITZ 18
-    I HAS A name ITZ "seventeen"
-    I HAS A fnum ITZ 17.0
-    I HAS A flag ITZ WIN
-    I HAS A dup ITZ num
-
-    I HAS A sum ITZ SUM OF num AN 13
-    I HAS A diff ITZ DIFF OF sum AN 17
-    I HAS A prod ITZ PRODUKT OF 3 AN 4
-    I HAS A quo ITZ QUOSHUNT OF 4 AN 5
+I HAS A var1 ITZ 12
+MAEK var1 A NUMBAR
+MAEK var1 YARN
 
 KTHXBYE"""
 h = """HAI
@@ -631,7 +760,7 @@ h = """HAI
 KTHXBYE
 """
 
-#lex_analyze(lexemeArr, a)
+#lex_analyze(lexemeArr, g)
 
 # def grab_symbol_table1(lexemeArr):
 #     testing_list = []
