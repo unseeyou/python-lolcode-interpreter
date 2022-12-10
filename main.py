@@ -79,6 +79,7 @@ def lex_analyze(lexemeArr):
     error = symbolTableResults[1]
     symbolTable = []
     symbolTable = symbolTableResults[2]
+    outputArr = []
     outputArr = symbolTableResults[3]
 
     for item in symbol_table.get_children():
@@ -86,6 +87,8 @@ def lex_analyze(lexemeArr):
 
     for i in symbolTable:
         symbol_table.insert("", 'end', text="1", values=i)
+
+    output.delete(1.0, END)
 
     # display print outs
     if len(outputArr) != 0:
