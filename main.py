@@ -11,13 +11,14 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter import font
 from tkinter import ttk
+from tkinter import simpledialog
+from check_semantics import get_input
+
 import os
 desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
 
-
 def get_output():
     return output
-
 
 def fix_obtw(lexemeArr):
     while (True):
