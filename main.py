@@ -70,9 +70,19 @@ def lex_analyze(lexemeArr):
 
     for i in lexemeArr:
         lexeme_table.insert("", 'end', text="1", values=i)
+    #-------------------------------------------------------------------------
 
     # grab_symbol_table returns [True, symbolTable] if no semantic errors
     # returns [False, symbolTable] if a semantic error is encountered. The symbol table generated before the semantic error is encountered will be displayed.
+    # display prompt if there are syntax errors
+    output.delete(1.0, END)
+    if (check_syntax.check_syntax(lexemeArr)):
+        output.insert("end", "[SYNTAX] No errors.\n")
+    else:
+        output.insert("end", "[SYNTAX] An error is encountered.\n")
+        return
+
+
 
     symbolTable = []
     symbolTableResults = check_semantics.grab_symbol_table(
@@ -89,19 +99,14 @@ def lex_analyze(lexemeArr):
     for i in symbolTable:
         symbol_table.insert("", 'end', text="1", values=i)
 
-    output.delete(1.0, END)
+    # output.delete(1.0, END)
 
     # display print outs
     if len(outputArr) != 0:
         for i in outputArr:
             output.insert("end", str(i) + "\n")
 
-    # display prompt if there are syntax errors
-    if (check_syntax.check_syntax(lexemeArr)):
-        output.insert("end", "[SYNTAX] No errors.\n")
-    else:
-        output.insert("end", "[SYNTAX] An error is encountered.\n")
-        return
+    
 
     # display prompt if there are semantics errors
     if isSemanticallyCorrect:
@@ -141,15 +146,15 @@ root.state("zoomed")
 
 # file explorer
 label_fileExplorer = Label(root, text="None", font=(
-    "Cascade Mono", 12), width=100, bg="white")
+    "Cascade Mono", 12), width=90, bg="white")
 label_fileExplorer.grid(row=0, column=0, pady=5)
 
-text_editor = Text(root, width=100, height="27", font=(
+text_editor = Text(root, width=90, height="27", font=(
     "Cascade Mono", 12), selectbackground="gray", selectforeground="black", undo=True)
 text_editor.grid(row=2, column=0, pady=10)
 
 label_fileExplorer_icon = Button(
-    root, text="Open File", bg="white", width=128, command=browseFiles)
+    root, text="Open File", bg="white", width=115, command=browseFiles)
 label_fileExplorer_icon.grid(row=1, column=0)
 
 # Lexeme Table
@@ -183,12 +188,14 @@ symbol_table_frame = Frame(root)
 symbol_table_frame.grid(row=2, column=2)
 
 symbol_table = ttk.Treeview(symbol_table_frame, columns=(
-    "1", "2"), show="headings", height="23")
+    "1", "2", "3"), show="headings", height="23")
 symbol_table.grid(row=1, column=1)
 symbol_table.column("# 1", anchor=CENTER)
 symbol_table.heading("# 1", text="Identifier")
 symbol_table.column("# 2", anchor=CENTER)
 symbol_table.heading("# 2", text="Value")
+symbol_table.column("# 3", anchor=CENTER)
+symbol_table.heading("# 3", text="Type")
 
 symbol_table_scrollbar = ttk.Scrollbar(
     symbol_table_frame, orient="vertical", command=symbol_table.yview)
