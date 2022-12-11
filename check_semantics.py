@@ -780,19 +780,112 @@ def grab_symbol_table(lexemeArr, symbolTable):
                 j = start_index
                 while (testing_list[j][1] != "linebreak"):
                     j += 1
+                #-----------------------------------------------------
+                #getting condition statement
+                condList = testing_list[start_index:(j+1)];
+                print("condList:",condList)
 
-                condList = testing_list[start_index:(j+1)]
-                print("condList:", condList)
-
+                #-----------------------------------------------------
+                #executing condition statement
                 afterExec = grab_symbol_table(condList, symbolTable)
-                print("after =====>", afterExec)
-                # if (afterExec[0]):
-                #     for symbolTableVal in afterExec[2]:
-                #         insertInSymbolTable(
-                #             symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
-
-                # itVal = findValue(symbolTable, "IT")
+                # print("after =====>", afterExec)
+                if (afterExec[0]):
+                    for symbolTableVal in afterExec[2]:
+                        insertInSymbolTable(
+                            symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                #getting the value of condition statement through the IT variable
+                itVal = findValue(symbolTable, "IT")[0]    
                 # print("itVal========>", itVal)
+                #-----------------------------------------------------
+                incDecList = []
+                if(operation == "UPPIN"):
+                    incDecList = [[var, "Variable Identifier"], ["R", "keyword"],["SUM OF", "keyword"], [var, "Variable Identifier"], ["AN", "keyword"], ["1", "NUMBR Literal"], ["<linebreak>", "linebreak"]]
+                else:
+                    incDecList = [[var, "Variable Identifier"], ["R", "keyword"],["DIFF OF", "keyword"], [var, "Variable Identifier"], ["AN", "keyword"], ["1", "NUMBR Literal"], ["<linebreak>", "linebreak"]]
+                
+                start_index2 = j+1
+                k = start_index2
+                while(testing_list[k][0] not in ["GTFO","IM OUTTA YR"]):
+                    k += 1
+                loopBlock = testing_list[start_index2:k]
+                
+                if(testing_list[k][0] == "GTFO"):
+                    while(testing_list[k][0] != "IM OUTTA YR"):
+                        k += 1
+
+                del testing_list[start_index: (k+1)]
+
+                if(tilWhile == "WILE"):
+                    while(itVal == "WIN"):
+                        # Loop block execution
+                        x = grab_symbol_table(loopBlock, symbolTable)
+                        if (x[0]):
+                            for symbolTableVal in x[2]:
+                                insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                                # print(symbolTableVal)
+                            for output_arrVal in x[3]:
+                                output_arr.append(output_arrVal)
+                        
+                        # incrementing or decrementing 
+                        x = grab_symbol_table(incDecList, symbolTable)
+                        if (x[0]):
+                            for symbolTableVal in x[2]:
+                                insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                                # print(symbolTableVal)
+                            for output_arrVal in x[3]:
+                                output_arr.append(output_arrVal)
+
+                        #after execution process
+                        afterExec = grab_symbol_table(condList, symbolTable)
+                        # print("after =====>", afterExec)
+                        if (afterExec[0]):
+                            for symbolTableVal in afterExec[2]:
+                                insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                        #getting the value of condition statement through the IT variable
+                        itVal = findValue(symbolTable, "IT")[0]    
+                else:
+                    while(itVal == "FAIL"):
+                        # Loop block execution
+                        x = grab_symbol_table(loopBlock, symbolTable)
+                        if (x[0]):
+                            for symbolTableVal in x[2]:
+                                insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                                # print(symbolTableVal)
+                            for output_arrVal in x[3]:
+                                output_arr.append(output_arrVal)
+                        
+                        # incrementing or decrementing 
+                        x = grab_symbol_table(incDecList, symbolTable)
+                        if (x[0]):
+                            for symbolTableVal in x[2]:
+                                insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                                # print(symbolTableVal)
+                            for output_arrVal in x[3]:
+                                output_arr.append(output_arrVal)
+
+                        #after execution process
+                        afterExec = grab_symbol_table(condList, symbolTable)
+                        # print("after =====>", afterExec)
+                        if (afterExec[0]):
+                            for symbolTableVal in afterExec[2]:
+                                insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                        #getting the value of condition statement through the IT variable
+                        itVal = findValue(symbolTable, "IT")[0]    
+
+                        
+
+
+
+                print("BRUHHHHHHHHH", testing_list)
+                
+
+
 
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
