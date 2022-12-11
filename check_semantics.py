@@ -576,7 +576,8 @@ def grab_symbol_table(lexemeArr):
 
                             if (x[0]):
                                 for symbolTableVal in x[2]:
-                                    symbolTable.append(symbolTableVal)
+                                    insertInSymbolTable(
+                                        symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
                                     # print(symbolTableVal)
                                 for output_arrVal in x[3]:
                                     output_arr.append(output_arrVal)
