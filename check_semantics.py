@@ -618,6 +618,68 @@ def grab_symbol_table(lexemeArr):
 
                     print("DRIFTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
 
+            # switch case
+            if(i[0] == "WTF?"):
+                if (testing_list[index+1][1] == "linebreak" and testing_list[index+2][0] == "OMG"):
+                    caseOccur = False
+                    while(testing_list[index+2][0] != "OIC"):
+                        
+                        if(testing_list[index+2][0] == "OMGWTF" and caseOccur == False):
+                            start_index = index+2
+                            j = start_index+1
+                            while(testing_list[j][0] not in ["OMG", "OMGWTF", "OIC"]):
+                                j = j + 1
+                            new_testing_list = testing_list[start_index:j]
+                            del testing_list[start_index:j]
+                            
+                            afterExec = grab_symbol_table(new_testing_list)
+                            if (afterExec[0]):
+                                for symbolTableVal in afterExec[2]:
+                                    insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                                # symbolTable.append(symbolTableVal)
+                                # print(symbolTableVal)
+                                for output_arrVal in afterExec[3]:
+                                    output_arr.append(output_arrVal)
+                            break
+
+                        
+                        
+                        caseVal = testing_list[index+3][0]
+                        caseValType = re.sub(" Literal", "", testing_list[index+3][1])
+
+                        caseVal = typecast(caseVal, "YARN Literal", caseValType)[1]
+                        
+                        start_index = index+2
+                        j = start_index+1
+                        while(testing_list[j][0] not in ["OMG", "OMGWTF", "OIC"]):
+                            j = j + 1
+                        new_testing_list = testing_list[start_index:j]
+                        del testing_list[start_index:j]
+                        
+                        print("TESTING:", new_testing_list)
+
+                        it = findValue(symbolTable, "IT")
+                        itVal = it[0]
+                        itValType = re.sub(" Literal", "", it[1])
+                        itVal = typecast(itVal, "YARN Literal", itValType)[1]
+
+                        if(itVal == caseVal):
+                            afterExec = grab_symbol_table(new_testing_list)
+                            if (afterExec[0]):
+                                for symbolTableVal in afterExec[2]:
+                                    insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                                # symbolTable.append(symbolTableVal)
+                                # print(symbolTableVal)
+                                for output_arrVal in afterExec[3]:
+                                    output_arr.append(output_arrVal)
+                                    # print(output_arrVal)
+                                caseOccur = True
+
+                    print(caseOccur)
+                    
+
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
                 if testing_list[index+1][1] == "Variable Identifier":
