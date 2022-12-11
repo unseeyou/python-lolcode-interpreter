@@ -524,6 +524,16 @@ def grab_symbol_table(lexemeArr):
                             print(testing_list)
                             print("-------------")
                             break
+
+
+            # if else block
+            if(i[0] == "O RLY?"):
+                if(testing_list[index+1][1] == "linebreak" and testing_list[index+2][0] == "YA RLY"):
+                    print("DRIFTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+                    print(testing_list[index+3][0])
+                    print(testing_list[index+4][0])
+                    print("DRIFTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+            
             
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
@@ -663,8 +673,8 @@ def grab_symbol_table(lexemeArr):
                 # Case 1: Visible Literal/String
                 if testing_list[index+1][1] in datatypes_arr and testing_list[index+2][0] != "AN":
                     output_arr.append(testing_list[index+1][0])
-                    insertInSymbolTable(
-                        symbolTable, "IT", testing_list[index+1][0], testing_list[index+1][1])
+                    # insertInSymbolTable(
+                    #     symbolTable, "IT", testing_list[index+1][0], testing_list[index+1][1])
 
                 # Case 2: VISIBLE variable only
                 if testing_list[index+1][1] == "Variable Identifier" and testing_list[index+2][0] != "AN":
@@ -672,8 +682,8 @@ def grab_symbol_table(lexemeArr):
 
                     if value != False:
                         output_arr.append(value[0])
-                        insertInSymbolTable(
-                            symbolTable, "IT", value[0], value[1])
+                        # insertInSymbolTable(
+                        #     symbolTable, "IT", value[0], value[1])
 
                     else:
                         error_prompt = "SemanticsError: variable identifier \'" + \
@@ -766,8 +776,8 @@ def grab_symbol_table(lexemeArr):
                         testing_list.insert(start_index, to_eval_list[0])
 
                         output_arr.append(to_eval_list[0][0])
-                        insertInSymbolTable(
-                            symbolTable, "IT", to_eval_list[0][0], to_eval_list[0][1])
+                        # insertInSymbolTable(
+                        #     symbolTable, "IT", to_eval_list[0][0], to_eval_list[0][1])
                         print(testing_list)
                         print("-------------")
                         break
@@ -802,8 +812,8 @@ def grab_symbol_table(lexemeArr):
 
                         # smoosh
                         concatenated = smoosh(datatypes_arr, to_eval_list)
-                        insertInSymbolTable(symbolTable, "IT",
-                                            concatenated[0], concatenated[1])
+                        # insertInSymbolTable(symbolTable, "IT",
+                        #                     concatenated[0], concatenated[1])
                         output_arr.append(concatenated[0])
 
             # SMOOSH (Format: SMOOSH str1 AN str2 AN ... AN strN)
