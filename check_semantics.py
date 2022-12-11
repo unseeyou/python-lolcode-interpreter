@@ -382,6 +382,8 @@ def smoosh(datatypes_arr, to_eval_list):
     return to_eval_list[0]
 
 
+
+
 def grab_symbol_table(lexemeArr):
     testing_list = [] 
     error_prompt = "" 
@@ -530,8 +532,70 @@ def grab_symbol_table(lexemeArr):
             if(i[0] == "O RLY?"):
                 if(testing_list[index+1][1] == "linebreak" and testing_list[index+2][0] == "YA RLY"):
                     print("DRIFTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-                    print(testing_list[index+3][0])
-                    print(testing_list[index+4][0])
+                    start_index = index+4
+                    j = start_index
+                    while testing_list[j][0] not in ["OIC", "NO WAI"]:
+                        j = j + 1
+                    print(testing_list[j][0])
+                    print(testing_list[j][0] == "OIC")
+                    
+                    if(testing_list[j][0] == "OIC"): 
+                        itVal = findValue(symbolTable, "IT")
+                        # print(itVal)
+                        if(itVal[1] != "TROOF Literal"):
+                            itVal = typecast(itVal[0], itVal[1], "TROOF")
+                            del itVal[0]
+                        # print(itVal)
+                        new_testing_list = testing_list[start_index:j]
+                        del testing_list[start_index:j]
+                        if(itVal[0] == "WIN"):
+                            x = grab_symbol_table(new_testing_list)
+                            # print(x[0])
+                            # print(x[1])
+                            # print(x[2])
+                            # print(x[3])
+
+                            if(x[0]):
+                                for symbolTableVal in x[2]:
+                                    symbolTable.append(symbolTableVal)
+                                    # print(symbolTableVal)
+                                for output_arrVal in x[3]:
+                                    output_arr.append(output_arrVal)
+                                    # print(output_arrVal)
+                    if(testing_list[j][0] == "NO WAI"):
+                        start_index2 = j+2
+                        k = start_index2
+                        while testing_list[k][0] != "OIC":
+                            k = k + 1
+                        
+                        # print(testing_list[k][0])
+                        new_testing_list2 = testing_list[start_index2:k]
+                        del testing_list[start_index2:k]
+
+                        new_testing_list = testing_list[start_index:j]
+                        del testing_list[start_index:j]
+                        
+                        itVal = findValue(symbolTable, "IT")
+                        # print(itVal)
+                        if(itVal[1] != "TROOF Literal"):
+                            itVal = typecast(itVal[0], itVal[1], "TROOF")
+                            del itVal[0]
+
+                        if(itVal[0] == "WIN"):
+                            x = grab_symbol_table(new_testing_list)
+                        else:
+                            x = grab_symbol_table(new_testing_list2)
+                        
+                        if(x[0]):
+                            for symbolTableVal in x[2]:
+                                symbolTable.append(symbolTableVal)
+                                # print(symbolTableVal)
+                            for output_arrVal in x[3]:
+                                output_arr.append(output_arrVal)
+                                # print(output_arrVal)
+                    
+                    
+
                     print("DRIFTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             
             
