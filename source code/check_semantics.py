@@ -954,6 +954,162 @@ def grab_symbol_table(lexemeArr, symbolTable):
                     while (True):
                         change1 = False
                         for index, i in enumerate(to_eval_list):
+                            if i[0] == "ALL OF":
+                                print("=====START OF ALL OF=======")
+                                to_eval_list1 = to_eval_list[index +
+                                                             1: len(to_eval_list)]
+
+                                print("----All of Expr Eval----")
+                                print(to_eval_list1)
+                                print("-------------------------")
+
+                                # replace all variabes first
+                                for index, i in enumerate(to_eval_list1):
+                                    if i[1] == "Variable Identifier":
+                                        value = findValue(
+                                            symbolTable, to_eval_list1[index][0])
+
+                                        if value != False:
+                                            del to_eval_list1[index]
+                                            to_eval_list1.insert(index, value)
+                                        else:
+                                            error_prompt = "SemanticsError: variable identifier \'" + \
+                                                to_eval_list1[index][0] + \
+                                                "\' is not defined"
+                                            print(error_prompt)  # temp
+                                            return [False, error_prompt, symbolTable, output_arr]
+
+                                while (True):
+                                    change = False
+                                    for index, i in enumerate(to_eval_list1):
+                                        if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                                            if to_eval_list1[index+1][1] in datatypes_arr:
+                                                evaluated = boolean_not(
+                                                    to_eval_list1[index+1][0], to_eval_list1[index+1][1])
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+2)]
+                                                    print("---Before-----")
+                                                    print(to_eval_list1)
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+                                                    print("---After-----")
+                                                    print(to_eval_list1)
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                        if i[1] in datatypes_arr and (index + 2) < len(to_eval_list1):
+                                            if to_eval_list1[index+1][0] == "AN" and to_eval_list1[index+2][1] in datatypes_arr:
+                                                # call function that accepts value1, type1, value2, type2 and operation
+
+                                                evaluated = boolean_op(
+                                                    i[0], i[1], to_eval_list1[index+2][0], to_eval_list1[index+2][1], "BOTH OF")
+
+                                                print("EVALUATED HERE")
+                                                print(evaluated)
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+3)]
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                    if change == False:
+                                        print("-----DONE ALL OF-----")
+                                        del to_eval_list[index: len(
+                                            to_eval_list)]
+                                        to_eval_list.insert(
+                                            index, to_eval_list1[0])
+                                        break
+
+                            if i[0] == "ANY OF":
+                                print("=====START OF ALL OF=======")
+                                to_eval_list1 = to_eval_list[index +
+                                                             1: len(to_eval_list)]
+
+                                print("----All of Expr Eval----")
+                                print(to_eval_list1)
+                                print("-------------------------")
+
+                                # replace all variabes first
+                                for index, i in enumerate(to_eval_list):
+                                    if i[1] == "Variable Identifier":
+                                        value = findValue(
+                                            symbolTable, to_eval_list[index][0])
+
+                                        if value != False:
+                                            del to_eval_list[index]
+                                            to_eval_list.insert(index, value)
+                                        else:
+                                            error_prompt = "SemanticsError: variable identifier \'" + \
+                                                to_eval_list[index][0] + \
+                                                "\' is not defined"
+                                            print(error_prompt)  # temp
+                                            return [False, error_prompt, symbolTable, output_arr]
+
+                                while (True):
+                                    change = False
+                                    for index, i in enumerate(to_eval_list1):
+                                        if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                                            if to_eval_list1[index+1][1] in datatypes_arr:
+                                                evaluated = boolean_not(
+                                                    to_eval_list1[index+1][0], to_eval_list1[index+1][1])
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+2)]
+                                                    print("---Before-----")
+                                                    print(to_eval_list1)
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+                                                    print("---After-----")
+                                                    print(to_eval_list1)
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                        if i[1] in datatypes_arr and (index + 2) < len(to_eval_list1):
+                                            if to_eval_list1[index+1][0] == "AN" and to_eval_list1[index+2][1] in datatypes_arr:
+                                                # call function that accepts value1, type1, value2, type2 and operation
+
+                                                evaluated = boolean_op(
+                                                    i[0], i[1], to_eval_list1[index+2][0], to_eval_list1[index+2][1], "EITHER OF")
+
+                                                print("EVALUATED HERE")
+                                                print(evaluated)
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+3)]
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                    if change == False:
+                                        print("-----DONE ALL OF-----")
+                                        del to_eval_list[index: len(
+                                            to_eval_list)]
+                                        to_eval_list.insert(
+                                            index, to_eval_list1[0])
+                                        break
+
                             if i[0] == "NOT" and (index + 1) < len(to_eval_list):
                                 if to_eval_list[index+1][1] in datatypes_arr:
                                     evaluated = boolean_not(
@@ -1433,6 +1589,162 @@ def grab_symbol_table(lexemeArr, symbolTable):
                     while (True):
                         change1 = False
                         for index, i in enumerate(to_eval_list):
+                            if i[0] == "ALL OF":
+                                print("=====START OF ALL OF=======")
+                                to_eval_list1 = to_eval_list[index +
+                                                             1: len(to_eval_list)]
+
+                                print("----All of Expr Eval----")
+                                print(to_eval_list1)
+                                print("-------------------------")
+
+                                # replace all variabes first
+                                for index, i in enumerate(to_eval_list1):
+                                    if i[1] == "Variable Identifier":
+                                        value = findValue(
+                                            symbolTable, to_eval_list1[index][0])
+
+                                        if value != False:
+                                            del to_eval_list1[index]
+                                            to_eval_list1.insert(index, value)
+                                        else:
+                                            error_prompt = "SemanticsError: variable identifier \'" + \
+                                                to_eval_list1[index][0] + \
+                                                "\' is not defined"
+                                            print(error_prompt)  # temp
+                                            return [False, error_prompt, symbolTable, output_arr]
+
+                                while (True):
+                                    change = False
+                                    for index, i in enumerate(to_eval_list1):
+                                        if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                                            if to_eval_list1[index+1][1] in datatypes_arr:
+                                                evaluated = boolean_not(
+                                                    to_eval_list1[index+1][0], to_eval_list1[index+1][1])
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+2)]
+                                                    print("---Before-----")
+                                                    print(to_eval_list1)
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+                                                    print("---After-----")
+                                                    print(to_eval_list1)
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                        if i[1] in datatypes_arr and (index + 2) < len(to_eval_list1):
+                                            if to_eval_list1[index+1][0] == "AN" and to_eval_list1[index+2][1] in datatypes_arr:
+                                                # call function that accepts value1, type1, value2, type2 and operation
+
+                                                evaluated = boolean_op(
+                                                    i[0], i[1], to_eval_list1[index+2][0], to_eval_list1[index+2][1], "BOTH OF")
+
+                                                print("EVALUATED HERE")
+                                                print(evaluated)
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+3)]
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                    if change == False:
+                                        print("-----DONE ALL OF-----")
+                                        del to_eval_list[index: len(
+                                            to_eval_list)]
+                                        to_eval_list.insert(
+                                            index, to_eval_list1[0])
+                                        break
+
+                            if i[0] == "ANY OF":
+                                print("=====START OF ALL OF=======")
+                                to_eval_list1 = to_eval_list[index +
+                                                             1: len(to_eval_list)]
+
+                                print("----All of Expr Eval----")
+                                print(to_eval_list1)
+                                print("-------------------------")
+
+                                # replace all variabes first
+                                for index, i in enumerate(to_eval_list):
+                                    if i[1] == "Variable Identifier":
+                                        value = findValue(
+                                            symbolTable, to_eval_list[index][0])
+
+                                        if value != False:
+                                            del to_eval_list[index]
+                                            to_eval_list.insert(index, value)
+                                        else:
+                                            error_prompt = "SemanticsError: variable identifier \'" + \
+                                                to_eval_list[index][0] + \
+                                                "\' is not defined"
+                                            print(error_prompt)  # temp
+                                            return [False, error_prompt, symbolTable, output_arr]
+
+                                while (True):
+                                    change = False
+                                    for index, i in enumerate(to_eval_list1):
+                                        if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                                            if to_eval_list1[index+1][1] in datatypes_arr:
+                                                evaluated = boolean_not(
+                                                    to_eval_list1[index+1][0], to_eval_list1[index+1][1])
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+2)]
+                                                    print("---Before-----")
+                                                    print(to_eval_list1)
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+                                                    print("---After-----")
+                                                    print(to_eval_list1)
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                        if i[1] in datatypes_arr and (index + 2) < len(to_eval_list1):
+                                            if to_eval_list1[index+1][0] == "AN" and to_eval_list1[index+2][1] in datatypes_arr:
+                                                # call function that accepts value1, type1, value2, type2 and operation
+
+                                                evaluated = boolean_op(
+                                                    i[0], i[1], to_eval_list1[index+2][0], to_eval_list1[index+2][1], "EITHER OF")
+
+                                                print("EVALUATED HERE")
+                                                print(evaluated)
+
+                                                if evaluated[0] != False:
+                                                    del to_eval_list1[(
+                                                        index):(index+3)]
+                                                    to_eval_list1.insert(
+                                                        index, evaluated[1:3])
+
+                                                    change = True
+                                                else:
+                                                    output_arr.append(
+                                                        evaluated[1])
+                                                    return [False, error_prompt, symbolTable, output_arr]
+
+                                    if change == False:
+                                        print("-----DONE ALL OF-----")
+                                        del to_eval_list[index: len(
+                                            to_eval_list)]
+                                        to_eval_list.insert(
+                                            index, to_eval_list1[0])
+                                        break
+
                             if i[0] == "NOT" and (index + 1) < len(to_eval_list):
                                 if to_eval_list[index+1][1] in datatypes_arr:
                                     evaluated = boolean_not(
