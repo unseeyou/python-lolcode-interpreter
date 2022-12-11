@@ -379,9 +379,9 @@ def smoosh(datatypes_arr, to_eval_list):
     global symbolTable
     global error_prompt
 
+    # evaluate all expressions inside first
     while (True):
         change = False
-
         for index, i in enumerate(to_eval_list):
             if i[0] == "NOT" and (index + 1) < len(to_eval_list):
                 if to_eval_list[index+1][1] in datatypes_arr:
@@ -453,7 +453,6 @@ def smoosh(datatypes_arr, to_eval_list):
                     change = True
 
             if i[1] in datatypes_arr and (index + 1) < len(to_eval_list):
-                print("HEREEE")
                 if to_eval_list[index + 1][1] in datatypes_arr:
                     newStr = str(i[0]) + " " + str(to_eval_list[index + 1][0])
                     print(newStr)
@@ -463,38 +462,6 @@ def smoosh(datatypes_arr, to_eval_list):
                     change = True
 
         if change == False:
-            print("SMOOSH Phase 2")
-            print(to_eval_list)
-            break
-
-    return to_eval_list[0]
-
-
-def smooshwithoutAN(datatypes_arr, to_eval_list):
-    # convert non-yarn to yarn
-    for index, i in enumerate(to_eval_list):
-        if i[1] in datatypes_arr and i[1] != "YARN Literal":
-            i[0] = str(i[0])
-            i[1] = "YARN Literal"
-
-    print("===AFTER CONVERSION====")
-    print(to_eval_list)
-    # concatenate the expressions
-    while (True):
-        change = False
-        for index, i in enumerate(to_eval_list):
-            if i[1] == "YARN Literal" and (index + 2) < len(to_eval_list):
-                if to_eval_list[index+1][1] == "YARN Literal":
-                    newStr = i[0] + " " + to_eval_list[index + 1][0]
-
-                    del to_eval_list[index: index + 2]
-                    to_eval_list.insert(index, [newStr, "YARN Literal"])
-                    print(to_eval_list)
-
-                    change = True
-
-        if change == False:
-            print("SMOOSH without AN Phase 2")
             print(to_eval_list)
             break
 
@@ -671,7 +638,8 @@ def grab_symbol_table(lexemeArr, symbolTable):
                         new_testing_list = testing_list[start_index:j]
                         del testing_list[start_index:j]
                         if (itVal[0] == "WIN"):
-                            x = grab_symbol_table(new_testing_list, symbolTable)
+                            x = grab_symbol_table(
+                                new_testing_list, symbolTable)
                             # print(x[0])
                             # print(x[1])
                             # print(x[2])
@@ -705,9 +673,11 @@ def grab_symbol_table(lexemeArr, symbolTable):
                             del itVal[0]
 
                         if (itVal[0] == "WIN"):
-                            x = grab_symbol_table(new_testing_list, symbolTable)
+                            x = grab_symbol_table(
+                                new_testing_list, symbolTable)
                         else:
-                            x = grab_symbol_table(new_testing_list2, symbolTable)
+                            x = grab_symbol_table(
+                                new_testing_list2, symbolTable)
 
                         if (x[0]):
                             for symbolTableVal in x[2]:
@@ -742,7 +712,8 @@ def grab_symbol_table(lexemeArr, symbolTable):
                             new_testing_list = testing_list[start_index:j]
                             del testing_list[start_index:j]
 
-                            afterExec = grab_symbol_table(new_testing_list, symbolTable)
+                            afterExec = grab_symbol_table(
+                                new_testing_list, symbolTable)
                             if (afterExec[0]):
                                 for symbolTableVal in afterExec[2]:
                                     insertInSymbolTable(
@@ -775,7 +746,8 @@ def grab_symbol_table(lexemeArr, symbolTable):
                         itVal = typecast(itVal, "YARN Literal", itValType)[1]
 
                         if (itVal == caseVal):
-                            afterExec = grab_symbol_table(new_testing_list, symbolTable)
+                            afterExec = grab_symbol_table(
+                                new_testing_list, symbolTable)
                             if (afterExec[0]):
                                 for symbolTableVal in afterExec[2]:
                                     insertInSymbolTable(
@@ -806,11 +778,11 @@ def grab_symbol_table(lexemeArr, symbolTable):
 
                 start_index = index+6
                 j = start_index
-                while(testing_list[j][1] != "linebreak"):
+                while (testing_list[j][1] != "linebreak"):
                     j += 1
 
-                condList = testing_list[start_index:(j+1)];
-                print("condList:",condList)
+                condList = testing_list[start_index:(j+1)]
+                print("condList:", condList)
 
                 afterExec = grab_symbol_table(condList, symbolTable)
                 print("after =====>", afterExec)
@@ -819,7 +791,7 @@ def grab_symbol_table(lexemeArr, symbolTable):
                 #         insertInSymbolTable(
                 #             symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
 
-                # itVal = findValue(symbolTable, "IT")    
+                # itVal = findValue(symbolTable, "IT")
                 # print("itVal========>", itVal)
 
             # variable assignment (I HAS A var)
@@ -1278,8 +1250,7 @@ def grab_symbol_table(lexemeArr, symbolTable):
 
             # Case 4: var R smoosh
             if i[1] == "Variable Identifier" and (index + 3) < len(testing_list):
-                if testing_list[index+1][0] == "R" and testing_list[index+2][0] == "SMOOSH" and (testing_list[index+3][1] in datatypes_arr or testing_list[index+3][1] == "Variable Identifier"):
-
+                if testing_list[index+1][0] == "R" and testing_list[index+2][0] == "SMOOSH" and (testing_list[index+3][1] == "Variable Identifier" or testing_list[index+3][1] in datatypes_arr):
                     start_index = index + 3  # evaluation from lexeme after visible until before line break
                     j = start_index
                     while testing_list[j][1] != 'linebreak':
@@ -1306,18 +1277,19 @@ def grab_symbol_table(lexemeArr, symbolTable):
                                 print(error_prompt)  # temp
                                 return [False, error_prompt, symbolTable, output_arr]
 
-                        # smoosh (CONTINUE: Find cause of extra AN)
-                        concatenated = smoosh(datatypes_arr, to_eval_list)
-                        print("ASSIGNMENT SMOOSH")
-                        insertInSymbolTable(symbolTable, i[0],
-                                            concatenated[0], concatenated[1])
+                    # smoosh
+                    concatenated = smoosh(datatypes_arr, to_eval_list)
+                    print("REASSIGN TO", i[0], ":")
+                    print(concatenated)
+                    insertInSymbolTable(
+                        symbolTable, i[0], concatenated[0], concatenated[1])
 
         if (change == False):
             print("Phase 2")
             break
 
-    print(testing_list)
-    print(symbolTable)
+    # print(testing_list)
+    # print(symbolTable)
 
     return [True, error_prompt, symbolTable, output_arr]
 
