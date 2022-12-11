@@ -1493,6 +1493,11 @@ def grab_symbol_table(lexemeArr, symbolTable):
             # Case 4: var R smoosh
             if i[1] == "Variable Identifier" and (index + 3) < len(testing_list):
                 if testing_list[index+1][0] == "R" and testing_list[index+2][0] == "SMOOSH" and (testing_list[index+3][1] == "Variable Identifier" or testing_list[index+3][1] in datatypes_arr):
+                    toChange = copy.deepcopy(i[0])
+
+                    print("FIRST", toChange, testing_list[index+1][0],
+                          testing_list[index+2][0], testing_list[index+3][1])
+
                     start_index = index + 3  # evaluation from lexeme after visible until before line break
                     j = start_index
                     while testing_list[j][1] != 'linebreak':
@@ -1519,12 +1524,15 @@ def grab_symbol_table(lexemeArr, symbolTable):
                                 print(error_prompt)  # temp
                                 return [False, error_prompt, symbolTable, output_arr]
 
+                    print("SEC: ", toChange, testing_list[index+1][0],
+                          testing_list[index+2][0], testing_list[index+3][1])
+
                     # smoosh
                     concatenated = smoosh(datatypes_arr, to_eval_list)
-                    print("REASSIGN TO", i[0], ":")
+                    print("REASSIGN TO", toChange, ":")
                     print(concatenated)
                     insertInSymbolTable(
-                        symbolTable, i[0], concatenated[0], concatenated[1])
+                        symbolTable, toChange, concatenated[0], concatenated[1])
 
         if (change == False):
             print("Phase 2")
