@@ -452,8 +452,19 @@ def smoosh(datatypes_arr, to_eval_list):
 
                     change = True
 
+            if i[1] in datatypes_arr and (index + 1) < len(to_eval_list):
+                print("HEREEE")
+                if to_eval_list[index + 1][1] in datatypes_arr:
+                    newStr = str(i[0]) + " " + str(to_eval_list[index + 1][0])
+                    print(newStr)
+                    del to_eval_list[index: index + 2]
+                    to_eval_list.insert(index, [newStr, "YARN Literal"])
+
+                    change = True
+
         if change == False:
             print("SMOOSH Phase 2")
+            print(to_eval_list)
             break
 
     return to_eval_list[0]
