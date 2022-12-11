@@ -1062,17 +1062,17 @@ def grab_symbol_table(lexemeArr, symbolTable):
                             print("-------------------------")
 
                             # replace all variabes first
-                            for index, i in enumerate(to_eval_list):
+                            for index, i in enumerate(to_eval_list1):
                                 if i[1] == "Variable Identifier":
                                     value = findValue(
-                                        symbolTable, to_eval_list[index][0])
+                                        symbolTable, to_eval_list1[index][0])
 
                                     if value != False:
-                                        del to_eval_list[index]
-                                        to_eval_list.insert(index, value)
+                                        del to_eval_list1[index]
+                                        to_eval_list1.insert(index, value)
                                     else:
                                         error_prompt = "SemanticsError: variable identifier \'" + \
-                                            to_eval_list[index][0] + \
+                                            to_eval_list1[index][0] + \
                                             "\' is not defined"
                                         print(error_prompt)  # temp
                                         return [False, error_prompt, symbolTable, output_arr]

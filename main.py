@@ -75,7 +75,8 @@ def lex_analyze(lexemeArr):
     # returns [False, symbolTable] if a semantic error is encountered. The symbol table generated before the semantic error is encountered will be displayed.
 
     symbolTable = []
-    symbolTableResults = check_semantics.grab_symbol_table(lexemeArr, symbolTable)
+    symbolTableResults = check_semantics.grab_symbol_table(
+        lexemeArr, symbolTable)
     isSemanticallyCorrect = symbolTableResults[0]
     error = symbolTableResults[1]
     symbolTable = symbolTableResults[2]
@@ -100,6 +101,7 @@ def lex_analyze(lexemeArr):
         output.insert("end", "[SYNTAX] No errors.\n")
     else:
         output.insert("end", "[SYNTAX] An error is encountered.\n")
+        return
 
     # display prompt if there are semantics errors
     if isSemanticallyCorrect:
@@ -134,7 +136,7 @@ lexemeArr = []
 # Root Widget
 
 root = Tk()
-root.title("LOLCode Interpreter (Lexical Analyzer)")
+root.title("LOLCode Interpreter")
 root.state("zoomed")
 
 # file explorer

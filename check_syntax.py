@@ -2,9 +2,10 @@ import grab_lexeme
 
 lexemeArr = []
 
+
 def check_syntax(lexemeArr):
     testing_list = []
-    
+
     for i in lexemeArr:
         # print(i)
         testing_list.append(i)
@@ -385,9 +386,9 @@ def check_syntax(lexemeArr):
 
         if (change == False):
 
-            # print("Phase 5")
-            # for i in testing_list:
-            #     print(i)
+            print("Phase 5")
+            for i in testing_list:
+                print(i)
 
             print(False)
             return (False)
@@ -437,6 +438,14 @@ def lex_analyze(lexemeArr, the_long_string):
     check_syntax(lexemeArr)
 
 
+h = '''HAI
+    I HAS A x ITZ 1
+    I HAS A y ITZ 2
+    
+    VISIBLE ALL OF x AN x
+    VISIBLE ANY OF y AN y
+
+KTHXBYE'''
 g = """IM IN YR asc UPPIN YR num2 WILE BOTH SAEM num2 AN SMALLR OF num2 AN num1
 		choice
         WTF?
@@ -470,5 +479,4 @@ g = """IM IN YR asc UPPIN YR num2 WILE BOTH SAEM num2 AN SMALLR OF num2 AN num1
         
 	IM OUTTA YR asc"""
 
-
-lex_analyze(lexemeArr, g)
+lex_analyze(lexemeArr, h)
