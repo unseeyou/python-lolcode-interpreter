@@ -153,18 +153,25 @@ def comparison_op(value1, type1, value2, type2, op):
     result_type = ""
 
     if type1 not in ["NUMBR Literal", "NUMBAR Literal"]:
-        errorPrompt = "SemanticsError: no automatic typecast of " + \
-            str(type1) + " \"" + str(value1) + \
-            "\" to NUMBR Literal/NUMBAR Literal"
-        print(errorPrompt)
-        return [False, errorPrompt]
+        if (re.search('(^[0-9]+$)', value1)):
+            value1 = int(value1)
+
+        else:
+            errorPrompt = "SemanticsError: no automatic typecast of " + \
+                str(type1) + " \"" + str(value1) + \
+                "\" to NUMBR Literal/NUMBAR Literal"
+            print(errorPrompt)
+            return [False, errorPrompt]
 
     if type2 not in ["NUMBR Literal", "NUMBAR Literal"]:
-        errorPrompt = "SemanticsError: no automatic typecast of " + \
-            str(type2) + " \"" + str(value2) + \
-            "\" to NUMBR Literal/NUMBAR Literal"
-        print(errorPrompt)
-        return [False, errorPrompt]
+        if (re.search('(^[0-9]+$)', value2)):
+            value2 = int(value2)
+        else:
+            errorPrompt = "SemanticsError: no automatic typecast of " + \
+                str(type2) + " \"" + str(value2) + \
+                "\" to NUMBR Literal/NUMBAR Literal"
+            print(errorPrompt)
+            return [False, errorPrompt]
 
     if type1 != type2:
         errorPrompt = "SemanticsError: no automatic typecast for " + \
@@ -423,6 +430,12 @@ def grab_symbol_table(lexemeArr):
                 if testing_list[index+1][0] == "R" and testing_list[index+2][0] == "MAEK" and testing_list[index+3][0] == i[0]:
                     del testing_list[index+1: index+4]
                     testing_list.insert(index+1, ["IS NOW A", 'keyword'])
+
+            # remove lexemes related to comment
+            if i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW":
+                print("DELETING COMMENT")
+                del testing_list[index]
+                change = True
 
         if (change == False):
             print("Phase 1")
