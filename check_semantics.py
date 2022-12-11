@@ -8,7 +8,7 @@ import math
 
 lexemeArr = []
 operations_arr = ["SUM OF", "DIFF OF", "PRODUKT OF",
-                  "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT", "NOT", "BOTH OF", "EITHER OF", "WON OF"]
+                  "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT", "NOT", "BOTH OF", "EITHER OF", "WON OF", "ALL OF", "ANY OF"]
 arithmetic_arr = ["SUM OF", "DIFF OF", "PRODUKT OF",
                   "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF"]
 comparison_arr = ["BOTH SAEM", "DIFFRINT"]
@@ -501,7 +501,11 @@ def grab_symbol_table(lexemeArr, symbolTable):
 
             # remove lexemes related to comment
             if i[0] == "OBTW" or i[1] == "comment" or i[0] == "TLDR" or i[0] == "BTW":
-                print("DELETING COMMENT")
+                del testing_list[index]
+                change = True
+
+            # remove optional MKAY
+            if i[0] == "MKAY":
                 del testing_list[index]
                 change = True
 
@@ -780,43 +784,45 @@ def grab_symbol_table(lexemeArr, symbolTable):
                 j = start_index
                 while (testing_list[j][1] != "linebreak"):
                     j += 1
-                #-----------------------------------------------------
-                #getting condition statement
-                condList = testing_list[start_index:(j+1)];
-                print("condList:",condList)
+                # -----------------------------------------------------
+                # getting condition statement
+                condList = testing_list[start_index:(j+1)]
+                print("condList:", condList)
 
-                #-----------------------------------------------------
-                #executing condition statement
+                # -----------------------------------------------------
+                # executing condition statement
                 afterExec = grab_symbol_table(condList, symbolTable)
                 # print("after =====>", afterExec)
                 if (afterExec[0]):
                     for symbolTableVal in afterExec[2]:
                         insertInSymbolTable(
                             symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
-                #getting the value of condition statement through the IT variable
-                itVal = findValue(symbolTable, "IT")[0]    
+                # getting the value of condition statement through the IT variable
+                itVal = findValue(symbolTable, "IT")[0]
                 # print("itVal========>", itVal)
-                #-----------------------------------------------------
+                # -----------------------------------------------------
                 incDecList = []
-                if(operation == "UPPIN"):
-                    incDecList = [[var, "Variable Identifier"], ["R", "keyword"],["SUM OF", "keyword"], [var, "Variable Identifier"], ["AN", "keyword"], ["1", "NUMBR Literal"], ["<linebreak>", "linebreak"]]
+                if (operation == "UPPIN"):
+                    incDecList = [[var, "Variable Identifier"], ["R", "keyword"], ["SUM OF", "keyword"], [
+                        var, "Variable Identifier"], ["AN", "keyword"], ["1", "NUMBR Literal"], ["<linebreak>", "linebreak"]]
                 else:
-                    incDecList = [[var, "Variable Identifier"], ["R", "keyword"],["DIFF OF", "keyword"], [var, "Variable Identifier"], ["AN", "keyword"], ["1", "NUMBR Literal"], ["<linebreak>", "linebreak"]]
-                
+                    incDecList = [[var, "Variable Identifier"], ["R", "keyword"], ["DIFF OF", "keyword"], [
+                        var, "Variable Identifier"], ["AN", "keyword"], ["1", "NUMBR Literal"], ["<linebreak>", "linebreak"]]
+
                 start_index2 = j+1
                 k = start_index2
-                while(testing_list[k][0] not in ["GTFO","IM OUTTA YR"]):
+                while (testing_list[k][0] not in ["GTFO", "IM OUTTA YR"]):
                     k += 1
                 loopBlock = testing_list[start_index2:k]
-                
-                if(testing_list[k][0] == "GTFO"):
-                    while(testing_list[k][0] != "IM OUTTA YR"):
+
+                if (testing_list[k][0] == "GTFO"):
+                    while (testing_list[k][0] != "IM OUTTA YR"):
                         k += 1
 
                 del testing_list[start_index: (k+1)]
 
-                if(tilWhile == "WILE"):
-                    while(itVal == "WIN"):
+                if (tilWhile == "WILE"):
+                    while (itVal == "WIN"):
                         # Loop block execution
                         x = grab_symbol_table(loopBlock, symbolTable)
                         if (x[0]):
@@ -826,8 +832,8 @@ def grab_symbol_table(lexemeArr, symbolTable):
                                 # print(symbolTableVal)
                             for output_arrVal in x[3]:
                                 output_arr.append(output_arrVal)
-                        
-                        # incrementing or decrementing 
+
+                        # incrementing or decrementing
                         x = grab_symbol_table(incDecList, symbolTable)
                         if (x[0]):
                             for symbolTableVal in x[2]:
@@ -837,17 +843,17 @@ def grab_symbol_table(lexemeArr, symbolTable):
                             for output_arrVal in x[3]:
                                 output_arr.append(output_arrVal)
 
-                        #after execution process
+                        # after execution process
                         afterExec = grab_symbol_table(condList, symbolTable)
                         # print("after =====>", afterExec)
                         if (afterExec[0]):
                             for symbolTableVal in afterExec[2]:
                                 insertInSymbolTable(
                                     symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
-                        #getting the value of condition statement through the IT variable
-                        itVal = findValue(symbolTable, "IT")[0]    
+                        # getting the value of condition statement through the IT variable
+                        itVal = findValue(symbolTable, "IT")[0]
                 else:
-                    while(itVal == "FAIL"):
+                    while (itVal == "FAIL"):
                         # Loop block execution
                         x = grab_symbol_table(loopBlock, symbolTable)
                         if (x[0]):
@@ -857,8 +863,8 @@ def grab_symbol_table(lexemeArr, symbolTable):
                                 # print(symbolTableVal)
                             for output_arrVal in x[3]:
                                 output_arr.append(output_arrVal)
-                        
-                        # incrementing or decrementing 
+
+                        # incrementing or decrementing
                         x = grab_symbol_table(incDecList, symbolTable)
                         if (x[0]):
                             for symbolTableVal in x[2]:
@@ -868,24 +874,17 @@ def grab_symbol_table(lexemeArr, symbolTable):
                             for output_arrVal in x[3]:
                                 output_arr.append(output_arrVal)
 
-                        #after execution process
+                        # after execution process
                         afterExec = grab_symbol_table(condList, symbolTable)
                         # print("after =====>", afterExec)
                         if (afterExec[0]):
                             for symbolTableVal in afterExec[2]:
                                 insertInSymbolTable(
                                     symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
-                        #getting the value of condition statement through the IT variable
-                        itVal = findValue(symbolTable, "IT")[0]    
-
-                        
-
-
+                        # getting the value of condition statement through the IT variable
+                        itVal = findValue(symbolTable, "IT")[0]
 
                 print("BRUHHHHHHHHH", testing_list)
-                
-
-
 
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
@@ -1053,6 +1052,156 @@ def grab_symbol_table(lexemeArr, symbolTable):
                 while (True):
                     change1 = False
                     for index, i in enumerate(to_eval_list):
+                        if i[0] == "ALL OF":
+                            print("=====START OF ALL OF=======")
+                            to_eval_list1 = to_eval_list[index +
+                                                         1: len(to_eval_list)]
+
+                            print("----All of Expr Eval----")
+                            print(to_eval_list1)
+                            print("-------------------------")
+
+                            # replace all variabes first
+                            for index, i in enumerate(to_eval_list):
+                                if i[1] == "Variable Identifier":
+                                    value = findValue(
+                                        symbolTable, to_eval_list[index][0])
+
+                                    if value != False:
+                                        del to_eval_list[index]
+                                        to_eval_list.insert(index, value)
+                                    else:
+                                        error_prompt = "SemanticsError: variable identifier \'" + \
+                                            to_eval_list[index][0] + \
+                                            "\' is not defined"
+                                        print(error_prompt)  # temp
+                                        return [False, error_prompt, symbolTable, output_arr]
+
+                            while (True):
+                                change = False
+                                for index, i in enumerate(to_eval_list1):
+                                    if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                                        if to_eval_list1[index+1][1] in datatypes_arr:
+                                            evaluated = boolean_not(
+                                                to_eval_list1[index+1][0], to_eval_list1[index+1][1])
+
+                                            if evaluated[0] != False:
+                                                del to_eval_list1[(
+                                                    index):(index+2)]
+                                                print("---Before-----")
+                                                print(to_eval_list1)
+                                                to_eval_list1.insert(
+                                                    index, evaluated[1:3])
+                                                print("---After-----")
+                                                print(to_eval_list1)
+                                                change = True
+                                            else:
+                                                output_arr.append(evaluated[1])
+                                                return [False, error_prompt, symbolTable, output_arr]
+
+                                    if i[1] in datatypes_arr and (index + 2) < len(to_eval_list1):
+                                        if to_eval_list1[index+1][0] == "AN" and to_eval_list1[index+2][1] in datatypes_arr:
+                                            # call function that accepts value1, type1, value2, type2 and operation
+
+                                            evaluated = boolean_op(
+                                                i[0], i[1], to_eval_list1[index+2][0], to_eval_list1[index+2][1], "BOTH OF")
+
+                                            print("EVALUATED HERE")
+                                            print(evaluated)
+
+                                            if evaluated[0] != False:
+                                                del to_eval_list1[(
+                                                    index):(index+3)]
+                                                to_eval_list1.insert(
+                                                    index, evaluated[1:3])
+
+                                                change = True
+                                            else:
+                                                output_arr.append(evaluated[1])
+                                                return [False, error_prompt, symbolTable, output_arr]
+
+                                if change == False:
+                                    print("-----DONE ALL OF-----")
+                                    del to_eval_list[index: len(to_eval_list)]
+                                    to_eval_list.insert(
+                                        index, to_eval_list1[0])
+                                    break
+
+                        if i[0] == "ANY OF":
+                            print("=====START OF ALL OF=======")
+                            to_eval_list1 = to_eval_list[index +
+                                                         1: len(to_eval_list)]
+
+                            print("----All of Expr Eval----")
+                            print(to_eval_list1)
+                            print("-------------------------")
+
+                            # replace all variabes first
+                            for index, i in enumerate(to_eval_list):
+                                if i[1] == "Variable Identifier":
+                                    value = findValue(
+                                        symbolTable, to_eval_list[index][0])
+
+                                    if value != False:
+                                        del to_eval_list[index]
+                                        to_eval_list.insert(index, value)
+                                    else:
+                                        error_prompt = "SemanticsError: variable identifier \'" + \
+                                            to_eval_list[index][0] + \
+                                            "\' is not defined"
+                                        print(error_prompt)  # temp
+                                        return [False, error_prompt, symbolTable, output_arr]
+
+                            while (True):
+                                change = False
+                                for index, i in enumerate(to_eval_list1):
+                                    if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                                        if to_eval_list1[index+1][1] in datatypes_arr:
+                                            evaluated = boolean_not(
+                                                to_eval_list1[index+1][0], to_eval_list1[index+1][1])
+
+                                            if evaluated[0] != False:
+                                                del to_eval_list1[(
+                                                    index):(index+2)]
+                                                print("---Before-----")
+                                                print(to_eval_list1)
+                                                to_eval_list1.insert(
+                                                    index, evaluated[1:3])
+                                                print("---After-----")
+                                                print(to_eval_list1)
+                                                change = True
+                                            else:
+                                                output_arr.append(evaluated[1])
+                                                return [False, error_prompt, symbolTable, output_arr]
+
+                                    if i[1] in datatypes_arr and (index + 2) < len(to_eval_list1):
+                                        if to_eval_list1[index+1][0] == "AN" and to_eval_list1[index+2][1] in datatypes_arr:
+                                            # call function that accepts value1, type1, value2, type2 and operation
+
+                                            evaluated = boolean_op(
+                                                i[0], i[1], to_eval_list1[index+2][0], to_eval_list1[index+2][1], "EITHER OF")
+
+                                            print("EVALUATED HERE")
+                                            print(evaluated)
+
+                                            if evaluated[0] != False:
+                                                del to_eval_list1[(
+                                                    index):(index+3)]
+                                                to_eval_list1.insert(
+                                                    index, evaluated[1:3])
+
+                                                change = True
+                                            else:
+                                                output_arr.append(evaluated[1])
+                                                return [False, error_prompt, symbolTable, output_arr]
+
+                                if change == False:
+                                    print("-----DONE ALL OF-----")
+                                    del to_eval_list[index: len(to_eval_list)]
+                                    to_eval_list.insert(
+                                        index, to_eval_list1[0])
+                                    break
+
                         if i[0] == "NOT" and (index + 1) < len(to_eval_list):
                             if to_eval_list[index+1][1] in datatypes_arr:
                                 evaluated = boolean_not(
