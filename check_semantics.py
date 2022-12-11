@@ -152,30 +152,26 @@ def comparison_op(value1, type1, value2, type2, op):
     error_prompt = ""
     result_type = ""
 
-    if type1 not in ["NUMBR Literal", "NUMBAR Literal"]:
-        if (re.search('(^[0-9]+$)', value1)):
-            value1 = int(value1)
+    # if type1 not in ["NUMBR Literal", "NUMBAR Literal"]:
+    #     print("HEREEEEEEEEEEEEEEEEEE 1")
+    #     errorPrompt = "SemanticsError: no automatic typecast of " + \
+    #         str(type1) + " \"" + str(value1) + \
+    #         "\" to NUMBR Literal/NUMBAR Literal"
+    #     print(errorPrompt)
+    #     return [False, errorPrompt]
 
-        else:
-            errorPrompt = "SemanticsError: no automatic typecast of " + \
-                str(type1) + " \"" + str(value1) + \
-                "\" to NUMBR Literal/NUMBAR Literal"
-            print(errorPrompt)
-            return [False, errorPrompt]
-
-    if type2 not in ["NUMBR Literal", "NUMBAR Literal"]:
-        if (re.search('(^[0-9]+$)', value2)):
-            value2 = int(value2)
-        else:
-            errorPrompt = "SemanticsError: no automatic typecast of " + \
-                str(type2) + " \"" + str(value2) + \
-                "\" to NUMBR Literal/NUMBAR Literal"
-            print(errorPrompt)
-            return [False, errorPrompt]
+    # if type2 not in ["NUMBR Literal", "NUMBAR Literal"]:
+    #     print("HEREEEEEEEEEEEEEEEEEE 2")
+    #     errorPrompt = "SemanticsError: no automatic typecast of " + \
+    #         str(type2) + " \"" + str(value2) + \
+    #         "\" to NUMBR Literal/NUMBAR Literal"
+    #     print(errorPrompt)
+    #     return [False, errorPrompt]
 
     if type1 != type2:
         errorPrompt = "SemanticsError: no automatic typecast for " + \
-            str(value1) + " or " + str(value2)
+            str(type1) + " \'" + str(value1) + "\' and " + \
+            str(type2) + " \'" + str(value2) + "\'"
         print(errorPrompt)
         return [False, errorPrompt]
     else:
@@ -611,7 +607,9 @@ def grab_symbol_table(lexemeArr):
 
                         if (x[0]):
                             for symbolTableVal in x[2]:
-                                symbolTable.append(symbolTableVal)
+                                insertInSymbolTable(
+                                    symbolTable, symbolTableVal[0], symbolTableVal[1], symbolTableVal[2])
+                                # symbolTable.append(symbolTableVal)
                                 # print(symbolTableVal)
                             for output_arrVal in x[3]:
                                 output_arr.append(output_arrVal)
