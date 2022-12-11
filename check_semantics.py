@@ -7,6 +7,15 @@ import copy
 import math
 
 lexemeArr = []
+operations_arr = ["SUM OF", "DIFF OF", "PRODUKT OF",
+                  "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT", "NOT", "BOTH OF", "EITHER OF", "WON OF"]
+arithmetic_arr = ["SUM OF", "DIFF OF", "PRODUKT OF",
+                  "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF"]
+comparison_arr = ["BOTH SAEM", "DIFFRINT"]
+boolean_arr = ["BOTH OF", "EITHER OF", "WON OF"]
+boolean_start = ["ALL OF", "ANY OF"]
+datatypes_arr = ["NUMBR Literal", "NUMBAR Literal",
+                 "YARN Literal", "TROOF Literal", "NOOB"]
 
 
 def get_input(value):
@@ -336,7 +345,7 @@ def typecast(prevVal, prevType, newType):
                 return [True, int(prevVal), newType]
             elif (re.search('(^-?\d*\.(\d)+$)', prevVal)):
                 prevValFloat = float(prevVal)
-                #prevValInt = prevValFoat - (prevValFoat % 0.01)
+                # prevValInt = prevValFoat - (prevValFoat % 0.01)
                 return [True, int(prevValFloat), newType]
             else:
                 error_prompt = "SemanticsError: cannot typecast " + \
@@ -359,6 +368,70 @@ def typecast(prevVal, prevType, newType):
 
 
 def smoosh(datatypes_arr, to_eval_list):
+    print("====================START OF SMOOOOOOSH=======================")
+
+    global operations_arr
+    global arithmetic_arr
+    global comparison_arr
+    global boolean_arr
+    global boolean_start
+    global output_arr
+    global symbolTable
+    global error_prompt
+
+    while (True):
+        change = False
+
+        for index, i in enumerate(to_eval_list):
+            if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                if to_eval_list[index+1][1] in datatypes_arr:
+                    evaluated = boolean_not(
+                        to_eval_list[index+1][0], to_eval_list[index+1][1])
+
+                    if evaluated[0] != False:
+                        del to_eval_list[(index):(index+2)]
+                        print("---Before-----")
+                        print(to_eval_list)
+                        to_eval_list.insert(index, evaluated[1:3])
+                        print("---After-----")
+                        print(to_eval_list)
+
+                        change = True
+                    else:
+                        output_arr.append(evaluated[1])
+                        return [False, error_prompt, symbolTable, output_arr]
+
+            if i[0] in operations_arr and (index + 3) < len(to_eval_list):
+                if to_eval_list[index+1][1] in datatypes_arr and to_eval_list[index+2][0] == "AN" and to_eval_list[index+3][1] in datatypes_arr:
+                    if i[0] in arithmetic_arr:  # check if to peform arithmetic
+                        evaluated = arithmetic_op(
+                            to_eval_list[index+1][0], to_eval_list[index+1][1], to_eval_list[index+3][0], to_eval_list[index+3][1], i[0])
+                    elif i[0] in comparison_arr:  # check if to perform comparison
+                        evaluated = comparison_op(
+                            to_eval_list[index+1][0], to_eval_list[index+1][1], to_eval_list[index+3][0], to_eval_list[index+3][1], i[0])
+                    elif i[0] in boolean_arr:  # check if to perform boolean
+                        evaluated = boolean_op(
+                            to_eval_list[index+1][0], to_eval_list[index+1][1], to_eval_list[index+3][0], to_eval_list[index+3][1], i[0])
+
+                    print("EVALUATED: ")
+                    print(evaluated)
+
+                    if evaluated[0] != False:
+                        del to_eval_list[(index):(index+4)]
+                        to_eval_list.insert(
+                            index, evaluated[1:3])
+                        print("NEW")
+                        print(to_eval_list)
+
+                        change = True
+                    else:
+                        output_arr.append(evaluated[1])
+                        return [False, error_prompt, symbolTable, output_arr]
+
+        if change == False:
+            print("DONE WITH EVALUATING EXPRESSIONS INSIDE")
+            break
+
     # convert non-yarn to yarn
     for index, i in enumerate(to_eval_list):
         if i[1] in datatypes_arr and i[1] != "YARN Literal":
@@ -369,9 +442,10 @@ def smoosh(datatypes_arr, to_eval_list):
     while (True):
         change = False
         for index, i in enumerate(to_eval_list):
-            if i[1] == "YARN Literal" and (index + 2) < len(to_eval_list):
-                if to_eval_list[index+1][0] == "AN" and to_eval_list[index + 2][1] == "YARN Literal":
-                    newStr = i[0] + " " + to_eval_list[index + 2][0]
+            # evaluate all inner expressions  first
+            if i[1] in datatypes_arr and (index + 2) < len(to_eval_list):
+                if to_eval_list[index+1][0] == "AN" and to_eval_list[index + 2][1] in datatypes_arr:
+                    newStr = str(i[0]) + " " + str(to_eval_list[index + 2][0])
 
                     del to_eval_list[index: index + 3]
                     to_eval_list.insert(index, [newStr, "YARN Literal"])
@@ -424,16 +498,6 @@ def grab_symbol_table(lexemeArr):
 
     for i in lexemeArr:
         testing_list.append(i)
-
-    operations_arr = ["SUM OF", "DIFF OF", "PRODUKT OF",
-                      "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF", "BOTH SAEM", "DIFFRINT", "NOT", "BOTH OF", "EITHER OF", "WON OF"]
-    arithmetic_arr = ["SUM OF", "DIFF OF", "PRODUKT OF",
-                      "QUOSHUNT OF", "MOD OF", "BIGGR OF", "SMALLR OF"]
-    comparison_arr = ["BOTH SAEM", "DIFFRINT"]
-    boolean_arr = ["BOTH OF", "EITHER OF", "WON OF"]
-    boolean_start = ["ALL OF", "ANY OF"]
-    datatypes_arr = ["NUMBR Literal", "NUMBAR Literal",
-                     "YARN Literal", "TROOF Literal", "NOOB"]
 
     while (True):
         change = False
@@ -717,18 +781,16 @@ def grab_symbol_table(lexemeArr):
 
                     print(caseOccur)
 
-            if(i[0] == "IM IN YR"):
+            if (i[0] == "IM IN YR"):
                 label = testing_list[index+1][0]
                 # print("label:", label)
                 operation = testing_list[index+2][0]
                 # print("operation:",operation)
                 var = testing_list[index+4][0]
-                print("var:",var)
+                print("var:", var)
 
                 tilWhile = testing_list[index+5][0]
                 # print(tilWhile)
-
-
 
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
@@ -863,8 +925,8 @@ def grab_symbol_table(lexemeArr):
                     insertInSymbolTable(
                         symbolTable, testing_list[index+1][0], value[0], value[1])
 
-            # # User output (VISIBLE literal and single string)
-            # # Case 1: VISIBLE expression
+            # User output
+            # Case 1: VISIBLE expression
             if i[0] == "VISIBLE" and testing_list[index+1][0] in operations_arr:
                 start_index = index + 1  # evaluation from lexeme after visible until before line break
                 j = start_index
