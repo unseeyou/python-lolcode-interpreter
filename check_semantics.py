@@ -383,8 +383,8 @@ def smoosh(datatypes_arr, to_eval_list):
 
 
 def grab_symbol_table(lexemeArr):
-    testing_list = []
-    error_prompt = ""
+    testing_list = [] 
+    error_prompt = "" 
     output_arr = []
     symbolTable = []
 
@@ -428,11 +428,103 @@ def grab_symbol_table(lexemeArr):
             print("Phase 1")
             print(testing_list)
             break
-
+#------------------------------------------------------------------------------------------------------------------------------
     while (True):
         change = False
 
         for index, i in enumerate(testing_list):
+            # print(index)
+
+            #single line expressions stored in the IT variable
+            if(i[1] == "linebreak" and (index+1)<len(testing_list)):
+                if(testing_list[index+1][0] in operations_arr):
+                    start_index = index+1
+                    j = start_index
+                    while testing_list[j][1] != 'linebreak':
+                        j = j + 1
+
+                    # get that portion of line then evaluate until only
+                    to_eval_list = testing_list[start_index: j]
+                    print("----Eval----")
+                    print(to_eval_list)
+                    print("------------")
+                    
+                    # replace all variabes first
+                    for index, i in enumerate(to_eval_list):
+                        if i[1] == "Variable Identifier":
+                            value = findValue(
+                                symbolTable, to_eval_list[index][0])
+
+                            if value != False:
+                                del to_eval_list[index]
+                                to_eval_list.insert(index, value)
+                            else:
+                                error_prompt = "SemanticsError: variable identifier \'" + \
+                                    to_eval_list[index][0] + \
+                                    "\' is not defined"
+                                print(error_prompt)  # temp
+                                return [False, error_prompt, symbolTable, output_arr]
+                    # evaluate expressions
+                    while (True):
+                        change1 = False
+                        for index, i in enumerate(to_eval_list):
+                            if i[0] == "NOT" and (index + 1) < len(to_eval_list):
+                                if to_eval_list[index+1][1] in datatypes_arr:
+                                    evaluated = boolean_not(
+                                        to_eval_list[index+1][0], to_eval_list[index+1][1])
+
+                                    if evaluated[0] != False:
+                                        del to_eval_list[(index):(index+2)]
+                                        print("---Before-----")
+                                        print(to_eval_list)
+                                        to_eval_list.insert(
+                                            index, evaluated[1:3])
+                                        print("---After-----")
+                                        print(to_eval_list)
+                                        change1 = True
+                                    else:
+                                        output_arr.append(evaluated[1])
+                                        return [False, error_prompt, symbolTable, output_arr]
+
+                            if i[0] in operations_arr and (index + 3) < len(to_eval_list):
+                                if to_eval_list[index+1][1] in datatypes_arr and to_eval_list[index+2][0] == "AN" and to_eval_list[index+3][1] in datatypes_arr:
+                                    # call function that accepts value1, type1, value2, type2 and operation
+
+                                    if i[0] in arithmetic_arr:  # check if to peform arithmetic
+                                        evaluated = arithmetic_op(
+                                            to_eval_list[index+1][0], to_eval_list[index+1][1], to_eval_list[index+3][0], to_eval_list[index+3][1], i[0])
+                                    elif i[0] in comparison_arr:  # check if to perform comparison
+                                        evaluated = comparison_op(
+                                            to_eval_list[index+1][0], to_eval_list[index+1][1], to_eval_list[index+3][0], to_eval_list[index+3][1], i[0])
+                                    elif i[0] in boolean_arr:  # check if to perform boolean
+                                        evaluated = boolean_op(
+                                            to_eval_list[index+1][0], to_eval_list[index+1][1], to_eval_list[index+3][0], to_eval_list[index+3][1], i[0])
+
+                                        print(evaluated)
+
+                                    if evaluated[0] != False:
+                                        del to_eval_list[(index):(index+4)]
+                                        to_eval_list.insert(
+                                            index, evaluated[1:3])
+                                        change1 = True
+                                    else:
+                                        output_arr.append(evaluated[1])
+                                        return [False, error_prompt, symbolTable, output_arr]
+
+                        if (change1 == False):
+                            print("Done evaluating!")
+                            print("----Before-----")
+                            print(testing_list)
+
+                            print("----After-----")
+                            del testing_list[start_index: j]
+                            testing_list.insert(start_index, to_eval_list[0])
+                            insertInSymbolTable(
+                                symbolTable, "IT", to_eval_list[0][0], to_eval_list[0][1])
+                            print(testing_list)
+                            print("-------------")
+                            break
+            
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
                 if testing_list[index+1][1] == "Variable Identifier":

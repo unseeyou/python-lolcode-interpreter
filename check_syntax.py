@@ -113,7 +113,7 @@ def check_syntax(lexemeArr):
             index += 1
 
         if (change == False):
-            print("Phase 1")
+            # print("Phase 1")
             break
 
     # for i in testing_list:
@@ -195,7 +195,7 @@ def check_syntax(lexemeArr):
             index += 1
 
         if (change == False):
-            print("Phase 2")
+            # print("Phase 2")
             # for i in testing_list:
             #     print(i)
             break
@@ -277,7 +277,7 @@ def check_syntax(lexemeArr):
             index += 1
 
         if (change == False):
-            print("Phase 3")
+            # print("Phase 3")
             # for i in testing_list:
             #     print(i)
             break
@@ -336,7 +336,7 @@ def check_syntax(lexemeArr):
             index += 1
 
         if (change == False):
-            print("Phase 4")
+            # print("Phase 4")
             # for i in testing_list:
             #     print(i)
             break
@@ -385,7 +385,7 @@ def check_syntax(lexemeArr):
 
         if (change == False):
 
-            print("Phase 5")
+            # print("Phase 5")
             # for i in testing_list:
             #     print(i)
 
