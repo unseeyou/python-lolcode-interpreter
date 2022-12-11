@@ -74,10 +74,10 @@ def lex_analyze(lexemeArr):
     # grab_symbol_table returns [True, symbolTable] if no semantic errors
     # returns [False, symbolTable] if a semantic error is encountered. The symbol table generated before the semantic error is encountered will be displayed.
 
-    symbolTableResults = check_semantics.grab_symbol_table(lexemeArr)
+    symbolTable = []
+    symbolTableResults = check_semantics.grab_symbol_table(lexemeArr, symbolTable)
     isSemanticallyCorrect = symbolTableResults[0]
     error = symbolTableResults[1]
-    symbolTable = []
     symbolTable = symbolTableResults[2]
     outputArr = []
     outputArr = symbolTableResults[3]
