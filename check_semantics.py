@@ -623,11 +623,18 @@ def grab_symbol_table(lexemeArr):
                 if (testing_list[index+1][1] == "linebreak" and testing_list[index+2][0] == "OMG"):
                     caseOccur = False
                     while(testing_list[index+2][0] != "OIC"):
+                        if(testing_list[index+2][0] == "GTFO"):
+                            start_index = index+2
+                            j = start_index+1
+                            while(testing_list[j][0] not in ["OMG", "OMGWTF", "OIC", "GTFO"]):
+                                j = j + 1
+                            del testing_list[start_index:j]
+                            continue
                         
                         if(testing_list[index+2][0] == "OMGWTF" and caseOccur == False):
                             start_index = index+2
                             j = start_index+1
-                            while(testing_list[j][0] not in ["OMG", "OMGWTF", "OIC"]):
+                            while(testing_list[j][0] not in ["OMG", "OMGWTF", "OIC", "GTFO"]):
                                 j = j + 1
                             new_testing_list = testing_list[start_index:j]
                             del testing_list[start_index:j]
@@ -641,7 +648,7 @@ def grab_symbol_table(lexemeArr):
                                 # print(symbolTableVal)
                                 for output_arrVal in afterExec[3]:
                                     output_arr.append(output_arrVal)
-                            break
+                            continue
 
                         
                         
@@ -652,7 +659,7 @@ def grab_symbol_table(lexemeArr):
                         
                         start_index = index+2
                         j = start_index+1
-                        while(testing_list[j][0] not in ["OMG", "OMGWTF", "OIC"]):
+                        while(testing_list[j][0] not in ["OMG", "OMGWTF", "OIC", "GTFO"]):
                             j = j + 1
                         new_testing_list = testing_list[start_index:j]
                         del testing_list[start_index:j]
