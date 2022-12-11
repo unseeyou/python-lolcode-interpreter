@@ -382,11 +382,9 @@ def smoosh(datatypes_arr, to_eval_list):
     return to_eval_list[0]
 
 
-
-
 def grab_symbol_table(lexemeArr):
-    testing_list = [] 
-    error_prompt = "" 
+    testing_list = []
+    error_prompt = ""
     output_arr = []
     symbolTable = []
 
@@ -430,16 +428,29 @@ def grab_symbol_table(lexemeArr):
             print("Phase 1")
             print(testing_list)
             break
-#------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------
     while (True):
         change = False
 
         for index, i in enumerate(testing_list):
             # print(index)
 
-            #single line expressions stored in the IT variable
-            if(i[1] == "linebreak" and (index+1)<len(testing_list)):
-                if(testing_list[index+1][0] in operations_arr):
+            # single line variable stored in the IT variable
+            if (i[1] == "linebreak" and (index+1) < len(testing_list)):
+                if (testing_list[index+1][1] in "Variable Identifier" and testing_list[index+2][1] == "linebreak"):
+                    value = findValue(symbolTable, testing_list[index+1][0])
+
+                    if value != False:
+                        insertInSymbolTable(
+                            symbolTable, "IT", value[0], value[1])
+                    else:
+                        error_prompt = "SemanticsError: variable identifier \'" + \
+                            testing_list[index+1][0] + "\' is not defined"
+                        return [False, error_prompt, symbolTable, output_arr]
+
+            # single line expressions stored in the IT variable
+            if (i[1] == "linebreak" and (index+1) < len(testing_list)):
+                if (testing_list[index+1][0] in operations_arr):
                     start_index = index+1
                     j = start_index
                     while testing_list[j][1] != 'linebreak':
@@ -450,7 +461,7 @@ def grab_symbol_table(lexemeArr):
                     print("----Eval----")
                     print(to_eval_list)
                     print("------------")
-                    
+
                     # replace all variabes first
                     for index, i in enumerate(to_eval_list):
                         if i[1] == "Variable Identifier":
@@ -527,10 +538,9 @@ def grab_symbol_table(lexemeArr):
                             print("-------------")
                             break
 
-
             # if else block
-            if(i[0] == "O RLY?"):
-                if(testing_list[index+1][1] == "linebreak" and testing_list[index+2][0] == "YA RLY"):
+            if (i[0] == "O RLY?"):
+                if (testing_list[index+1][1] == "linebreak" and testing_list[index+2][0] == "YA RLY"):
                     print("DRIFTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
                     start_index = index+4
                     j = start_index
@@ -538,67 +548,64 @@ def grab_symbol_table(lexemeArr):
                         j = j + 1
                     print(testing_list[j][0])
                     print(testing_list[j][0] == "OIC")
-                    
-                    if(testing_list[j][0] == "OIC"): 
+
+                    if (testing_list[j][0] == "OIC"):
                         itVal = findValue(symbolTable, "IT")
                         # print(itVal)
-                        if(itVal[1] != "TROOF Literal"):
+                        if (itVal[1] != "TROOF Literal"):
                             itVal = typecast(itVal[0], itVal[1], "TROOF")
                             del itVal[0]
                         # print(itVal)
                         new_testing_list = testing_list[start_index:j]
                         del testing_list[start_index:j]
-                        if(itVal[0] == "WIN"):
+                        if (itVal[0] == "WIN"):
                             x = grab_symbol_table(new_testing_list)
                             # print(x[0])
                             # print(x[1])
                             # print(x[2])
                             # print(x[3])
 
-                            if(x[0]):
+                            if (x[0]):
                                 for symbolTableVal in x[2]:
                                     symbolTable.append(symbolTableVal)
                                     # print(symbolTableVal)
                                 for output_arrVal in x[3]:
                                     output_arr.append(output_arrVal)
                                     # print(output_arrVal)
-                    if(testing_list[j][0] == "NO WAI"):
+                    if (testing_list[j][0] == "NO WAI"):
                         start_index2 = j+2
                         k = start_index2
                         while testing_list[k][0] != "OIC":
                             k = k + 1
-                        
+
                         # print(testing_list[k][0])
                         new_testing_list2 = testing_list[start_index2:k]
                         del testing_list[start_index2:k]
 
                         new_testing_list = testing_list[start_index:j]
                         del testing_list[start_index:j]
-                        
+
                         itVal = findValue(symbolTable, "IT")
                         # print(itVal)
-                        if(itVal[1] != "TROOF Literal"):
+                        if (itVal[1] != "TROOF Literal"):
                             itVal = typecast(itVal[0], itVal[1], "TROOF")
                             del itVal[0]
 
-                        if(itVal[0] == "WIN"):
+                        if (itVal[0] == "WIN"):
                             x = grab_symbol_table(new_testing_list)
                         else:
                             x = grab_symbol_table(new_testing_list2)
-                        
-                        if(x[0]):
+
+                        if (x[0]):
                             for symbolTableVal in x[2]:
                                 symbolTable.append(symbolTableVal)
                                 # print(symbolTableVal)
                             for output_arrVal in x[3]:
                                 output_arr.append(output_arrVal)
                                 # print(output_arrVal)
-                    
-                    
 
                     print("DRIFTOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-            
-            
+
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
                 if testing_list[index+1][1] == "Variable Identifier":
