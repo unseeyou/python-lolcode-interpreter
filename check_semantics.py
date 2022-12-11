@@ -717,6 +717,19 @@ def grab_symbol_table(lexemeArr):
 
                     print(caseOccur)
 
+            if(i[0] == "IM IN YR"):
+                label = testing_list[index+1][0]
+                # print("label:", label)
+                operation = testing_list[index+2][0]
+                # print("operation:",operation)
+                var = testing_list[index+4][0]
+                print("var:",var)
+
+                tilWhile = testing_list[index+5][0]
+                # print(tilWhile)
+
+
+
             # variable assignment (I HAS A var)
             if (i[0] == "I HAS A" and (index+1) < len(testing_list)):
                 if testing_list[index+1][1] == "Variable Identifier":
