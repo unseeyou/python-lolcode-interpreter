@@ -1,13 +1,15 @@
 # LOLCODE Intepreter
-This interpreter written using Python includes the lexical, syntax, and semantics analyzer.
 
-### Getting Started
-##### Prerequisities
-```
-python
-python tkinter
-```
-##### Installation
+
+![License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)
+
+## Description
+This is a Python-based interpreter of LOLCODE. This includes lexical, syntax, and semantics analyzer.
+
+## Technologies Used
+![Python](https://img.shields.io/badge/Python-9bfe87?style=for-the-badge&logo=python&logoColor=darkgreen)
+
+## Preparation
 1. Make sure Python and `pip` is preinstalled on your system.
 	- Type the following command to check if already installed:
 		- ` python --version`
@@ -28,12 +30,18 @@ python tkinter
 	- Console.  This displays all of the user output.
 	- Pop out Inbox. Everytime the code needs input from user, a dialog box will appear. 
 
+## Screenshots
+![Screen](screenshots/main.png)
+*Screenshot of the LOLCode Interpreter*
+
+![Usage](screenshots/use.png)
+*Screenshot of Result after importing lolcode-imports/01_variables.lol*
 
 ### Authors
 - Andre Tuazon
 - Coleen Therese Agsao
 
-### Other Notes
-- This LOLCODE interpreter is the final project for CMSC 124 22-23 in UPLB.
+### Additional Notes
+This is an academic project part of CMSC 124 22-23 in UPLB.
 
 
